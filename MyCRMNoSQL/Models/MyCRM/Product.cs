@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS8618
 using System.ComponentModel.DataAnnotations;
+using MyCRMNoSQL.CustomExtensions;
 
 namespace MyCRMNoSQL.Models
 {
@@ -23,7 +24,6 @@ namespace MyCRMNoSQL.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
@@ -31,5 +31,13 @@ namespace MyCRMNoSQL.Models
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
         public List<Purchase> ClientList { get; set; } = new List<Purchase>();
+
+        public static Product DbPrep(Product p)
+        {
+            p.Name = MyExtensions.StringToUpper(p.Name);
+            p.Description = p.Description.Trim();
+
+            return p;
+        }
     }
 }

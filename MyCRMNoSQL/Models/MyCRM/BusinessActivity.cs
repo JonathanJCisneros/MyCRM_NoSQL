@@ -8,10 +8,8 @@ namespace MyCRMNoSQL.Models
         [Key]
         public string ActivityId { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
-        [Required]
         public string BusinessId { get; set; }
 
         [Required(ErrorMessage = "Please choose one of the following")]
@@ -34,5 +32,13 @@ namespace MyCRMNoSQL.Models
         public Business? Business { get; set; }
 
         public Staff? Staff { get; set; }
+
+        public static BusinessActivity DbPrep(BusinessActivity a)
+        {
+            a.Type = a.Type.Trim();
+            a.Note = a.Note.Trim();
+
+            return a;
+        }
     }
 }

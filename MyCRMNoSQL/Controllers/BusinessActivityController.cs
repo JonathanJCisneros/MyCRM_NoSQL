@@ -16,30 +16,90 @@ namespace MyCRMNoSQL.Controllers
             _logger = logger;
         }
 
+        private string? Uid
+        {
+            get
+            {
+                return HttpContext.Session.GetString("UserId");
+            }
+        }
+
         [HttpPost]
         public IActionResult Add(string id, BusinessActivity Activity)
-        {
+        {           
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = id });
+            }
+
+            Activity = BusinessActivity.DbPrep(Activity);
+
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            
+            var Query = R.Db("MyCRM").Table("Activities")
+                .Insert(new
+                {
+                    BusinessId = id,
+                    UserId = Uid,
+                    Type = Activity.Type,
+                    Note = Activity.Note,
+                    StaffId = Activity.StaffId,
+                    CreatedDate = Activity.CreatedDate,
+                    UpdatedDate = Activity.UpdatedDate
+                })
+            .Run(Conn);
+
             return RedirectToAction("ViewOne", "CRM", new { id = id });
         }
 
         [HttpPost]
-        public IActionResult Update(string id, BusinessActivity Activity)
+        public IActionResult Update(string id, string Bid, BusinessActivity Activity)
         {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+            }
+
+            Activity = BusinessActivity.DbPrep(Activity);
+
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+            bool Check = R.Db("MyCRM").Table("Activities").Get(id).IsEmpty().Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = id });
+            if (Check == true)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+            }
+
+            var Query = R.Db("MyCRM").Table("Activities")
+                .Update(new
+                {
+                    BusinessId = Bid,
+                    UserId = Uid,
+                    Type = Activity.Type,
+                    Note = Activity.Note,
+                    StaffId = Activity.StaffId,
+                    UpdatedDate = Activity.UpdatedDate
+                })
+            .Run(Conn);
+
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
         }
 
-        public IActionResult Delete(string id)
+        public IActionResult Delete(string id, string Bid)
         {
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+            bool Check = R.Db("MyCRM").Table("Activities").Get(id).IsEmpty().Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = id });
+            if (Check == true)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+            }
+
+            var Query = R.Db("MyCRM").Table("Activities").Get(id).Delete().Run(Conn);
+
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
         }
     }
 }

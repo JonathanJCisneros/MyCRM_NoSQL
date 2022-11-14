@@ -101,9 +101,9 @@ namespace MyCRMNoSQL.Controllers
 
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            long Check = R.Db("MyCRM").Table("Users").GetAll(NewBiz.Name)[new { index = "Name" }].IsEmpty().Run(Conn);
+            bool Check = R.Db("MyCRM").Table("Users").GetAll(NewBiz.Name)[new { index = "Name" }].IsEmpty().Run(Conn);
 
-            if (Check > 0)
+            if (Check == false)
             {
                 ModelState.AddModelError("Name", "already exists");
                 return New();
@@ -420,7 +420,8 @@ namespace MyCRMNoSQL.Controllers
                     {
                         Name = Business.Name,
                         UpdatedDate = DateTime.Now
-                    }).Run(Conn);
+                    })
+                .Run(Conn);
             }
 
             if(Business.Website != null)
@@ -432,7 +433,8 @@ namespace MyCRMNoSQL.Controllers
                     {
                         Website = Business.Website,
                         UpdatedDate = DateTime.Now
-                    }).Run(Conn);
+                    })
+                .Run(Conn);
             }
 
             if(Business.Industry != null)
@@ -444,7 +446,8 @@ namespace MyCRMNoSQL.Controllers
                     {
                         Industry = Business.Industry,
                         UpdatedDate = DateTime.Now
-                    }).Run(Conn);
+                    })
+                .Run(Conn);
             }
 
             if(Business.PocId != null)
@@ -456,7 +459,8 @@ namespace MyCRMNoSQL.Controllers
                     {
                         PocId = Business.PocId,
                         UpdatedDate = DateTime.Now
-                    }).Run(Conn);
+                    })
+                .Run(Conn);
             }
 
             return RedirectToAction("ViewOne", new { id = id});
@@ -473,13 +477,13 @@ namespace MyCRMNoSQL.Controllers
                 return RedirectToAction("Dashboard");
             }
 
-            var BQuery = R.Db("MyCRM").Table("Businesses").Get(BizId).Delete();
-            var BAQuery = R.Db("MyCRM").Table("Activities").GetAll(BizId)[new { index = "BusinessId"}].Delete();
-            var PQuery = R.Db("MyCRM").Table("Purchases").GetAll(BizId)[new { index = "BusinessId" }].Delete();
-            var TQuery = R.Db("MyCRM").Table("Tasks").GetAll(BizId)[new { index = "BusinessId" }].Delete();
-            var NQuery = R.Db("MyCRM").Table("Notes").GetAll(BizId)[new { index = "BusinessId" }].Delete();
-            var SQuery = R.Db("MyCRM").Table("Staff").GetAll(BizId)[new { index = "BusinessId" }].Delete();
-            var AQuery = R.Db("MyCRM").Table("Addresses").GetAll(BizId)[new { index = "BusinessId" }].Delete();
+            var BQuery = R.Db("MyCRM").Table("Businesses").Get(id).Delete().Run(Conn);
+            var BAQuery = R.Db("MyCRM").Table("Activities").GetAll(id)[new { index = "BusinessId"}].Delete().Run(Conn);
+            var PQuery = R.Db("MyCRM").Table("Purchases").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
+            var TQuery = R.Db("MyCRM").Table("Tasks").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
+            var NQuery = R.Db("MyCRM").Table("Notes").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
+            var SQuery = R.Db("MyCRM").Table("Staff").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
+            var AQuery = R.Db("MyCRM").Table("Addresses").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
 
             return View("Dashboard");
         }

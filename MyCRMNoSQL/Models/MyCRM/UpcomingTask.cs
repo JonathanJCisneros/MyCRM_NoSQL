@@ -9,10 +9,8 @@ namespace MyCRMNoSQL.Models
         [Key]
         public string TaskId { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
-        [Required]
         public string BusinessId { get; set; }
 
         [Required]
@@ -43,5 +41,12 @@ namespace MyCRMNoSQL.Models
         public User? User { get; set; }
 
         public Staff? Staff { get; set; }
+
+        public static UpcomingTask DbPrep(UpcomingTask t)
+        {
+            t.Details = t.Details.Trim();
+
+            return t;
+        }
     }
 }

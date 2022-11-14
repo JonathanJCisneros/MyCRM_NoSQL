@@ -8,7 +8,6 @@ namespace MyCRMNoSQL.Models
         [Key]
         public string PurchaseId { get; set; }
 
-        [Required]
         public string BusinessId { get; set; }
 
         [Required(ErrorMessage = "is required")]
@@ -19,7 +18,6 @@ namespace MyCRMNoSQL.Models
         [Display(Name = "Business Location")]
         public string AddressId { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;

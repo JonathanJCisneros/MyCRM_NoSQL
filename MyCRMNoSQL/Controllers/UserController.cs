@@ -109,7 +109,7 @@ namespace MyCRMNoSQL.Controllers
             bool Check = R.Db("MyCRM").Table("Users").GetAll(NewUser.Email)[new { index = "Email"}].IsEmpty().Run(Conn);
            
             
-            if (Check == true)
+            if (Check == false)
             {
                 ModelState.AddModelError("Email", "is taken");
                 return Register();

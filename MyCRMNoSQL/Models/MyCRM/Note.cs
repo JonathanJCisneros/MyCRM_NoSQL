@@ -25,5 +25,12 @@ namespace MyCRMNoSQL.Models
         public Business? Business { get; set; }
 
         public User? User { get; set; }
+
+        public static Note DbPrep(Note n)
+        {
+            n.Details = n.Details.Trim();
+
+            return n;
+        }
     }
 }
