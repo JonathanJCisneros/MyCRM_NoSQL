@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Models;
 using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
-using System.Diagnostics.Contracts;
 
 namespace MyCRMNoSQL.Controllers
 {
