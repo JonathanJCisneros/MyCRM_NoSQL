@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Models;
+using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
 
@@ -29,12 +30,6 @@ namespace MyCRMNoSQL.Controllers
             {
                 return Uid != null;
             }
-        }
-
-        public string StringToUpper(string s)
-        {
-            s = s.Trim().ToLower();
-            return char.ToUpper(s[0]) + s.Substring(1);
         }
 
         public IActionResult Dashboard()
@@ -91,6 +86,7 @@ namespace MyCRMNoSQL.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+
             return View("NewBusiness");
         }
 
@@ -101,15 +97,7 @@ namespace MyCRMNoSQL.Controllers
                 return New();
             }
 
-            NewBiz.Name = StringToUpper(NewBiz.Name);
-            NewBiz.Industry = StringToUpper(NewBiz.Industry);
-            NewBiz.Website = NewBiz.Website.Trim();
-            NewBiz.Street = NewBiz.Street.Trim();
-            NewBiz.State = NewBiz.State.Trim();
-            NewBiz.FirstName = StringToUpper(NewBiz.FirstName);
-            NewBiz.LastName = StringToUpper(NewBiz.LastName);
-            NewBiz.Position = StringToUpper(NewBiz.Position);
-            NewBiz.Email = NewBiz.Email.Trim().ToLower();
+            NewBiz = NewBusinessForm.DbPrep(NewBiz);
 
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
@@ -449,7 +437,7 @@ namespace MyCRMNoSQL.Controllers
 
             if(Business.Industry != null)
             {
-                Business.Industry = StringToUpper(Business.Industry);
+                Business.Industry = MyExtensions.StringToUpper(Business.Industry);
 
                 var Query = R.Db("MyCRM").Table("Businesses").Get(id)
                     .Update(new

@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS8618
 using System.ComponentModel.DataAnnotations;
+using MyCRMNoSQL.CustomValidations;
 
 namespace MyCRMNoSQL.Models
 {

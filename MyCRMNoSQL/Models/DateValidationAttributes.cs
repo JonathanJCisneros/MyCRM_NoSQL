@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyCRMNoSQL.Models
+namespace MyCRMNoSQL.CustomValidations
 {
     public class FutureDateAttribute : ValidationAttribute
     {

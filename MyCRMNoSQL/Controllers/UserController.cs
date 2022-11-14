@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyCRMNoSQL.CustomExtensions;
 using MyCRMNoSQL.Models;
 using System.Diagnostics;
 
@@ -28,12 +29,6 @@ namespace MyCRMNoSQL.Controllers
             {
                 return Uid != null;
             }
-        }
-
-        public string StringToUpper(string s)
-        {
-            s = s.Trim().ToLower();
-            return char.ToUpper(s[0]) + s.Substring(1);
         }
 
         public IActionResult Login()
@@ -70,8 +65,7 @@ namespace MyCRMNoSQL.Controllers
                 return Login();
             }
 
-            User.Email = User.Email.Trim().ToLower();
-            User.Password = User.Password.Trim();
+            User = UserLogin.DbPrep(User);
 
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
@@ -108,10 +102,7 @@ namespace MyCRMNoSQL.Controllers
                 return Register();
             }
 
-            NewUser.FirstName = StringToUpper(NewUser.FirstName);
-            NewUser.LastName = StringToUpper(NewUser.LastName);
-            NewUser.Email = NewUser.Email.Trim().ToLower();
-            NewUser.Password = NewUser.Password.Trim();
+            NewUser = MyExtensions.DbPrep(NewUser);
 
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();

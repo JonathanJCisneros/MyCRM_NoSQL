@@ -1,5 +1,7 @@
 ﻿#pragma warning disable CS8618
 using System.ComponentModel.DataAnnotations;
+using MyCRMNoSQL.CustomExtensions;
+using MyCRMNoSQL.CustomValidations;
 
 namespace MyCRMNoSQL.Models
 {
@@ -13,6 +15,7 @@ namespace MyCRMNoSQL.Models
         [RegularExpression(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$", ErrorMessage = "must be a valid website")]
         public string? Website { get; set; }
 
+        [PastDate(ErrorMessage = "must be in the past")]
         [Display(Name = "Date of Acquisition")]
         public DateTime? StartDate { get; set; }
 
@@ -44,7 +47,7 @@ namespace MyCRMNoSQL.Models
 
         [MinLength(6, ErrorMessage = "must be valid")]
         [Display(Name = "Street")]
-        public string? Street { get; set; }
+        public string Street { get; set; } = "N/A";
 
         [Display(Name = "Apt/Suite")]
         public string? AptSuite { get; set; } 
@@ -60,5 +63,20 @@ namespace MyCRMNoSQL.Models
         [RegularExpression("^[0-9]{5}?$", ErrorMessage = "must be valid")]
         [Display(Name = "Zipcode")]
         public int ZipCode { get; set; }
+
+        public static NewBusinessForm DbPrep(NewBusinessForm b)
+        {
+            b.Name = MyExtensions.StringToUpper(b.Name);
+            b.Industry = MyExtensions.StringToUpper(b.Industry);
+            b.Website = b.Website.Trim();
+            b.Street = b.Street.Trim();
+            b.State = b.State.Trim();
+            b.FirstName = MyExtensions.StringToUpper(b.FirstName);
+            b.LastName = MyExtensions.StringToUpper(b.LastName);
+            b.Position = MyExtensions.StringToUpper(b.Position);
+            b.Email = b.Email.Trim().ToLower();
+
+            return b;
+        }
     }
 }

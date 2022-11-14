@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
+using MyCRMNoSQL.CustomValidations;
 
 namespace MyCRMNoSQL.Models
 {
