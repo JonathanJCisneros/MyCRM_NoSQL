@@ -42,6 +42,7 @@ namespace MyCRMNoSQL.Controllers
             {
                 return RedirectToAction("Dashboard", "CRM");
             }
+
             return View("Login");
         }
 
@@ -51,6 +52,7 @@ namespace MyCRMNoSQL.Controllers
             {
                 return RedirectToAction("Dashboard", "CRM");
             }
+
             return View("Register");
         }
 
