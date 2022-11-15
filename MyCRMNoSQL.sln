@@ -3,16 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCRMNoSQL.Web", "MyCRMNoSQL\MyCRMNoSQL.Web.csproj", "{71508A01-8092-47E8-A7A6-D012FB55E670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCRMNoSQL.Core", "MyCRMNoSQL.Core\MyCRMNoSQL.Core.csproj", "{92F03B79-01DA-47DE-AFC2-38F705A15120}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCRMNoSQL.Core", "MyCRMNoSQL.Core\MyCRMNoSQL.Core.csproj", "{92F03B79-01DA-47DE-AFC2-38F705A15120}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCRMNoSQL.Repository", "MyCRMNoSQL.Repository\MyCRMNoSQL.Repository.csproj", "{391FD2B1-6B15-4790-B4FC-81833A77D58C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCRMNoSQL.Repository", "MyCRMNoSQL.Repository\MyCRMNoSQL.Repository.csproj", "{391FD2B1-6B15-4790-B4FC-81833A77D58C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{92F03B79-01DA-47DE-AFC2-38F705A15120} = {92F03B79-01DA-47DE-AFC2-38F705A15120}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCRMNoSQL.Service", "MyCRMNoSQL.Service\MyCRMNoSQL.Service.csproj", "{836EBE41-7C25-49B2-9434-B0DCABB26CFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCRMNoSQL.Service", "MyCRMNoSQL.Service\MyCRMNoSQL.Service.csproj", "{836EBE41-7C25-49B2-9434-B0DCABB26CFE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCRMNoSQL.Web", "MyCRMNoSQL.Web\MyCRMNoSQL.Web.csproj", "{FD4BA90F-F2D5-4128-A8AE-75B25A2FB4E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{71508A01-8092-47E8-A7A6-D012FB55E670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71508A01-8092-47E8-A7A6-D012FB55E670}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71508A01-8092-47E8-A7A6-D012FB55E670}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71508A01-8092-47E8-A7A6-D012FB55E670}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92F03B79-01DA-47DE-AFC2-38F705A15120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{92F03B79-01DA-47DE-AFC2-38F705A15120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92F03B79-01DA-47DE-AFC2-38F705A15120}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,6 +32,10 @@ Global
 		{836EBE41-7C25-49B2-9434-B0DCABB26CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{836EBE41-7C25-49B2-9434-B0DCABB26CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{836EBE41-7C25-49B2-9434-B0DCABB26CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD4BA90F-F2D5-4128-A8AE-75B25A2FB4E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD4BA90F-F2D5-4128-A8AE-75B25A2FB4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD4BA90F-F2D5-4128-A8AE-75B25A2FB4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD4BA90F-F2D5-4128-A8AE-75B25A2FB4E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
