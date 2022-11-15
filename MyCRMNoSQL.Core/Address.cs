@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Core
 {
-    public class Address
+    public class Address : BaseEntity
     {
         public string Street { get; set; }
 

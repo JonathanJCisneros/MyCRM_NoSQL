@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Core
 {
-    internal class Product
+    public class Product : BaseEntity
     {
+        public string Name { get; set; }
+
+        public double Price { get; set; }
+
+        public string Description { get; set; }
+
+        public string UserId { get; set; }
+
+        public List<Purchase> PurchaseList { get; set; }
     }
 }

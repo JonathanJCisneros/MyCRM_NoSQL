@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Core
 {
-    internal class Staff
+    public class Staff : BaseEntity
     {
+        public string Position { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public long PhoneNumber { get; set; }
+
+        public string Email { get; set; }
+
+        public string BusinessId { get; set; }
     }
 }

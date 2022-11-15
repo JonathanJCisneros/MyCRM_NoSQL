@@ -19,5 +19,17 @@ namespace MyCRMNoSQL.Core
         public string PocId { get; set; }
 
         public string UserId { get; set; }
+
+        public List<ClientActivity> ActivityList { get; set; }
+
+        public List<Address> AddressList { get; set; }
+
+        public List<Staff> StaffList { get; set;}
+
+        public List<Note> NoteList { get; set; }
+
+        public List<Purchase> PurchaseList { get; set;}
+
+        public List<UpcomingTask> TaskList { get; set; }
     }
 }

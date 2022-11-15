@@ -6,7 +6,20 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Core
 {
-    internal class UpcomingTask
+    public class UpcomingTask : BaseEntity
     {
+        public string UserId { get; set; }
+
+        public string BusinessId { get; set; }
+
+        public string StaffId { get; set; }
+
+        public string Type { get; set; }
+
+        public string Details { get; set; }
+
+        public DateTime DueDate { get; set; }
+
+        public string Status { get; set; }
     }
 }

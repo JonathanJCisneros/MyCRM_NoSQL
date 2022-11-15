@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Core
 {
-    internal class Note
+    public class Note : BaseEntity
     {
+        public string Details { get; set; }
+
+        public string UserId { get; set; }
+
+        public string BusinessId { get; set; }
     }
 }
