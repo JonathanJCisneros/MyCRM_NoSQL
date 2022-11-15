@@ -7,6 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCRMNoSQL.Web", "MyCRMNoSQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCRMNoSQL.Core", "MyCRMNoSQL.Core\MyCRMNoSQL.Core.csproj", "{92F03B79-01DA-47DE-AFC2-38F705A15120}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCRMNoSQL.Repository", "MyCRMNoSQL.Repository\MyCRMNoSQL.Repository.csproj", "{391FD2B1-6B15-4790-B4FC-81833A77D58C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92F03B79-01DA-47DE-AFC2-38F705A15120} = {92F03B79-01DA-47DE-AFC2-38F705A15120}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCRMNoSQL.Service", "MyCRMNoSQL.Service\MyCRMNoSQL.Service.csproj", "{836EBE41-7C25-49B2-9434-B0DCABB26CFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +28,14 @@ Global
 		{92F03B79-01DA-47DE-AFC2-38F705A15120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92F03B79-01DA-47DE-AFC2-38F705A15120}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92F03B79-01DA-47DE-AFC2-38F705A15120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391FD2B1-6B15-4790-B4FC-81833A77D58C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391FD2B1-6B15-4790-B4FC-81833A77D58C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391FD2B1-6B15-4790-B4FC-81833A77D58C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391FD2B1-6B15-4790-B4FC-81833A77D58C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{836EBE41-7C25-49B2-9434-B0DCABB26CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{836EBE41-7C25-49B2-9434-B0DCABB26CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{836EBE41-7C25-49B2-9434-B0DCABB26CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{836EBE41-7C25-49B2-9434-B0DCABB26CFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
