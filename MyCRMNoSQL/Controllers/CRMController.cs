@@ -44,19 +44,22 @@ namespace MyCRMNoSQL.Controllers
                 .Merge(b => new 
                 {
                     PointOfContact = R.Db("MyCRM").Table("Staff").Get(b["PocId"]).Pluck("FirstName", "LastName"),
-                    LatestActivity = R.Db("MyCRM").Table("Activities").GetAll(b["id"])[new { index = "BusinessId" }].Pluck("Type").OrderBy(R.Desc("CreatedDate")).Limit(1).CoerceTo("array")
+                    LatestActivity = R.Db("MyCRM").Table("Activities").GetAll(b["id"])[new { index = "BusinessId" }].Pluck("Type", "CreatedDate").OrderBy(R.Desc("CreatedDate")).Limit(1).CoerceTo("array")
                 })
             .Run(Conn);
-
 
             List<Business> BusinessList = new List<Business>();
 
             foreach (var i in Query)
             {
-                BusinessActivity Activity = new BusinessActivity()
+                BusinessActivity Activity = new BusinessActivity();
+                
+                if(i.LatestActivity.Count > 0)
                 {
-                    Type = i.LatestActivity[0].Type.ToString()             
-                };
+                    Activity.Type = i.LatestActivity[0].Type.ToString();
+                    Activity.CreatedDate = i.LatestActivity[0].CreatedDate;
+                }
+                
 
                 Staff POC = new Staff()
                 {
@@ -100,7 +103,7 @@ namespace MyCRMNoSQL.Controllers
 
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            bool Check = R.Db("MyCRM").Table("Users").GetAll(NewBiz.Name)[new { index = "Name" }].IsEmpty().Run(Conn);
+            bool Check = R.Db("MyCRM").Table("Businesses").GetAll(NewBiz.Name)[new { index = "Name" }].IsEmpty().Run(Conn);
 
             if (Check == false)
             {

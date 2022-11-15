@@ -21,7 +21,7 @@ namespace MyCRMNoSQL.Models
 
         [PastDate(ErrorMessage = "must be in the past")]
         [Display(Name = "Date of Acquisition")]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "is required")]
         public string Industry { get; set; }

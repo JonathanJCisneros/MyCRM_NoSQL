@@ -12,8 +12,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Admin\" />
-    <Folder Include="wwwroot\Images\Activity\" />
-    <Folder Include="wwwroot\Images\Industries\" />
   </ItemGroup>
 
 </Project>

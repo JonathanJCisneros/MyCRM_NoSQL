@@ -1,0 +1,260 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Business.Name;
+}
+
+<div class="header">
+    <div>
+        <h1>@ViewBag.Business.Name</h1>
+        <partial name="_Name"/>
+    </div>
+    <div>
+        <a asp-controller="CRM" asp-action="Presentation" asp-route-businessId="@ViewBag.Business.BusinessId" class="btn btn-success">Presentation</a>
+    </div>
+</div>
+<div>
+    <div>
+        <div>
+            <div>
+                <h1>Point of Contact</h1>
+                <partial name="_POC"/>
+            </div>
+            <div>
+                <div>
+                    <h2>@ViewBag.Business.PointOfContact.Position: @ViewBag.Business.PointOfContact.FirstName @ViewBag.Business.PointOfContact.LastName</h2>
+                </div>
+                <div>
+                    <h3>Phone: <a href="tel:@ViewBag.Business.PointOfContact.PhoneNumber">@ViewBag.Business.PointOfContact.PhoneNumber.ToString("(###) ###-####")</a></h3>
+                </div>
+                <div>
+                    <h3>Email: <a href="mailto:@ViewBag.Business.PointOfContact.Email">@ViewBag.Business.PointOfContact.Email</a></h3>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStaff" aria-expanded="false" aria-controls="collapseStaff">Staff</button>
+                    <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#StaffModal">Add</button>
+                    <div class="modal fade" id="StaffModal" tabindex="-1" aria-labelledby="StaffModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Add a New Staff Member</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <partial name="_Staff"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse" id="collapseStaff">
+                    <div class="card card-body">
+                        <div>
+                            @foreach (Staff s in ViewBag.Business.StaffList)
+                            {
+                                <div>
+                                    <p>@s.Position</p>
+                                    <p>@s.FirstName @s.LastName</p>
+                                    <p><a href="tel:@s.PhoneNumber">@s.PhoneNumber.ToString("(###) ###-####")</a></p>
+                                    <p><a href="mailto:@s.Email">@s.Email</a></p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>
+                    Business Website:
+                    @if (ViewBag.Business.Website == "None")
+                    {
+                        <span id="W">
+                            None Yet
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            <a href="@ViewBag.Business.Website" target="_blank">@ViewBag.Business.Website</a>
+                        </span>
+                    }
+                </h3>
+                <partial name="_Website"/>
+            </div>
+            <div>
+                <h2>Founded in: @ViewBag.Business.StartDate.ToString("MMMM d, yyyy")</h2>
+                <partial name="_UpdateSD"/>
+            </div>
+            <div>
+                <h2>Industry: @ViewBag.Business.Industry</h2>
+                <partial name="_Industry"/>
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <h1>Locations</h1>
+                        <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#LocationModal">Add</button>
+                    </div>
+                    <div class="modal fade" id="LocationModal" tabindex="-1" aria-labelledby="LocationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>Add a New Location</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <partial name="_Address"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        @foreach (Address a in ViewBag.Business.AddressList)
+                        {
+                            <div>
+                                <div>
+                                    <div>
+                                        <img src="~/images/Activity/Location.png" alt="ai">
+                                    </div>
+                                    <div>
+                                        <h4>@a.Street</h4>
+                                        <h4>@a.City, @a.State @a.ZipCode</h4>
+                                    </div>
+                                </div>
+                                <a asp-controller="Address" asp-action="Delete" asp-route-businessId="@ViewBag.Business.BusinessId" asp-route-addressId="@a.AddressId">delete</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <h1>Notes</h1>
+                        <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#NoteModal">Add</button>
+                    </div>
+                    <div>
+                        <div>
+                            @foreach (Note n in ViewBag.Business.NoteList)
+                            {
+                                <div>
+                                    <div>
+                                        <img src="~/images/Activity/Note.png" alt="ai">
+                                    </div>
+                                    <div>
+                                        <h5>@n.Details</h5>
+                                        <p>@n.CreatedDate.ToString("M/d @ h:mm tt")</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="NoteModal" tabindex="-1" aria-labelledby="NoteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Add a Note</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <partial name="_Note"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePurchases" aria-expanded="false" aria-controls="collapsePurchases">
+                        Purchases (@ViewBag.Business.PurchaseList.Count)
+                    </button>
+                </p>
+                <div>
+                    <div class="collapse" id="collapsePurchases">
+                        <div class="card card-body">
+                            @if (ViewBag.Business.PurchaseList.Count > 0)
+                            {
+                                @foreach (Purchase p in ViewBag.Business.PurchaseList)
+                                {
+                                    <div>
+                                        <div>
+                                            <img src="~/images/Activity/Purchase.png" alt="ai">
+                                        </div>
+                                        <div>
+                                            <p>@p.Product.Name at</p>
+                                            <p>@p.Address.City, @p.Address.State</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>No purchases yet</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion accordion-flush task" id="accordionFlushTask">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTask" aria-expanded="false" aria-controls="flush-collapseTask">
+                        Up Coming Tasks (@ViewBag.Business.TaskList.Count)
+                    </button>
+                </h2>
+                <div id="flush-collapseTask" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushTask">
+                    <div class="accordion-body">
+                        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#TaskModalT">Add</button>
+                        @foreach (UpcomingTask t in ViewBag.Business.TaskList)
+                        {
+                            @if (t.DueDate >= DateTime.Now)
+                            {
+                                <div>
+                                    @if (t.Type == "Phone Call")
+                                    {
+                                        <div>
+                                            <img src="~/images/Activity/PhoneCall.svg" alt="ai">
+                                        </div>
+                                    }
+                                    @if (t.Type == "Email")
+                                    {
+                                        <div class="img">
+                                            <img src="~/images/Activity/Email.svg" alt="ai">
+                                        </div>
+                                    }
+                                    @if (t.Type == "Presentation")
+                                    {
+                                        <div class="img">
+                                            <img src="~/images/Activity/Presentation.png" alt="ai">
+                                        </div>
+                                    }
+                                    <div>
+                                        <p>with @t.Staff.FirstName</p>
+                                        <p>@t.DueDate.ToString("MM/d @ h:mm tt")</p>
+                                        <p>@t.Details</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="TaskModalT" tabindex="-1" aria-labelledby="TaskModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 id="TaskModalLabel">Add a Task</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <partial name="_Task"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <partial name="_BusinessActivity"/>
+        </div>
+    </div>
+</div>

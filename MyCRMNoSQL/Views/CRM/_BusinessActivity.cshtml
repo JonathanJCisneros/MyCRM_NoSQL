@@ -1,0 +1,70 @@
+﻿@model BusinessActivity
+
+<div>
+    <div>
+        @foreach (BusinessActivity a in ViewBag.Business.ActivityList)
+        {
+            <div>
+                <div>
+                    <div>
+                        @if (a.Type == "Phone Call")
+                        {
+                            <div>
+                                <img src="~/images/Activity/PhoneCall.svg" alt="ai">
+                            </div>
+                        }
+                        @if (a.Type == "Email")
+                        {
+                            <div>
+                                <img src="~/images/Activity/Email.svg" alt="ai">
+                            </div>
+                        }
+                        @if (a.Type == "Presentation")
+                        {
+                            <div>
+                                <img src="~/images/Activity/Presentation.png" alt="ai">
+                            </div>
+                        }
+                    </div>
+                    <div>
+                        <p> with @a.Staff.FirstName</p>
+                        <p>@a.CreatedDate.ToString("MM/d @ h:mm tt")</p>
+                    </div>
+                </div>
+                <p>@a.Note</p>
+            </div>
+        }
+    </div>
+    <div>
+        <form asp-controller="BusinessActivity" asp-action="Add" asp-route-businessId="@ViewBag.Business.BusinessId" method="POST">
+            <h4>Log Activity</h4>
+            <div>
+                <label asp-for="Type" class="form-label"></label>
+                <span asp-validation-for="Type"></span>
+                <select asp-for="Type" class="form-control">
+                    <option>select</option>
+                    <option value="Phone Call">Phone Call</option>
+                    <option value="Email">Email</option>
+                    <option value="Presentation">Presentation</option>
+                </select>
+            </div>
+            <div>
+                <label asp-for="StaffId" class="form-label"></label>
+                <span asp-validation-for="StaffId"></span>
+                <select asp-for="StaffId" class="form-control">
+                    <option>select</option>
+                    @foreach (Staff s in ViewBag.Business.StaffList)
+                    {
+                        <option value="@s.StaffId">@s.FirstName @s.LastName</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label asp-for="Note" class="form-label"></label>
+                <span asp-validation-for="Note"></span>
+                <textarea asp-for="Note" class="form-control" rows="4" cols="35"></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-success">Add Activity</button>
+        </form>
+    </div>
+</div>

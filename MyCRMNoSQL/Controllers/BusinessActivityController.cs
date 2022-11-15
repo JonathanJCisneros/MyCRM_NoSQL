@@ -44,8 +44,8 @@ namespace MyCRMNoSQL.Controllers
                     Type = Activity.Type,
                     Note = Activity.Note,
                     StaffId = Activity.StaffId,
-                    CreatedDate = Activity.CreatedDate,
-                    UpdatedDate = Activity.UpdatedDate
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now
                 })
             .Run(Conn);
 
@@ -79,7 +79,7 @@ namespace MyCRMNoSQL.Controllers
                     Type = Activity.Type,
                     Note = Activity.Note,
                     StaffId = Activity.StaffId,
-                    UpdatedDate = Activity.UpdatedDate
+                    UpdatedDate = DateTime.Now
                 })
             .Run(Conn);
 

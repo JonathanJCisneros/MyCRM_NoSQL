@@ -1,0 +1,58 @@
+﻿@model Purchase
+
+<form asp-controller="CRM" asp-action="AddPurchase" asp-route-businessId="@ViewBag.oneBusiness.BusinessId" method="POST">
+    <div>
+        <h1>Let's get Started!</h1>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <label asp-for="ProductId" class="form-label"></label>
+            <span asp-validation-for="ProductId"></span>
+            <select asp-for="ProductId" class="form-control">
+                <option disabled selected>Select</option>
+                @foreach (Product p in ViewBag.Products)
+                {
+                    <option value="@p.ProductId">@p.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <label asp-for="AddressId" class="form-label"></label>
+            <span asp-validation-for="AddressId"></span>
+            <select asp-for="AddressId" class="form-control">
+                <option disabled selected>Select</option>
+                @foreach (Address a in ViewBag.Business.AddressList)
+                {
+                    <option value="@a.AddressId">
+                        <p>@a.Street</p>
+                        <p>@a.City, @a.State @a.ZipCode</p>
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <p>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTerms" aria-expanded="false" aria-controls="collapseTerms">
+            Terms and Conditions
+        </button>
+    </p>
+    <div class="collapse" id="collapseTerms">
+        <div class="card card-body">
+            <strong>Contract Length</strong>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente illo unde et debitis nobis dicta cumque nostrum saepe deleniti. Expedita iste temporibus atque nam voluptas! Quos et enim magni quibusdam?</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius beatae odit vitae tempora. Sint quod reiciendis non ex libero natus incidunt illo blanditiis. Animi deserunt ipsa soluta, voluptate fugiat officia?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum animi omnis quam quidem facilis harum suscipit nemo labore, officiis est. Beatae natus, iste delectus eligendi ipsam odit impedit atque eaque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit adipisci perspiciatis quis nemo architecto dolore? Impedit amet fuga est doloremque quae quisquam odio fugiat blanditiis aliquid, fugit consectetur voluptatem similique.</p>
+            <strong>Policy</strong>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt dolor aliquam dicta necessitatibus non consequuntur ipsa rem autem dolore obcaecati, praesentium voluptatum architecto nobis consequatur nisi officia. At, obcaecati expedita! Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur accusantium modi nisi nesciunt odit incidunt repudiandae eligendi aperiam quos optio quo alias quaerat facilis ipsa, quia qui! Maxime, suscipit a.lorem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam porro quia odit obcaecati excepturi, animi, dolores magnam autem id asperiores fugiat corporis aperiam. Pariatur optio accusantium placeat magnam nam fugiat?</p>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" onchange="document.getElementById('submit').removeAttribute('disabled')" id="invalidCheck2" required>
+            <label class="form-check-label" for="invalidCheck2">
+                Agree to terms and conditions
+            </label>
+        </div>
+    </div>
+    <br>
+    <button type="submit" id="submit" class="btn btn-outline-success" disabled>Purchase</button>
+</form>

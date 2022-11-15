@@ -1,0 +1,37 @@
+﻿@model UpcomingTask
+
+<form asp-controller="UpcomingTask" asp-action="Add" asp-route-businessId="@ViewBag.Business.BusinessId" method="POST">
+    <div class="row">
+        <div class="col">
+            <span asp-validation-for="Type"></span>
+            <select asp-for="Type" class="form-control">
+                <option>Select Type</option>
+                <option value="Phone Call">Phone Call</option>
+                <option value="Email">Email</option>
+                <option value="Presentation">Presentation</option>
+            </select>
+        </div>
+        <div class="col">
+            <label asp-for="StaffId"></label>
+            <span asp-validation-for="StaffId"></span>
+            <select asp-for="StaffId" class="form-control">
+                <option>select</option>
+                @foreach (Staff s in ViewBag.Business.StaffList)
+                {
+                    <option value="@s.StaffId">@s.FirstName @s.LastName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        <label asp-for="DueDate"></label>
+        <span asp-validation-for="DueDate"></span>
+        <input type="date" asp-for="DueDate" class="form-control">
+    </div>
+    <div>
+        <label asp-for="Details"></label>
+        <span asp-validation-for="Details"></span>
+        <input asp-for="Details" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-outline-primary">Add</button>
+</form>

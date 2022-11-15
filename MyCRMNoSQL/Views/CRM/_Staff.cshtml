@@ -1,0 +1,43 @@
+﻿@model Staff
+
+<form asp-controller="Staff" asp-action="Add" asp-route-businessId="@ViewBag.Business.BusinessId" method="POST">
+    <div class="row">
+        <div class="col-4">
+            <label asp-for="Position" class="form-label"></label>
+            <span asp-validation-for="Position"></span>
+            <select asp-for="Position" class="form-control">
+                <option value="None" selected disabled hidden>Select</option>
+                <option value="Owner">Owner</option>
+                <option value="Gate Keeper">Gate Keeper</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label asp-for="FirstName" class="form-label"></label>
+            <span asp-validation-for="FirstName"></span>
+            <input asp-for="FirstName" class="form-control">
+        </div>
+        <div class="col-6">
+            <label asp-for="LastName" class="form-label"></label>
+            <span asp-validation-for="LastName"></span>
+            <input asp-for="LastName" class="form-control">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <span asp-validation-for="PhoneNumber"></span>
+            <input asp-for="PhoneNumber" class="form-control">
+        </div>
+        <div class="col-6">
+            <label asp-for="Email" class="form-label"></label>
+            <span asp-validation-for="Email"></span>
+            <input asp-for="Email" class="form-control">
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-outline-success">Add Staff</button>
+</form>

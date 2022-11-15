@@ -24,35 +24,35 @@
                     <tr>
                         <td class="tbody"><span class="tdata"><p class="BName">@b.Name</p></span></td>
                         <td class="tbody">@b.PointOfContact.FirstName @b.PointOfContact.LastName</td>
-                        @if (@b.LatestActivity != null)
+                        @if (@b.LatestActivity.Type != null)
                         {
-                        <td class="tbody">
-                            <div class="tActivity">
-                                @if (b.LatestActivity.Type == "Phone Call")
-                                {
-                                    <div class="img">
-                                        <img src="~/images/Activity/PhoneCall.svg" alt="ai" id="img">
-                                    </div>
-                                }
-                                    @if (b.LatestActivity.Type == "Email")
-                                {
-                                    <div class="img">
-                                        <img src="~/images/Activity/Email.svg" alt="ai" id="img">
-                                    </div>
-                                }
-                                    @if (b.LatestActivity.Type == "Presentation")
-                                {
-                                    <div class="img">
-                                        <img src="~/images/Activity/Presentation.png" alt="ai" id="img">
-                                    </div>
-                                }
-                              <p class="lastA">@b.LatestActivity.CreatedDate.ToString("MM/d @ h:mm tt")</p>
-                            </div>
-                        </td>
+                            <td class="tbody">
+                                <div class="tActivity">
+                                    @if (b.LatestActivity.Type == "Phone Call")
+                                    {
+                                        <div class="img">
+                                            <img src="~/images/Activity/PhoneCall.svg" alt="ai" id="img">
+                                        </div>
+                                    }
+                                        @if (b.LatestActivity.Type == "Email")
+                                    {
+                                        <div class="img">
+                                            <img src="~/images/Activity/Email.svg" alt="ai" id="img">
+                                        </div>
+                                    }
+                                        @if (b.LatestActivity.Type == "Presentation")
+                                    {
+                                        <div class="img">
+                                            <img src="~/images/Activity/Presentation.png" alt="ai" id="img">
+                                        </div>
+                                    }
+                                    <p class="lastA">@b.LatestActivity.CreatedDate.ToString("MM/d @ h:mm tt")</p>
+                                </div>
+                            </td>
                         }
                         else
                         {
-                        <td class="tbody">No activity yet</td>
+                            <td class="tbody">No activity yet</td>
                         }
                         <td class="actions" >
                             <div>
@@ -66,9 +66,9 @@
             }
             else
             {
-                <div>
-                    <h4>You currently have no clients, go add one!</h4>
-                </div>
+                <tr>
+                    <td><h4>You currently have no clients, go add one!</h4></td>
+                </tr>                                
             }
         </tbody>
     </table>

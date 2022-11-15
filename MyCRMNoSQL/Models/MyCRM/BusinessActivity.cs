@@ -23,9 +23,9 @@ namespace MyCRMNoSQL.Models
         [Display(Name = "Spoke with")]
         public string StaffId { get; set; }
 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
 
-        public DateTime UpdatedDate { get; set; } = DateTime.Now;
+        public DateTime UpdatedDate { get; set; }
 
         public User? User { get; set; }
 

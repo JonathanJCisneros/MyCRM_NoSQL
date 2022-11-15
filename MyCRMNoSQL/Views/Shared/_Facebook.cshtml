@@ -1,0 +1,75 @@
+﻿@model Business
+
+<div>
+    <div>
+        <div>
+            <div>
+                @if (Model.Industry == "Automotive")
+                {
+                    <img src="~/images/Industries/Automotive.jpg" alt="ai">
+                }
+                @if (Model.Industry == "Legal")
+                {
+                    <img src="~/images/Industries/Legal.jpg" alt="ai">
+                }
+                @if (Model.Industry == "Restaurant")
+                {
+                    <img src="~/images/Industries/Restaurant.jpg" alt="ai">
+                }
+                @if (Model.Industry == "Sports")
+                {
+                    <img src="~/images/Industries/Sports.jpg" alt="ai">
+                }
+                @if (Model.Industry == "Entertainment")
+                {
+                    <img src="~/images/Industries/Entertainment.jpg" alt="ai">
+                }
+                @if (Model.Industry == "Health Care")
+                {
+                    <img src="~/images/Industries/HealthCare.jpg" alt="ai">
+                }
+            </div>
+            <div>
+                <div>@Model.Name</div>
+                <div>Sponsored</div>
+            </div>
+        </div>
+        <div>
+            <svg aria-label="Plus d'options" class="_8-yf5 " fill="#262626" height="16" role="img" viewBox="0 0 48 48" width="16">
+                <circle clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle>
+                <circle clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle>
+                <circle clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle>
+            </svg>
+        </div>
+    </div>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit nobis ipsa quibusdam perspiciatis mollitia voluptate est architecto dolorem doloribus sapiente.</p>
+    <div>
+        @if (Model.Industry == "Automotive")
+        {
+            <img src="~/images/Industries/Automotive.jpg" alt="ai">
+        }
+        @if (Model.Industry == "Legal")
+        {
+            <img src="~/images/Industries/Legal.jpg" alt="ai">
+        }
+        @if (Model.Industry == "Restaurant")
+        {
+            <img src="~/images/Industries/Restaurant.jpg" alt="ai">
+        }
+        @if (Model.Industry == "Sports")
+        {
+            <img src="~/images/Industries/Sports.jpg" alt="ai">
+        }
+        @if (Model.Industry == "Entertainment")
+        {
+            <img src="~/images/Industries/Entertainment.jpg" alt="ai">
+        }
+        @if (Model.Industry == "Health Care")
+        {
+            <img src="~/images/Industries/HealthCare.jpg" alt="ai">
+        }
+    </div>
+    <div>
+        <img src="~/images/facebookicons.jpg" alt="fbIcons">
+    </div>
+</div>

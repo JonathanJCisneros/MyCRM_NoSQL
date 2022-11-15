@@ -27,7 +27,7 @@ namespace MyCRMNoSQL.Models
         [Required]
         [FutureDate(ErrorMessage = "must be in the future")]
         [Display(Name = "Due Date")]
-        public DateTime? DueDate { get; set; }
+        public DateTime DueDate { get; set; }
 
         [Required]
         public string Status { get; set; } = "Not Completed";

@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Presentation";
+}
+
+@model Business
+
+<div>
+    <h1>@Model.Name</h1>
+    <a asp-controller="CRM" asp-action="ViewOne" class="btn btn-secondary" asp-route-businessId="@Model.BusinessId">Profile</a>
+</div>
+<div>
+    <div>
+        <div>
+            <partial name="_FaceBook"/>
+        </div>
+        <div>
+            <h2>Facebook</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem minima tempora voluptate consequatur ad quasi atque eius possimus quidem quis sequi, consequuntur ratione excepturi, doloribus et doloremque, vel nihil adipisci. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab quae, iure eum nesciunt amet soluta ex dolore rerum assumenda nostrum itaque rem voluptates veniam ipsa natus explicabo doloremque dolor fuga?</p>
+        </div>
+    </div>
+    <div>
+        <div>
+            <h2>Instagram</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem minima tempora voluptate consequatur ad quasi atque eius possimus quidem quis sequi, consequuntur ratione excepturi, doloribus et doloremque, vel nihil adipisci. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab quae, iure eum nesciunt amet soluta ex dolore rerum assumenda nostrum itaque rem voluptates veniam ipsa natus explicabo doloremque dolor fuga?</p>
+        </div>
+        <div>
+            <partial name="_Instagram"/>
+        </div>
+    </div>
+    <div>
+        <div>
+            <img src="~/images/GoogleAdNetwork.png" alt="google ad network" width="650px">
+        </div>
+        <div>
+            <h2>Google Ad Network</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem minima tempora voluptate consequatur ad quasi atque eius possimus quidem quis sequi, consequuntur ratione excepturi, doloribus et doloremque, vel nihil adipisci. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab quae, iure eum nesciunt amet soluta ex dolore rerum assumenda nostrum itaque rem voluptates veniam ipsa natus explicabo doloremque dolor fuga?</p>
+        </div>
+    </div>
+    <div>
+        <div>
+            <h2>YouTube</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem minima tempora voluptate consequatur ad quasi atque eius possimus quidem quis sequi, consequuntur ratione excepturi, doloribus et doloremque, vel nihil adipisci. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab quae, iure eum nesciunt amet soluta ex dolore rerum assumenda nostrum itaque rem voluptates veniam ipsa natus explicabo doloremque dolor fuga?</p>
+        </div>
+        <div>
+            @if (Model.Industry == "Automotive")
+            {
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/_T8jKHR4nlw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+            @if (Model.Industry == "Legal")
+            {
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/fec4XHZH_FI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+            @if (Model.Industry == "Restaurant")
+            {
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/keOaQm6RpBg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+            @if (Model.Industry == "Sports")
+            {
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Rwk5PdpTxSU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+            @if (Model.Industry == "Entertainment")
+            {
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/yrm7UhakbvI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+            @if (Model.Industry == "Health Care")
+            {
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/OSVA1FIQDOQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+        </div>
+    </div>
+    <div>
+        <h1>Choose where you get to be shown</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, laboriosam? Laboriosam omnis at, quae architecto ab quo nam recusandae ipsam ipsa veniam assumenda quas amet tempora saepe delectus sapiente natus?</p>
+    </div>
+    <div>
+        <img src="~/images/Geotargeting.jpg" alt="Map with radius">
+    </div>
+    <div>
+        <h1>Choose what best fits:</h1>
+    </div>
+    <div>
+        @foreach (Product p in ViewBag.Products)
+        {
+            <div class="Section Product">
+                <h2>@p.Name</h2>
+                <p>@p.Description</p>
+                <p>$@p.Price per month</p>
+            </div>
+        }
+    </div>
+    <div>
+        <partial name="_Purchase"/>
+    </div>
+</div>

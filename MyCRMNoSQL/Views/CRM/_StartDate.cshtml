@@ -1,0 +1,9 @@
+﻿@model Business
+
+<form asp-controller="CRM" asp-action="Update" asp-route-businessId="@ViewBag.Business.BusinessId" method="POST">
+    <div>
+        <span asp-validation-for="StartDate"></span>
+        <input type="date" asp-for="StartDate" class="form-control" value="@ViewBag.Business.StartDate.ToString("yyyy-MM-dd")">
+        <button type="submit" class="btn btn-link">Update</button>
+    </div>
+</form>
