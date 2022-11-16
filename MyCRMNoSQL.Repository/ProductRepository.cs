@@ -8,39 +8,34 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Repository
 {
-    public class AddressRepository : IAddressRepository
+    public class ProductRepository : IProductRepository
     {
-        public async Task<Address> Get(string id)
+        public async Task<Product> Get(string id)
         {
             return null;
         }
 
-        public async Task<List<Address>> GetAll()
+        public async Task<Product> GetProductWithCustomers(string id)
         {
             return null;
         }
 
-        public async Task<List<Address>> GetByBusiness(string id)
+        public async Task<List<Product>> GetAll()
         {
             return null;
         }
 
-        public async Task<List<Address>> GetByCity(string city)
+        public async Task<List<Product>> GetAllProductsWithCustomers()
         {
             return null;
         }
 
-        public async Task<List<Address>> GetByZipCode(int zipCode)
-        {
-            return null;
-        }
-
-        public async Task<bool> Create(Address address)
+        public async Task<bool> Create(Product product)
         {
             return false;
         }
 
-        public async Task<bool> Update(Address address)
+        public async Task<bool> Update(Product product)
         {
             return false;
         }

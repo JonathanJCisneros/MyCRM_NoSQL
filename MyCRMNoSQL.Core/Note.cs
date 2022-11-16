@@ -12,6 +12,10 @@ namespace MyCRMNoSQL.Core
 
         public string UserId { get; set; }
 
+        public User UserAssociated { get; set; }
+
         public string BusinessId { get; set; }
+
+        public Business BusinessAssociated { get; set; }
     }
 }

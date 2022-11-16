@@ -18,6 +18,8 @@ namespace MyCRMNoSQL.Core
 
         public string PocId { get; set; }
 
+        public Staff PointOfContact { get; set; }
+
         public string UserId { get; set; }
 
         public List<ClientActivity> ActivityList { get; set; }

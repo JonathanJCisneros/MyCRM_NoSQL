@@ -17,5 +17,7 @@ namespace MyCRMNoSQL.Core
         public string Password { get; set; }
 
         public string Type { get; set; }
+
+        public DateTime LastLoggedIn { get; set; }
     }
 }
