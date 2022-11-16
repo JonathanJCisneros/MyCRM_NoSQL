@@ -26,6 +26,11 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
+        public async Task<List<Note>> GetAllByUser(string id)
+        {
+            return null;
+        }
+
         public async Task<bool> Create(Note note)
         {
             return false;

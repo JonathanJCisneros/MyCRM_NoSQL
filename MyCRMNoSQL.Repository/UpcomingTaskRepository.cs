@@ -12,7 +12,7 @@ namespace MyCRMNoSQL.Repository
     {
         public async Task<UpcomingTask> Get(string id)
         {
-            return null; ;
+            return null;
         }
 
         public async Task<List<UpcomingTask>> GetAll()
