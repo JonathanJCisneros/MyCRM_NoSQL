@@ -20,12 +20,12 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
-        public async Task<List<Staff>> GetByBusiness(string id)
+        public async Task<List<Staff>> GetAllByBusiness(string id)
         {
             return null;
         }
 
-        public async Task<List<Staff>> GetByPosition(string position)
+        public async Task<List<Staff>> GetAllByPosition(string position)
         {
             return null;
         }

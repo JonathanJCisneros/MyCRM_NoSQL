@@ -20,17 +20,17 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
-        public async Task<List<Address>> GetByBusiness(string id)
+        public async Task<List<Address>> GetAllByBusiness(string id)
         {
             return null;
         }
 
-        public async Task<List<Address>> GetByCity(string city)
+        public async Task<List<Address>> GetAllByCity(string city)
         {
             return null;
         }
 
-        public async Task<List<Address>> GetByZipCode(int zipCode)
+        public async Task<List<Address>> GetAllByZipCode(int zipCode)
         {
             return null;
         }
