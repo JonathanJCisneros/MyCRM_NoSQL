@@ -4,11 +4,8 @@ using MyCRMNoSQL.CustomExtensions;
 
 namespace MyCRMNoSQL.Models
 {
-    public class Product
+    public class ProductFormModel
     {
-        [Key]
-        public string ProductId { get; set; }
-
         [Required(ErrorMessage = "is required")]
         [MinLength(2, ErrorMessage = "must be at least 2 characters long")]
         [Display(Name = "Name")]
@@ -30,9 +27,7 @@ namespace MyCRMNoSQL.Models
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-        public List<Purchase> ClientList { get; set; } = new List<Purchase>();
-
-        public static Product DbPrep(Product p)
+        public static ProductFormModel DbPrep(ProductFormModel p)
         {
             p.Name = MyExtensions.StringToUpper(p.Name);
             p.Description = p.Description.Trim();

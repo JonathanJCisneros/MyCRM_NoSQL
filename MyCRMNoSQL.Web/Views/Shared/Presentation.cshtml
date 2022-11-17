@@ -1,4 +1,4 @@
-﻿@{
+﻿@*@{
     ViewData["Title"] = "Presentation";
 }
 
@@ -79,7 +79,7 @@
         <h1>Choose what best fits:</h1>
     </div>
     <div>
-        @foreach (Product p in ViewBag.Products)
+        @foreach (ProductFormModel p in ViewBag.Products)
         {
             <div class="Section Product">
                 <h2>@p.Name</h2>
@@ -91,4 +91,4 @@
     <div>
         <partial name="_Purchase"/>
     </div>
-</div>
+</div>*@

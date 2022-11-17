@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Models;
+using MyCRMNoSQL.Core;
 using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
@@ -25,76 +26,76 @@ namespace MyCRMNoSQL.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Add(string id, Purchase Purchase)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = id });
-            }
+        //[HttpPost]
+        //public IActionResult Add(string id, PurchaseFormModel Purchase)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = id });
+        //    }
 
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            var Query = R.Db("MyCRM").Table("Purchases")
-                .Insert(new
-                {
-                    BusinessId = id,
-                    UserId = Uid,
-                    AddressId = Purchase.AddressId,
-                    ProductId = Purchase.ProductId,
-                    CreatedDate = Purchase.CreatedDate,
-                    UpdatedDate = Purchase.UpdatedDate
-                })
-            .Run(Conn);
+        //    var R = RethinkDb.Driver.RethinkDB.R;
+        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+        //    var Query = R.Db("MyCRM").Table("Purchases")
+        //        .Insert(new
+        //        {
+        //            BusinessId = id,
+        //            UserId = Uid,
+        //            AddressId = Purchase.AddressId,
+        //            ProductId = Purchase.ProductId,
+        //            CreatedDate = Purchase.CreatedDate,
+        //            UpdatedDate = Purchase.UpdatedDate
+        //        })
+        //    .Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = id });
-        }
+        //    return RedirectToAction("ViewOne", "CRM", new { id = id });
+        //}
 
-        [HttpPost]
-        public IActionResult Update(string id, string Bid, Purchase Purchase)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-            }
+        //[HttpPost]
+        //public IActionResult Update(string id, string Bid, PurchaseFormModel Purchase)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //    }
 
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            bool Check = R.Db("MyCRM").Table("Purchases").Get(id).IsEmpty().Run(Conn);
+        //    var R = RethinkDb.Driver.RethinkDB.R;
+        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+        //    bool Check = R.Db("MyCRM").Table("Purchases").Get(id).IsEmpty().Run(Conn);
 
-            if (Check == true)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-            }
+        //    if (Check == true)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //    }
 
-            var Query = R.Db("MyCRM").Table("Purchases")
-                .Update(new
-                {
-                    BusinessId = Bid,
-                    UserId = Uid,
-                    AddressId = Purchase.AddressId,
-                    ProductId = Purchase.ProductId,
-                    UpdatedDate = Purchase.UpdatedDate
-                })
-            .Run(Conn);
+        //    var Query = R.Db("MyCRM").Table("Purchases")
+        //        .Update(new
+        //        {
+        //            BusinessId = Bid,
+        //            UserId = Uid,
+        //            AddressId = Purchase.AddressId,
+        //            ProductId = Purchase.ProductId,
+        //            UpdatedDate = Purchase.UpdatedDate
+        //        })
+        //    .Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        }
+        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //}
 
-        public IActionResult Delete(string id, string Bid)
-        {
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            bool Check = R.Db("MyCRM").Table("Purchases").Get(id).IsEmpty().Run(Conn);
+        //public IActionResult Delete(string id, string Bid)
+        //{
+        //    var R = RethinkDb.Driver.RethinkDB.R;
+        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+        //    bool Check = R.Db("MyCRM").Table("Purchases").Get(id).IsEmpty().Run(Conn);
 
-            if (Check == true)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-            }
+        //    if (Check == true)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //    }
 
-            var Query = R.Db("MyCRM").Table("Purchases").Get(id).Delete().Run(Conn);
+        //    var Query = R.Db("MyCRM").Table("Purchases").Get(id).Delete().Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        }
+        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //}
     }
 }

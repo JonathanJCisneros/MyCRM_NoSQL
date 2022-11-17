@@ -1,14 +1,14 @@
-﻿@model Business
+﻿@*@model Business
 
 <form asp-controller="CRM" asp-action="Update" asp-route-businessId="@ViewBag.Business.BusinessId" method="POST">
     <div>
         <span asp-validation-for="PocId"></span>
         <select asp-for="PocId" class="form-control">
-            @foreach (Staff s in ViewBag.oneBusiness.StaffList)
+            @foreach (StaffFormModel s in ViewBag.oneBusiness.StaffList)
             {
                 <option value="@s.StaffId">@s.FirstName @s.LastName</option>
             }
         </select>
     </div>
     <button type="submit" class="btn btn-link">Update</button>
-</form>
+</form>*@

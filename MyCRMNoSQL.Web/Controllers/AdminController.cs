@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Models;
+using MyCRMNoSQL.Core;
 using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
 

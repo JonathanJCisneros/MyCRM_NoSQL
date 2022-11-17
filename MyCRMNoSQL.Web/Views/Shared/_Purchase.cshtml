@@ -1,4 +1,4 @@
-﻿@model Purchase
+﻿@*@model Purchase
 
 <form asp-controller="CRM" asp-action="AddPurchase" asp-route-businessId="@ViewBag.oneBusiness.BusinessId" method="POST">
     <div>
@@ -12,7 +12,7 @@
                 <option disabled selected>Select</option>
                 @foreach (Product p in ViewBag.Products)
                 {
-                    <option value="@p.ProductId">@p.Name</option>
+                    <option value="@p.Id">@p.Name</option>
                 }
             </select>
         </div>
@@ -55,4 +55,4 @@
     </div>
     <br>
     <button type="submit" id="submit" class="btn btn-outline-success" disabled>Purchase</button>
-</form>
+</form>*@

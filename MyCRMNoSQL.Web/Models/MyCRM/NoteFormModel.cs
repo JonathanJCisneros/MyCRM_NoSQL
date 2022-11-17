@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyCRMNoSQL.Models
 {
-    public class Note
+    public class NoteFormModel
     {
-        [Key]
-        public string NoteId { get; set; }
-
         [Required(ErrorMessage = "Notes are required")]
         [MinLength(5, ErrorMessage = "Notes must be at least 5 characters long")]
         public string Details { get; set; }
@@ -22,11 +19,7 @@ namespace MyCRMNoSQL.Models
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-        public Business? Business { get; set; }
-
-        public User? User { get; set; }
-
-        public static Note DbPrep(Note n)
+        public static NoteFormModel DbPrep(NoteFormModel n)
         {
             n.Details = n.Details.Trim();
 

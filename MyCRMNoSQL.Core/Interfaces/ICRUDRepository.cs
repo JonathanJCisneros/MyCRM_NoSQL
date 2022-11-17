@@ -12,9 +12,9 @@ namespace MyCRMNoSQL.Repository
 
         List<T> GetAll();
 
-        bool Create(T entity);
+        string Create(T entity);
 
-        bool Update(T entity);  
+        string Update(T entity);  
 
         bool Delete(string id);
     }

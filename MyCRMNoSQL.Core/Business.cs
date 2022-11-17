@@ -22,6 +22,8 @@ namespace MyCRMNoSQL.Core
 
         public string UserId { get; set; }
 
+        public ClientActivity LatestActivity { get; set; }
+
         public User Author { get; set; }
 
         public List<ClientActivity> ActivityList { get; set; }

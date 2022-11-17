@@ -1,4 +1,4 @@
-﻿@{
+﻿@*@{
     ViewData["Title"] = ViewBag.Business.Name;
 }
 
@@ -50,7 +50,7 @@
                 <div class="collapse" id="collapseStaff">
                     <div class="card card-body">
                         <div>
-                            @foreach (Staff s in ViewBag.Business.StaffList)
+                            @foreach (StaffFormModel s in ViewBag.Business.StaffList)
                             {
                                 <div>
                                     <p>@s.Position</p>
@@ -133,7 +133,7 @@
                     </div>
                     <div>
                         <div>
-                            @foreach (Note n in ViewBag.Business.NoteList)
+                            @foreach (NoteFormModel n in ViewBag.Business.NoteList)
                             {
                                 <div>
                                     <div>
@@ -173,7 +173,7 @@
                         <div class="card card-body">
                             @if (ViewBag.Business.PurchaseList.Count > 0)
                             {
-                                @foreach (Purchase p in ViewBag.Business.PurchaseList)
+                                @foreach (PurchaseFormModel p in ViewBag.Business.PurchaseList)
                                 {
                                     <div>
                                         <div>
@@ -205,7 +205,7 @@
                 <div id="flush-collapseTask" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushTask">
                     <div class="accordion-body">
                         <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#TaskModalT">Add</button>
-                        @foreach (UpcomingTask t in ViewBag.Business.TaskList)
+                        @foreach (UpcomingTaskFormModel t in ViewBag.Business.TaskList)
                         {
                             @if (t.DueDate >= DateTime.Now)
                             {
@@ -258,3 +258,4 @@
         </div>
     </div>
 </div>
+*@

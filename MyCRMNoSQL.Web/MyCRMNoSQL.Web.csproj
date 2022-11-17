@@ -15,8 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyCRMNoSQL.Core\MyCRMNoSQL.Core.csproj" />
-    <ProjectReference Include="..\MyCRMNoSQL.Repository\MyCRMNoSQL.Repository.csproj" />
     <ProjectReference Include="..\MyCRMNoSQL.Service\MyCRMNoSQL.Service.csproj" />
   </ItemGroup>
 

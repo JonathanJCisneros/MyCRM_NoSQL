@@ -4,11 +4,8 @@ using MyCRMNoSQL.CustomValidations;
 
 namespace MyCRMNoSQL.Models
 {
-    public class UpcomingTask
+    public class UpcomingTaskFormModel
     {
-        [Key]
-        public string TaskId { get; set; }
-
         public string UserId { get; set; }
 
         public string BusinessId { get; set; }
@@ -36,13 +33,7 @@ namespace MyCRMNoSQL.Models
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-        public Business?  Business { get; set; }
-
-        public User? User { get; set; }
-
-        public Staff? Staff { get; set; }
-
-        public static UpcomingTask DbPrep(UpcomingTask t)
+        public static UpcomingTaskFormModel DbPrep(UpcomingTaskFormModel t)
         {
             t.Details = t.Details.Trim();
 

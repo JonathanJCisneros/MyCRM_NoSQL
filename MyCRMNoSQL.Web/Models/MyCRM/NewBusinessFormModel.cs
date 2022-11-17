@@ -5,7 +5,7 @@ using MyCRMNoSQL.CustomValidations;
 
 namespace MyCRMNoSQL.Models
 {
-    public class NewBusinessForm
+    public class NewBusinessFormModel
     {
         [Required(ErrorMessage = "is required")]
         [MinLength(2, ErrorMessage = "must be at least 2 characters long")]
@@ -13,11 +13,11 @@ namespace MyCRMNoSQL.Models
         public string Name { get; set; }
 
         [RegularExpression(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$", ErrorMessage = "must be a valid website")]
-        public string? Website { get; set; }
+        public string Website { get; set; } = "None";
 
         [PastDate(ErrorMessage = "must be in the past")]
         [Display(Name = "Date of Acquisition")]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "is required")]
         public string Industry { get; set; }
@@ -64,7 +64,11 @@ namespace MyCRMNoSQL.Models
         [Display(Name = "Zipcode")]
         public int ZipCode { get; set; }
 
-        public static NewBusinessForm DbPrep(NewBusinessForm b)
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
+
+        public static NewBusinessFormModel DbPrep(NewBusinessFormModel b)
         {
             b.Name = MyExtensions.StringToUpper(b.Name);
             b.Industry = MyExtensions.StringToUpper(b.Industry);

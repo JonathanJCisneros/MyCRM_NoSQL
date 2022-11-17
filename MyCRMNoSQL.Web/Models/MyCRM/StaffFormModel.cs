@@ -4,11 +4,8 @@ using MyCRMNoSQL.CustomExtensions;
 
 namespace MyCRMNoSQL.Models
 {
-    public class Staff
+    public class StaffFormModel
     {
-        [Key]
-        public string StaffId { get; set; }
-
         [Required(ErrorMessage = "is required")]
         [Display(Name = "Position")]
         public string Position { get; set; }
@@ -38,7 +35,7 @@ namespace MyCRMNoSQL.Models
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-        public static Staff DbPrep(Staff s)
+        public static StaffFormModel DbPrep(StaffFormModel s)
         {
             s.Position = MyExtensions.StringToUpper(s.Position);
             s.FirstName = MyExtensions.StringToUpper(s.FirstName);

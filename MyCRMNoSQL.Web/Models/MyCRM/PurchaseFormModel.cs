@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyCRMNoSQL.Models
 {
-    public class Purchase
+    public class PurchaseFormModel
     {
-        [Key]
-        public string PurchaseId { get; set; }
-
         public string BusinessId { get; set; }
 
         [Required(ErrorMessage = "is required")]
@@ -23,11 +20,5 @@ namespace MyCRMNoSQL.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
-
-        public Business? Business { get; set; }
-
-        public Product? Product { get; set; }
-
-        public Address? Address { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Models;
 using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
@@ -17,81 +18,81 @@ namespace MyCRMNoSQL.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
-        public IActionResult Add(string id, Address Address)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = id });
-            }
+        //[HttpPost]
+        //public IActionResult Add(string id, AddressFormModel Address)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = id });
+        //    }
 
-            Address = Address.DbPrep(Address);
+        //    Address = AddressFormModel.DbPrep(Address);
 
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            var Query = R.Db("MyCRM").Table("Addresses")
-                .Insert(new
-                {
-                    Street = Address.Street,
-                    AptSuite = Address.AptSuite,
-                    City = Address.City,
-                    ZipCode = Address.ZipCode,
-                    CreatedDate = Address.CreatedDate,
-                    UpdatedDate = Address.UpdatedDate,
-                    BusinessId = id
-                })
-            .Run(Conn);
+        //    var R = RethinkDb.Driver.RethinkDB.R;
+        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+        //    var Query = R.Db("MyCRM").Table("Addresses")
+        //        .Insert(new
+        //        {
+        //            Street = Address.Street,
+        //            AptSuite = Address.AptSuite,
+        //            City = Address.City,
+        //            ZipCode = Address.ZipCode,
+        //            CreatedDate = Address.CreatedDate,
+        //            UpdatedDate = Address.UpdatedDate,
+        //            BusinessId = id
+        //        })
+        //    .Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = id });
-        }
+        //    return RedirectToAction("ViewOne", "CRM", new { id = id });
+        //}
 
-        [HttpPost]
-        public IActionResult Update(string id, string Bid, Address Address) 
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-            }
+        //[HttpPost]
+        //public IActionResult Update(string id, string Bid, AddressFormModel Address) 
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //    }
 
-            Address = Address.DbPrep(Address);
+        //    Address = AddressFormModel.DbPrep(Address);
 
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            bool Check = R.Db("MyCRM").Table("Addresses").Get(id).IsEmpty().Run(Conn);
+        //    var R = RethinkDb.Driver.RethinkDB.R;
+        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+        //    bool Check = R.Db("MyCRM").Table("Addresses").Get(id).IsEmpty().Run(Conn);
 
-            if (Check == true)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-            }
+        //    if (Check == true)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //    }
 
-            var Query = R.Db("MyCRM").Table("Addresses")
-                .Update(new
-                {
-                    Street = Address.Street,
-                    AptSuite = Address.AptSuite,
-                    City = Address.City,
-                    ZipCode = Address.ZipCode,
-                    UpdatedDate = Address.UpdatedDate
-                })
-            .Run(Conn);
+        //    var Query = R.Db("MyCRM").Table("Addresses")
+        //        .Update(new
+        //        {
+        //            Street = Address.Street,
+        //            AptSuite = Address.AptSuite,
+        //            City = Address.City,
+        //            ZipCode = Address.ZipCode,
+        //            UpdatedDate = Address.UpdatedDate
+        //        })
+        //    .Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        }
+        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //}
 
-        public IActionResult Delete(string id, string Bid)
-        {
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            bool Check = R.Db("MyCRM").Table("Addresses").Get(id).IsEmpty().Run(Conn);
+        //public IActionResult Delete(string id, string Bid)
+        //{
+        //    var R = RethinkDb.Driver.RethinkDB.R;
+        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+        //    bool Check = R.Db("MyCRM").Table("Addresses").Get(id).IsEmpty().Run(Conn);
 
-            if (Check == true)
-            {
-                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-            }
+        //    if (Check == true)
+        //    {
+        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //    }
 
-            var Query = R.Db("MyCRM").Table("Addresses").Get(id).Delete().Run(Conn);
+        //    var Query = R.Db("MyCRM").Table("Addresses").Get(id).Delete().Run(Conn);
 
-            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        }
+        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        //}
     }
 }

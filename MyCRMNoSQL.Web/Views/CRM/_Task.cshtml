@@ -1,4 +1,4 @@
-﻿@model UpcomingTask
+﻿@*@model UpcomingTaskFormModel
 
 <form asp-controller="UpcomingTask" asp-action="Add" asp-route-businessId="@ViewBag.Business.BusinessId" method="POST">
     <div class="row">
@@ -16,7 +16,7 @@
             <span asp-validation-for="StaffId"></span>
             <select asp-for="StaffId" class="form-control">
                 <option>select</option>
-                @foreach (Staff s in ViewBag.Business.StaffList)
+                @foreach (StaffFormModel s in ViewBag.Business.StaffList)
                 {
                     <option value="@s.StaffId">@s.FirstName @s.LastName</option>
                 }
@@ -34,4 +34,4 @@
         <input asp-for="Details" class="form-control">
     </div>
     <button type="submit" class="btn btn-outline-primary">Add</button>
-</form>
+</form>*@

@@ -1,4 +1,4 @@
-﻿@model BusinessActivity
+﻿@*@model BusinessActivity
 
 <div>
     <div>
@@ -53,7 +53,7 @@
                 <span asp-validation-for="StaffId"></span>
                 <select asp-for="StaffId" class="form-control">
                     <option>select</option>
-                    @foreach (Staff s in ViewBag.Business.StaffList)
+                    @foreach (StaffFormModel s in ViewBag.Business.StaffList)
                     {
                         <option value="@s.StaffId">@s.FirstName @s.LastName</option>
                     }
@@ -67,4 +67,4 @@
             <button type="submit" class="btn btn-outline-success">Add Activity</button>
         </form>
     </div>
-</div>
+</div>*@

@@ -4,11 +4,8 @@ using MyCRMNoSQL.CustomExtensions;
 
 namespace MyCRMNoSQL.Models
 {
-    public class Address
+    public class AddressFormModel
     {
-        [Key]
-        public string AddressId { get; set; }
-
         [MinLength(6, ErrorMessage = "must be valid")]
         [Display(Name = "Street")]
         public string Street { get; set; } = "None";
@@ -34,7 +31,7 @@ namespace MyCRMNoSQL.Models
 
         public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-        public static Address DbPrep(Address a)
+        public static AddressFormModel DbPrep(AddressFormModel a)
         {
             a.Street = a.Street.Trim();
             a.AptSuite = a.AptSuite.Trim();

@@ -3,13 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyCRMNoSQL.Models
 {
-    public class BusinessActivity
+    public class ClientActivityFormModel
     {
-        [Key]
-        public string ActivityId { get; set; }
-
+        [Required]
         public string UserId { get; set; }
 
+        [Required]
         public string BusinessId { get; set; }
 
         [Required(ErrorMessage = "Please choose one of the following")]
@@ -27,13 +26,7 @@ namespace MyCRMNoSQL.Models
 
         public DateTime UpdatedDate { get; set; }
 
-        public User? User { get; set; }
-
-        public Business? Business { get; set; }
-
-        public Staff? Staff { get; set; }
-
-        public static BusinessActivity DbPrep(BusinessActivity a)
+        public static ClientActivityFormModel DbPrep(ClientActivityFormModel a)
         {
             a.Type = a.Type.Trim();
             a.Note = a.Note.Trim();
