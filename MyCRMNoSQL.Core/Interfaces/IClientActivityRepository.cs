@@ -9,8 +9,8 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IClientActivityRepository : ICRUDRepository<ClientActivity>, IBRepository<ClientActivity>
     {
-        Task<List<ClientActivity>> GetAllByUser(string id);
+        List<ClientActivity> GetAllByUser(string id);
 
-        Task<List<ClientActivity>> GetAllByType(string type);
+        List<ClientActivity> GetAllByType(string type);
     }
 }

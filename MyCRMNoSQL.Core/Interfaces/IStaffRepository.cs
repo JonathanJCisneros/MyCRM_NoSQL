@@ -9,6 +9,6 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IStaffRepository : ICRUDRepository<Staff>, IBRepository<Staff>
     {
-        Task<List<Staff>> GetAllByPosition(string position);
+        List<Staff> GetAllByPosition(string position);
     }
 }

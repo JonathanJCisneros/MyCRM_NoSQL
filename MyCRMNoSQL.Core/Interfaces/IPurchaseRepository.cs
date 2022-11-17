@@ -9,12 +9,12 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IPurchaseRepository : ICRUDRepository<Purchase>, IBRepository<Purchase>
     {
-        Task<List<Purchase>> GetAllByIndustry(string industry);
+        List<Purchase> GetAllByIndustry(string industry);
 
-        Task<List<Purchase>> GetAllByCity(string city);
+        List<Purchase> GetAllByCity(string city);
 
-        Task<List<Purchase>> GetAllByZipCode(int zipCode);
+        List<Purchase> GetAllByZipCode(int zipCode);
 
-        Task<List<Purchase>> GetAllByUser(string id);
+        List<Purchase> GetAllByUser(string id);
     }
 }

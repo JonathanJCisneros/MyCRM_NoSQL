@@ -10,47 +10,47 @@ namespace MyCRMNoSQL.Repository
 {
     public class ClientActivityRepository : IClientActivityRepository
     {
-        public async Task<ClientActivity> Get(string id)
+        public ClientActivity Get(string id)
         {
             return null;
         }
 
-        public async Task<List<ClientActivity>> GetAll()
+        public List<ClientActivity> GetAll()
         {
             return null;
         }
 
-        public async Task<List<ClientActivity>> GetAllByBusiness(string id)
+        public List<ClientActivity> GetAllByBusiness(string id)
         {
             return null;
         }
 
-        public async Task<List<ClientActivity>> GetAllByUser(string id)
+        public List<ClientActivity> GetAllByUser(string id)
         {
             return null;
         }
 
-        public async Task<List<ClientActivity>> GetAllByType(string type)
+        public List<ClientActivity> GetAllByType(string type)
         {
             return null;
         }
 
-        public async Task<bool> Create(ClientActivity activity)
+        public bool Create(ClientActivity activity)
         {
             return false;
         }
 
-        public async Task<bool> Update(ClientActivity activity)
+        public bool Update(ClientActivity activity)
         {
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public bool Delete(string id)
         {
             return false;
         }
 
-        public async Task<bool> DeleteAllByBusiness(string id)
+        public bool DeleteAllByBusiness(string id)
         {
             return false;
         }

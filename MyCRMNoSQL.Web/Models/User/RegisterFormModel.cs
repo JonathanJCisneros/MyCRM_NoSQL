@@ -4,11 +4,8 @@ using MyCRMNoSQL.CustomExtensions;
 
 namespace MyCRMNoSQL.Models
 {
-    public class User
+    public class RegisterFormModel
     {
-        [Key]
-        public string? UserId { get; set; }
-
         [Required(ErrorMessage = "is required")]
         [MinLength(2, ErrorMessage = "must be at least 2 characters")]
         [Display(Name = "First Name")]
@@ -36,14 +33,22 @@ namespace MyCRMNoSQL.Models
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
-        public string UserType { get; set; } = "Employee";
+        public string Type { get; set; } = "Employee";
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime LastLoggedIn { get; set; } = DateTime.Now;
 
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        public List<BusinessActivity> CurrentLeads { get; set; } = new List<BusinessActivity>();
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
-        public List<Task> TaskList { get; set; } = new List<Task>();
+        public static RegisterFormModel DbPrep(RegisterFormModel u)
+        {
+            u.FirstName = MyExtensions.StringToUpper(u.FirstName);
+            u.LastName = MyExtensions.StringToUpper(u.LastName);
+            u.Email = u.Email.Trim().ToLower();
+            u.Password = u.Password.Trim();
+
+            return u;
+        }
     }
 }

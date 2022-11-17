@@ -8,8 +8,8 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IBRepository<T> where T : new()
     {
-        Task<List<T>> GetAllByBusiness(string id);
+        List<T> GetAllByBusiness(string id);
 
-        Task<bool> DeleteAllByBusiness(string id);
+        bool DeleteAllByBusiness(string id);
     }
 }

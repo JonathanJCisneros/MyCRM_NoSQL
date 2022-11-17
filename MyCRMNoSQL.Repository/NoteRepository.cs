@@ -11,42 +11,42 @@ namespace MyCRMNoSQL.Repository
 {
     public class NoteRepository : INoteRepository
     {
-        public async Task<Note> Get(string id)
+        public Note Get(string id)
         {
             return null;
         }
 
-        public async Task<List<Note>> GetAll() 
+        public List<Note> GetAll() 
         {
             return null;
         }
 
-        public async Task<List<Note>> GetAllByBusiness(string id)
+        public List<Note> GetAllByBusiness(string id)
         {
             return null;
         }
 
-        public async Task<List<Note>> GetAllByUser(string id)
+        public List<Note> GetAllByUser(string id)
         {
             return null;
         }
 
-        public async Task<bool> Create(Note note)
+        public bool Create(Note note)
         {
             return false;
         }
 
-        public async Task<bool> Update(Note note)
+        public bool Update(Note note)
         {
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public bool Delete(string id)
         {
             return false;
         }
 
-        public async Task<bool> DeleteAllByBusiness(string id)
+        public bool DeleteAllByBusiness(string id)
         {
             return false;
         }

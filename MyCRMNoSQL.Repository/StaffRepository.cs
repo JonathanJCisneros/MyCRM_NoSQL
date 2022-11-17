@@ -10,42 +10,42 @@ namespace MyCRMNoSQL.Repository
 {
     public class StaffRepository : IStaffRepository
     {
-        public async Task<Staff> Get(string id)
+        public Staff Get(string id)
         {
             return null;
         }
 
-        public async Task<List<Staff>> GetAll()
+        public List<Staff> GetAll()
         {
             return null;
         }
 
-        public async Task<List<Staff>> GetAllByBusiness(string id)
+        public List<Staff> GetAllByBusiness(string id)
         {
             return null;
         }
 
-        public async Task<List<Staff>> GetAllByPosition(string position)
+        public List<Staff> GetAllByPosition(string position)
         {
             return null;
         }
 
-        public async Task<bool> Create(Staff staff)
+        public bool Create(Staff staff)
         {
             return false;
         }
 
-        public async Task<bool> Update(Staff staff)
+        public bool Update(Staff staff)
         {
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public bool Delete(string id)
         {
             return false;
         }
 
-        public async Task<bool> DeleteAllByBusiness(string id)
+        public bool DeleteAllByBusiness(string id)
         {
             return false;
         }

@@ -8,14 +8,14 @@ namespace MyCRMNoSQL.Repository
 {
     public interface ICRUDRepository<T> where T : new()
     {
-        Task<T> Get(string id);
+        T Get(string id);
 
-        Task<List<T>> GetAll();
+        List<T> GetAll();
 
-        Task<bool> Create(T entity);
+        bool Create(T entity);
 
-        Task<bool> Update(T entity);  
+        bool Update(T entity);  
 
-        Task<bool> Delete(string id);
+        bool Delete(string id);
     }
 }

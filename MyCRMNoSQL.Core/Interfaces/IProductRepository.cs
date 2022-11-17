@@ -9,8 +9,8 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IProductRepository : ICRUDRepository<Product>
     {
-        Task<Product> GetProductWithCustomers(string id);
+        Product GetProductWithCustomers(string id);
 
-        Task<List<Product>> GetAllProductsWithCustomers();
+        List<Product> GetAllProductsWithCustomers();
     }
 }

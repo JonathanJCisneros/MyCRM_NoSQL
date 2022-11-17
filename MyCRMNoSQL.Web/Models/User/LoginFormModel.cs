@@ -5,7 +5,7 @@ using MyCRMNoSQL.CustomExtensions;
 
 namespace MyCRMNoSQL.Models
 {
-    public class UserLogin
+    public class LoginFormModel
     {
         [Required(ErrorMessage = "is required")]
         [EmailAddress]
@@ -17,7 +17,7 @@ namespace MyCRMNoSQL.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        public static UserLogin DbPrep(UserLogin u)
+        public static LoginFormModel DbPrep(LoginFormModel u)
         {
             u.Email = u.Email.Trim().ToLower();
             u.Password = u.Password.Trim();

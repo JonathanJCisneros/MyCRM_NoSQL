@@ -9,8 +9,8 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IAddressRepository : ICRUDRepository<Address>, IBRepository<Address>
     { 
-        Task<List<Address>> GetAllByCity(string city);
+        List<Address> GetAllByCity(string city);
 
-        Task<List<Address>> GetAllByZipCode(int zipCode);
+        List<Address> GetAllByZipCode(int zipCode);
     }
 }

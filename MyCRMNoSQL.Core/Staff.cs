@@ -19,5 +19,7 @@ namespace MyCRMNoSQL.Core
         public string Email { get; set; }
 
         public string BusinessId { get; set; }
+
+        public Business Employer { get; set; }
     }
 }

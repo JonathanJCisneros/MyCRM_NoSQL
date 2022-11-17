@@ -9,14 +9,14 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IUpcomingTaskRepository : ICRUDRepository<UpcomingTask>, IBRepository<UpcomingTask>
     {
-        Task<List<UpcomingTask>> GetAllByType(string type);
+        List<UpcomingTask> GetAllByType(string type);
 
-        Task<List<UpcomingTask>> GetAllByStatus(string status);
+        List<UpcomingTask> GetAllByStatus(string status);
 
-        Task<List<UpcomingTask>> GetAllByUser(string id);
+        List<UpcomingTask> GetAllByUser(string id);
 
-        Task<List<UpcomingTask>> GetAllPastDue();
+        List<UpcomingTask> GetAllPastDue();
 
-        Task<List<UpcomingTask>> GetAllUpcoming();
+        List<UpcomingTask> GetAllUpcoming();
     }
 }

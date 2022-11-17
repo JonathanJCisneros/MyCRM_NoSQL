@@ -10,57 +10,57 @@ namespace MyCRMNoSQL.Repository
 {
     public class PurchaseRepository : IPurchaseRepository
     {
-        public async Task<Purchase> Get(string id)
+        public Purchase Get(string id)
         {
             return null;
         }
 
-        public async Task<List<Purchase>> GetAll()
+        public List<Purchase> GetAll()
         {
             return null;
         }
 
-        public async Task<List<Purchase>> GetAllByBusiness(string id)
+        public List<Purchase> GetAllByBusiness(string id)
         {
             return null;
         }
 
-        public async Task<List<Purchase>> GetAllByIndustry(string industry)
+        public List<Purchase> GetAllByIndustry(string industry)
         {
             return null;
         }
 
-        public async Task<List<Purchase>> GetAllByCity(string city)
+        public List<Purchase> GetAllByCity(string city)
         {
             return null;
         }
 
-        public async Task<List<Purchase>> GetAllByZipCode(int zipCode)
+        public List<Purchase> GetAllByZipCode(int zipCode)
         {
             return null;
         }
 
-        public async Task<List<Purchase>> GetAllByUser(string id)
+        public List<Purchase> GetAllByUser(string id)
         {
             return null;
         }
 
-        public async Task<bool> Create(Purchase purchase)
+        public bool Create(Purchase purchase)
         {
             return false;
         }
 
-        public async Task<bool> Update(Purchase purchase)
+        public bool Update(Purchase purchase)
         {
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public bool Delete(string id)
         {
             return false;
         }
 
-        public async Task<bool> DeleteAllByBusiness(string id)
+        public bool DeleteAllByBusiness(string id)
         {
             return false;
         }

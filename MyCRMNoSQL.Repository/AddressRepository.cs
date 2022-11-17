@@ -10,47 +10,47 @@ namespace MyCRMNoSQL.Repository
 {
     public class AddressRepository : IAddressRepository
     {
-        public async Task<Address> Get(string id)
+        public Address Get(string id)
         {
             return null;
         }
 
-        public async Task<List<Address>> GetAll()
+        public List<Address> GetAll()
         {
             return null;
         }
 
-        public async Task<List<Address>> GetAllByBusiness(string id)
+        public List<Address> GetAllByBusiness(string id)
         {
             return null;
         }
 
-        public async Task<List<Address>> GetAllByCity(string city)
+        public List<Address> GetAllByCity(string city)
         {
             return null;
         }
 
-        public async Task<List<Address>> GetAllByZipCode(int zipCode)
+        public List<Address> GetAllByZipCode(int zipCode)
         {
             return null;
         }
 
-        public async Task<bool> Create(Address address)
+        public bool Create(Address address)
         {
             return false;
         }
 
-        public async Task<bool> Update(Address address)
+        public bool Update(Address address)
         {
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public bool Delete(string id)
         {
             return false;
         }
 
-        public async Task<bool> DeleteAllByBusiness(string id)
+        public bool DeleteAllByBusiness(string id)
         {
             return false;
         }

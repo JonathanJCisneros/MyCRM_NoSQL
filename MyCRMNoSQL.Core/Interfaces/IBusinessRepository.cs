@@ -9,8 +9,8 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IBusinessRepository : ICRUDRepository<Business>
     {
-        Task<bool> CheckByName(string name);
+        bool CheckByName(string name);
 
-        Task<List<Business>> GetAllByIndustry(string industry);
+        List<Business> GetAllByIndustry(string industry);
     }
 }

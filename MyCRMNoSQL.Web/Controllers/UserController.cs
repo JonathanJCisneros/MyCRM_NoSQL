@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyCRMNoSQL.Core;
 using MyCRMNoSQL.CustomExtensions;
 using MyCRMNoSQL.Models;
+using MyCRMNoSQL.Service.Interfaces;
 using System.Diagnostics;
 
 namespace MyCRMNoSQL.Controllers
@@ -9,10 +11,12 @@ namespace MyCRMNoSQL.Controllers
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
+        private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _logger = logger;
+            _userService = userService;
         }
 
         private string? Uid
@@ -58,18 +62,16 @@ namespace MyCRMNoSQL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Logging(UserLogin User)
+        public IActionResult Logging(LoginFormModel User)
         {
             if(!ModelState.IsValid)
             {
                 return Login();
             }
 
-            User = UserLogin.DbPrep(User);
+            User = LoginFormModel.DbPrep(User);
 
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            bool Check = R.Db("MyCRM").Table("Users").GetAll(User.Email)[new { index = "Email" }].IsEmpty().Run(Conn);
+            bool Check = _userService.CheckByEmail(User.Email); 
 
             if(Check == true)
             {
@@ -77,11 +79,10 @@ namespace MyCRMNoSQL.Controllers
                 return Login();
             }
 
-            var DBUser = R.Db("MyCRM").Table("Users").GetAll(User.Email)[new { index = "Email"}].Pluck("id", "Password").CoerceTo("array").Run(Conn);
-            string PW = DBUser[0].Password.ToString();
+            var Result = _userService.Login(User.Email);
 
-            PasswordHasher<UserLogin> HashBrowns = new PasswordHasher<UserLogin>();
-            PasswordVerificationResult PWCheck = HashBrowns.VerifyHashedPassword(User, PW, User.Password);
+            PasswordHasher<LoginFormModel> HashBrowns = new PasswordHasher<LoginFormModel>();
+            PasswordVerificationResult PWCheck = HashBrowns.VerifyHashedPassword(User, Result.Password, User.Password);
 
             if(PWCheck == 0)
             {
@@ -89,25 +90,21 @@ namespace MyCRMNoSQL.Controllers
                 return Login();
             }
 
-            string Id = DBUser[0].id.ToString();
-            HttpContext.Session.SetString("UserId", Id);
+            HttpContext.Session.SetString("UserId", Result.Id);
             return RedirectToAction("Dashboard", "CRM");
         }
 
         [HttpPost]
-        public IActionResult Registering(User NewUser)
+        public IActionResult Registering(RegisterFormModel NewUser)
         {
             if (!ModelState.IsValid)
             {
                 return Register();
             }
 
-            NewUser = MyExtensions.DbPrep(NewUser);
+            NewUser = RegisterFormModel.DbPrep(NewUser);
 
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            bool Check = R.Db("MyCRM").Table("Users").GetAll(NewUser.Email)[new { index = "Email"}].IsEmpty().Run(Conn);
-           
+            bool Check = _userService.CheckByEmail(NewUser.Email);
             
             if (Check == false)
             {
@@ -115,24 +112,24 @@ namespace MyCRMNoSQL.Controllers
                 return Register();
             }
 
-            PasswordHasher<User> hashBrowns = new PasswordHasher<User>();
+            PasswordHasher<RegisterFormModel> hashBrowns = new PasswordHasher<RegisterFormModel>();
             NewUser.Password = hashBrowns.HashPassword(NewUser, NewUser.Password);
 
-            var Result = R.Db("MyCRM").Table("Users")
-                .Insert(new
-                {
-                    FirstName = NewUser.FirstName,
-                    LastName = NewUser.LastName,
-                    Email = NewUser.Email,
-                    Password = NewUser.Password,
-                    CreatedAt = NewUser.CreatedAt,
-                    UpdatedAt = NewUser.UpdatedAt,
-                    UserType = NewUser.UserType
-                })
-            .Run(Conn);
+            User user = new User()
+            {
+                FirstName = NewUser.FirstName,
+                LastName = NewUser.LastName,
+                Email = NewUser.Email,
+                Password = NewUser.Password,
+                Type = NewUser.Type,
+                LastLoggedIn = NewUser.LastLoggedIn,
+                CreatedDate = NewUser.CreatedDate,
+                UpdatedDate = NewUser.UpdatedDate
+            };
 
-            string Id = Result.generated_keys[0].ToString();
-            HttpContext.Session.SetString("UserId", Id);
+            string Query = _userService.Register(user); 
+
+            HttpContext.Session.SetString("UserId", Query);
             return RedirectToAction("Dashboard", "CRM");
         }
 

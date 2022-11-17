@@ -10,37 +10,37 @@ namespace MyCRMNoSQL.Repository
 {
     public class BusinessRepository : IBusinessRepository
     {
-        public async Task<bool> CheckByName(string name)
+        public bool CheckByName(string name)
         {
             return false;
         }
 
-        public async Task<Business> Get(string id)
+        public Business Get(string id)
         {
             return null;
         }
 
-        public async Task<List<Business>> GetAll()
+        public List<Business> GetAll()
         {
             return null;
         }
 
-        public async Task<List<Business>> GetAllByIndustry(string industry)
+        public List<Business> GetAllByIndustry(string industry)
         {
             return null;
         }
 
-        public async Task<bool> Create(Business business)
+        public bool Create(Business business)
         {
             return false;
         }
 
-        public async Task<bool> Update(Business business)
+        public bool Update(Business business)
         {
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public bool Delete(string id)
         {
             return false;
         }

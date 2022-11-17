@@ -10,42 +10,42 @@ namespace MyCRMNoSQL.Repository
 {
     public class ProductRepository : IProductRepository
     {
-        public async Task<Product> Get(string id)
+        public Product Get(string id)
         {
             return null;
         }
 
-        public async Task<Product> GetProductWithCustomers(string id)
+        public Product GetProductWithCustomers(string id)
         {
             return null;
         }
 
-        public async Task<List<Product>> GetAll()
+        public List<Product> GetAll()
         {
             return null;
         }
 
-        public async Task<List<Product>> GetAllProductsWithCustomers()
+        public List<Product> GetAllProductsWithCustomers()
         {
             return null;
         }
 
-        public async Task<bool> Create(Product product)
+        public bool Create(Product product)
         {
             return false;
         }
 
-        public async Task<bool> Update(Product product)
+        public bool Update(Product product)
         {
             return false;
         }
 
-        public async Task<bool> Delete(string id)
+        public bool Delete(string id)
         {
             return false;
         }
 
-        public async Task<bool> DeleteAllByBusiness(string id)
+        public bool DeleteAllByBusiness(string id)
         {
             return false;
         }

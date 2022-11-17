@@ -9,10 +9,12 @@ namespace MyCRMNoSQL.Core.Interfaces
 {
     public interface IUserRepository : ICRUDRepository<User>
     {
-        Task<bool> CheckByEmail(string email);
+        bool CheckByEmail(string email);
 
-        Task<string> Login(User user);
+        User Login(string email);
 
-        Task<string> Register(User user);
+        string Register(User user);
+
+        User GetByEmail(string email);
     }
 }
