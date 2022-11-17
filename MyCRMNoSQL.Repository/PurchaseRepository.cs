@@ -45,14 +45,14 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
-        public bool Create(Purchase purchase)
+        public string Create(Purchase purchase)
         {
-            return false;
+            return null; ;
         }
 
-        public bool Update(Purchase purchase)
+        public string Update(Purchase purchase)
         {
-            return false;
+            return null;
         }
 
         public bool Delete(string id)

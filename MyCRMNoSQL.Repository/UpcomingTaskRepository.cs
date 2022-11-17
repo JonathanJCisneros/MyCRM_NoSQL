@@ -50,14 +50,14 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
-        public bool Create(UpcomingTask task)
+        public string Create(UpcomingTask task)
         {
-            return false;
+            return null;
         }
 
-        public bool Update(UpcomingTask task)
+        public string Update(UpcomingTask task)
         {
-            return false;
+            return null;
         }
 
         public bool Delete(string id)

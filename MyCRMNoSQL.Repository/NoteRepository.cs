@@ -31,14 +31,14 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
-        public bool Create(Note note)
+        public string Create(Note note)
         {
-            return false;
+            return null;
         }
 
-        public bool Update(Note note)
+        public string Update(Note note)
         {
-            return false;
+            return null;
         }
 
         public bool Delete(string id)

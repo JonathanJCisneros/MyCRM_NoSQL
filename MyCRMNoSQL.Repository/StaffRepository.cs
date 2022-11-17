@@ -30,14 +30,14 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
-        public bool Create(Staff staff)
+        public string Create(Staff staff)
         {
-            return false;
+            return null;
         }
 
-        public bool Update(Staff staff)
+        public string Update(Staff staff)
         {
-            return false;
+            return null;
         }
 
         public bool Delete(string id)

@@ -21,7 +21,7 @@ namespace MyCRMNoSQL.Service.Interfaces
 
         List<User> GetAll();
 
-        bool Update(User user);
+        string Update(User user);
 
         bool Delete(string id);
     }

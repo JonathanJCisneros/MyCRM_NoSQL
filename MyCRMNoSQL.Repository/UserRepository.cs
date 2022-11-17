@@ -41,7 +41,7 @@ namespace MyCRMNoSQL.Repository
             return userInfo;
         }
 
-        public string Register(User user)
+        public string Create(User user)
         {
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
@@ -138,12 +138,7 @@ namespace MyCRMNoSQL.Repository
             return UserList;
         }
 
-        public bool Create(User user)
-        {
-            return false;
-        }
-
-        public bool Update(User user)
+        public string Update(User user)
         {
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
@@ -160,10 +155,10 @@ namespace MyCRMNoSQL.Repository
 
             if(Query == false)
             {
-                return false;
+                return null;
             }
 
-            return true;
+            return Query.valid;
         }
 
         public bool Delete(string id)

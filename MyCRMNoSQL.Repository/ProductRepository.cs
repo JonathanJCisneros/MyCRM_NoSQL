@@ -30,14 +30,14 @@ namespace MyCRMNoSQL.Repository
             return null;
         }
 
-        public bool Create(Product product)
+        public string Create(Product product)
         {
-            return false;
+            return null;
         }
 
-        public bool Update(Product product)
+        public string Update(Product product)
         {
-            return false;
+            return null;
         }
 
         public bool Delete(string id)

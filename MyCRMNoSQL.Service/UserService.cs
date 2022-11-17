@@ -25,7 +25,7 @@ namespace MyCRMNoSQL.Service
 
         public string Register(User user)
         {
-            return _userRepository.Register(user);
+            return _userRepository.Create(user);
         }
 
         public User Login(string email)
@@ -48,7 +48,7 @@ namespace MyCRMNoSQL.Service
             return _userRepository.GetAll();
         }
 
-        public bool Update(User user)
+        public string Update(User user)
         {
             return _userRepository.Update(user);
         }

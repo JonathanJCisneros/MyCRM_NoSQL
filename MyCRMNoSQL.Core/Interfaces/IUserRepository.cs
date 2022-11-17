@@ -13,8 +13,6 @@ namespace MyCRMNoSQL.Core.Interfaces
 
         User Login(string email);
 
-        string Register(User user);
-
         User GetByEmail(string email);
     }
 }
