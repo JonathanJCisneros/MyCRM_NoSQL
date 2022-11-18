@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Core;
-using MyCRMNoSQL.CustomExtensions;
 using MyCRMNoSQL.Models;
 using MyCRMNoSQL.Service.Interfaces;
 using System.Diagnostics;
@@ -61,6 +60,18 @@ namespace MyCRMNoSQL.Controllers
             return Login();
         }
 
+        public IActionResult Profile()
+        {
+            if (!LoggedIn)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var User = _userService.Get(Uid);
+
+            return View(User);
+        }
+
         [HttpPost]
         public IActionResult Logging(LoginFormModel User)
         {
@@ -115,7 +126,7 @@ namespace MyCRMNoSQL.Controllers
             PasswordHasher<RegisterFormModel> hashBrowns = new PasswordHasher<RegisterFormModel>();
             NewUser.Password = hashBrowns.HashPassword(NewUser, NewUser.Password);
 
-            User user = new User()
+            User user = new()
             {
                 FirstName = NewUser.FirstName,
                 LastName = NewUser.LastName,
@@ -131,6 +142,12 @@ namespace MyCRMNoSQL.Controllers
 
             HttpContext.Session.SetString("UserId", Query);
             return RedirectToAction("Dashboard", "CRM");
+        }
+
+        [HttpPost]
+        public IActionResult Update(RegisterFormModel model)
+        {
+            return Profile();
         }
 
         public IActionResult Privacy()

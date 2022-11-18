@@ -11,6 +11,8 @@ namespace MyCRMNoSQL.Core.Interfaces
     {
         bool CheckByName(string name);
 
+        List<Business> GetAllWithLatestActivity();
+
         List<Business> GetAllByIndustry(string industry);
     }
 }

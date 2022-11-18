@@ -3,6 +3,7 @@ using MyCRMNoSQL.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,11 +46,6 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Addresses").Run(Conn);
 
-            if(Query.Count == 0)
-            {
-                return null;
-            }
-
             List<Address> AddressList = new();
 
             foreach (var item in Query)
@@ -79,11 +75,6 @@ namespace MyCRMNoSQL.Repository
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
             var Query = R.Db("MyCRM").Table("Addresses").GetAll(id)[new { index = "BusinessId" }].Run(Conn);
-
-            if (Query.Count == 0)
-            {
-                return null;
-            }
 
             List<Address> AddressList = new();
 
@@ -115,10 +106,35 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Addresses").GetAll(city)[new { index = "City" }].Run(Conn);
 
-            if (Query.Count == 0)
+            List<Address> AddressList = new();
+
+            foreach (var item in Query)
             {
-                return null;
+                Address address = new()
+                {
+                    Id = item.id.ToString(),
+                    Street = item.Street.ToString(),
+                    AptSuite = item.AptSuite.ToString(),
+                    City = item.City.ToString(),
+                    State = item.State.ToString(),
+                    ZipCode = item.ZipCode.ToInt32(),
+                    CreatedDate = item.CreatedDate.ToDateTime(),
+                    UpdatedDate = item.UpdatedDate.ToDateTime(),
+                    BuisinessId = item.BuisinessId.ToString()
+                };
+
+                AddressList.Add(address);
             }
+
+            return AddressList;
+        }
+
+        public List<Address> GetAllByState(string state)
+        {
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Addresses").GetAll(state)[new { index = "State" }].Run(Conn);
 
             List<Address> AddressList = new();
 
@@ -149,11 +165,6 @@ namespace MyCRMNoSQL.Repository
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
             var Query = R.Db("MyCRM").Table("Addresses").GetAll(zipCode)[new { index = "ZipCode" }].Run(Conn);
-
-            if (Query.Count == 0)
-            {
-                return null;
-            }
 
             List<Address> AddressList = new();
 

@@ -17,8 +17,6 @@ namespace MyCRMNoSQL.Service.Interfaces
 
         User Get(string id);
 
-        User GetByEmail(string email);
-
         List<User> GetAll();
 
         string Update(User user);

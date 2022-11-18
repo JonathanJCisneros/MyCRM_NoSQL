@@ -12,7 +12,5 @@ namespace MyCRMNoSQL.Core.Interfaces
         bool CheckByEmail(string email);
 
         User Login(string email);
-
-        User GetByEmail(string email);
     }
 }

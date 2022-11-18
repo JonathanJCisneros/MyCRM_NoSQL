@@ -38,11 +38,6 @@ namespace MyCRMNoSQL.Service
             return _userRepository.Get(id);
         }
 
-        public User GetByEmail(string email)
-        {
-            return _userRepository.GetByEmail(email);
-        }
-
         public List<User> GetAll()
         {
             return _userRepository.GetAll();

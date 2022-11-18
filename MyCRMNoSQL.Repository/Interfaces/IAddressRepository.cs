@@ -11,6 +11,8 @@ namespace MyCRMNoSQL.Core.Interfaces
     { 
         List<Address> GetAllByCity(string city);
 
+        List<Address> GetAllByState(string state);
+
         List<Address> GetAllByZipCode(int zipCode);
     }
 }

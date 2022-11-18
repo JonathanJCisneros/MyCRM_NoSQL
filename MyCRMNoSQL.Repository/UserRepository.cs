@@ -72,40 +72,16 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Users").Get(id).Run(Conn);
 
-            User user = new User()
+            User user = new()
             {
                 Id = Query.id.ToString(),
                 FirstName = Query.FirstName.ToString(),
                 LastName = Query.LastName.ToString(),
                 Email = Query.Email.ToString(),
                 Type = Query.Type.ToString(),
-                LastLoggedIn = Query.LastLoggedIn.ToDateTime()
-            };
-
-            return user;
-        }
-
-        public User GetByEmail(string email)
-        {
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-
-            var Query = R.Db("MyCRM").Table("Users").GetAll(email)[new { index = "Email" }].Pluck("id", "FirstName", "LastName", "Email", "CreatedDate", "UpdatedDate", "Type").CoerceTo("array").Run(Conn);
-
-            if(Query.Count == 0)
-            {
-                return null;
-            }
-
-            User user = new User()
-            {
-                Id = Query.id.ToString(),
-                FirstName = Query.FirstName.ToString(),
-                LastName = Query.LastName.ToString(),
-                Email = Query.Email.ToString(),
                 CreatedDate = Query.CreatedDate.ToDateTime(),
                 UpdatedDate = Query.UpdatedDate.ToDateTime(),
-                Type = Query.Type.ToString()
+                LastLoggedIn = Query.LastLoggedIn.ToDateTime()
             };
 
             return user;
@@ -122,14 +98,16 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var item in Query)
             {
-                User user = new User()
+                User user = new()
                 {
                     Id = item.id,
-                    FirstName = item.FirstName,
-                    LastName = item.LastName,
-                    Email = item.Email,
-                    Type = item.Type,
-                    LastLoggedIn = item.LastLoggedIn,
+                    FirstName = item.FirstName.ToString(),
+                    LastName = item.LastName.ToString(),
+                    Email = item.Email.ToString(),
+                    Type = item.Type.ToString(),
+                    CreatedDate = Query.CreatedDate.ToDateTime(),
+                    UpdatedDate = Query.UpdatedDate.ToDateTime(),
+                    LastLoggedIn = Query.LastLoggedIn.ToDateTime()
                 };
 
                 UserList.Add(user);
@@ -153,7 +131,7 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
-            if(Query == false)
+            if(Query == null)
             {
                 return null;
             }
@@ -167,6 +145,11 @@ namespace MyCRMNoSQL.Repository
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
             var Query = R.Db("MyCRM").Table("Users").Get(id).Delete().Run(Conn);
+
+            if(Query == null)
+            {
+                return false;
+            }
 
             return true;
         }

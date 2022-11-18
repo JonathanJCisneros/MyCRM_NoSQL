@@ -260,6 +260,47 @@ namespace MyCRMNoSQL.Repository
             var Query = R.Db("MyCRM").Table("Businesses").Pluck("id", "Name", "PocId")
                 .Merge(b => new
                 {
+                    PointOfContact = R.Db("MyCRM").Table("Staff").Get(b["PocId"]).Pluck("FirstName", "LastName")
+                })
+            .Run(Conn);
+
+            if (Query.Count == 0)
+            {
+                return null;
+            }
+
+            List<Business> BusinessList = new();
+
+            foreach (var i in Query)
+            {
+                Staff POC = new()
+                {
+                    FirstName = i.PointOfContact.FirstName.ToString(),
+                    LastName = i.PointOfContact.LastName.ToString(),
+                };
+
+                Business Business = new()
+                {
+                    Id = i.id.ToString(),
+                    Name = i.Name.ToString(),
+                    PocId = i.id.ToString(),
+                    PointOfContact = POC
+                };
+
+                BusinessList.Add(Business);
+            }
+
+
+            return BusinessList;
+        }
+
+        public List<Business> GetAllWithLatestActivity()
+        {
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+            var Query = R.Db("MyCRM").Table("Businesses").Pluck("id", "Name", "PocId")
+                .Merge(b => new
+                {
                     PointOfContact = R.Db("MyCRM").Table("Staff").Get(b["PocId"]).Pluck("FirstName", "LastName"),
                     LatestActivity = R.Db("MyCRM").Table("Activities").GetAll(b["id"])[new { index = "BusinessId" }].Pluck("Type", "CreatedDate").OrderBy(R.Desc("CreatedDate")).Limit(1).CoerceTo("array")
                 })
@@ -309,7 +350,7 @@ namespace MyCRMNoSQL.Repository
         {
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            var Query = R.Db("MyCRM").Table("Businesses").GetAll(industry)[new { index = "Industry"}].Pluck("id", "Name", "PocId")
+            var Query = R.Db("MyCRM").Table("Businesses").GetAll(industry)[new { index = "Industry"}]
                 .Merge(b => new
                 {
                     PointOfContact = R.Db("MyCRM").Table("Staff").Get(b["PocId"]).Pluck("FirstName", "LastName")
@@ -336,6 +377,8 @@ namespace MyCRMNoSQL.Repository
                     Id = i.id.ToString(),
                     Name = i.Name.ToString(),
                     PocId = i.id.ToString(),
+                    CreatedDate = i.createdDate.ToDateTime(),
+                    UpdatedDate= i.updatedDate.ToDateTime(),
                     PointOfContact = POC
                 };
 
