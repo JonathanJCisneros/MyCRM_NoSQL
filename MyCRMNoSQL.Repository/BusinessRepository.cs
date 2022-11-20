@@ -200,9 +200,9 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
-            string Id = 
+            string Id = "Probably never gonna use this";
 
-            return "Probably never gonna use this";
+            return Id;
         }
 
         public string Update(Business business)
