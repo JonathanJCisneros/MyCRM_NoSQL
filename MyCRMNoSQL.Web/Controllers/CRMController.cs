@@ -39,48 +39,7 @@ namespace MyCRMNoSQL.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var R = RethinkDb.Driver.RethinkDB.R;
-            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            var Query = R.Db("MyCRM").Table("Businesses").Pluck("id", "Name", "PocId")
-                .Merge(b => new 
-                {
-                    PointOfContact = R.Db("MyCRM").Table("Staff").Get(b["PocId"]).Pluck("FirstName", "LastName"),
-                    LatestActivity = R.Db("MyCRM").Table("Activities").GetAll(b["id"])[new { index = "BusinessId" }].Pluck("Type", "CreatedDate").OrderBy(R.Desc("CreatedDate")).Limit(1).CoerceTo("array")
-                })
-            .Run(Conn);
-
-            List<Business> BusinessList = new List<Business>();
-
-            foreach (var i in Query)
-            {
-                ClientActivity Activity = new ClientActivity();
-                
-                if(i.LatestActivity.Count > 0)
-                {
-                    Activity.Type = i.LatestActivity[0].Type.ToString();
-                    Activity.CreatedDate = i.LatestActivity[0].CreatedDate;
-                }
-                
-
-                Staff POC = new Staff()
-                {
-                    FirstName = i.PointOfContact.FirstName.ToString(),
-                    LastName = i.PointOfContact.LastName.ToString(),
-                };
-
-                Business Business = new Business()
-                {
-                    Id= i.id.ToString(),
-                    Name = i.Name.ToString(),
-                    PocId = i.id.ToString(),
-                    PointOfContact = POC,
-                    LatestActivity = Activity
-                };
-
-                BusinessList.Add(Business);
-            }
-
-            return View("Dashboard", BusinessList);
+            return View("Dashboard");
         }
 
         //public IActionResult New() 
