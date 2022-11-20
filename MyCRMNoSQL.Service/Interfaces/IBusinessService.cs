@@ -15,13 +15,13 @@ namespace MyCRMNoSQL.Service.Interfaces
 
         List<Business> GetAllByIndustry(string industry);
 
-        Business Get(string id);
+        object Get(string id);
 
         List<Business> GetAll();
 
-        string Create(Business entity);
+        string Create(Business business, Address address, Staff staff);
 
-        string Update(Business entity);
+        string Update(Business business);
 
         bool Delete(string id);
     }

@@ -1,7 +1,7 @@
 using MyCRMNoSQL.Service;
 using MyCRMNoSQL.Service.Interfaces;
 using MyCRMNoSQL.Repository;
-using MyCRMNoSQL.Core.Interfaces;
+using MyCRMNoSQL.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
@@ -22,6 +22,14 @@ builder.Services.AddScoped<IClientActivityRepository, ClientActivityRepository>(
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBusinessService, BusinessService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<IClientActivityService, ClientActivityService>();
+builder.Services.AddScoped<IPurchaseService, PurchaseService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUpcomingTaskService, UpcomingTaskService>();
 
 var app = builder.Build();
 

@@ -1,11 +1,11 @@
-﻿using MyCRMNoSQL.Repository;
+﻿using MyCRMNoSQL.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCRMNoSQL.Core.Interfaces
+namespace MyCRMNoSQL.Repository.Interfaces
 {
     public interface IAddressRepository : ICRUDRepository<Address>, IBRepository<Address>
     { 

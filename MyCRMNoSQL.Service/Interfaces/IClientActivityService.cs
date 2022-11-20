@@ -19,9 +19,9 @@ namespace MyCRMNoSQL.Service.Interfaces
 
         List<ClientActivity> GetAll();
 
-        string Create(ClientActivity entity);
+        string Create(ClientActivity activity);
 
-        string Update(ClientActivity entity);
+        string Update(ClientActivity activity);
 
         bool Delete(string id);
 

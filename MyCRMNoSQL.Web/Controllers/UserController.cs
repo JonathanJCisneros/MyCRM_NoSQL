@@ -138,9 +138,9 @@ namespace MyCRMNoSQL.Controllers
                 UpdatedDate = NewUser.UpdatedDate
             };
 
-            string Query = _userService.Register(user); 
+            string Id = _userService.Register(user); 
 
-            HttpContext.Session.SetString("UserId", Query);
+            HttpContext.Session.SetString("UserId", Id);
             return RedirectToAction("Dashboard", "CRM");
         }
 
@@ -148,6 +148,13 @@ namespace MyCRMNoSQL.Controllers
         public IActionResult Update(RegisterFormModel model)
         {
             return Profile();
+        }
+
+        public IActionResult Delete(string id)
+        {
+            _userService.Delete(id);
+
+            return Logout();
         }
 
         public IActionResult Privacy()

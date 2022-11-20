@@ -1,5 +1,5 @@
 ﻿using MyCRMNoSQL.Core;
-using MyCRMNoSQL.Core.Interfaces;
+using MyCRMNoSQL.Repository.Interfaces;
 using RethinkDb.Driver.Model;
 using System;
 using System.Collections.Generic;
