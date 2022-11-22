@@ -55,7 +55,7 @@ namespace MyCRMNoSQL.Service
             return _businessRepository.GetAllByIndustry(industry);
         }
 
-        public object Get(string id)
+        public Business Get(string id)
         {
             Business business = _businessRepository.Get(id);
                 business.PointOfContact = _staffRepository.Get(business.PocId);
@@ -72,18 +72,14 @@ namespace MyCRMNoSQL.Service
             
             List<UpcomingTask> taskList = _upcomingTaskRepository.GetAllByBusiness(id);
 
-            dynamic obj = new
-            {
-                Business = business,
-                AddressList = addressList,
-                StaffList = staffList,
-                NoteList = noteList,
-                ClientActivity = activityList,
-                Purchase = purchaseList,
-                TaskList = taskList
-            }; 
+            business.AddressList = addressList;
+            business.StaffList = staffList;
+            business.NoteList = noteList;
+            business.ActivityList = activityList;
+            business.PurchaseList = purchaseList;
+            business.TaskList = taskList;
             
-            return obj;
+            return business;
         }
 
         public List<Business> GetAll()
@@ -95,6 +91,7 @@ namespace MyCRMNoSQL.Service
         {
             string Id = _businessRepository.Create(business);
             
+            business.Id = Id;
             staff.BusinessId = Id;
             
             string sId = _staffRepository.Create(staff);

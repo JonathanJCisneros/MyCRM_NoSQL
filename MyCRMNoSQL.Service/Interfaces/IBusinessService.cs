@@ -15,7 +15,7 @@ namespace MyCRMNoSQL.Service.Interfaces
 
         List<Business> GetAllByIndustry(string industry);
 
-        object Get(string id);
+        Business Get(string id);
 
         List<Business> GetAll();
 

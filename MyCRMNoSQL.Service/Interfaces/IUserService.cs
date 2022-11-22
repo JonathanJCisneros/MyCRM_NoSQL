@@ -21,6 +21,8 @@ namespace MyCRMNoSQL.Service.Interfaces
 
         string Update(User user);
 
+        void UpdateTimeStamp(string id);
+
         bool Delete(string id);
     }
 }

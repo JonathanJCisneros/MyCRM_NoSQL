@@ -48,6 +48,11 @@ namespace MyCRMNoSQL.Service
             return _userRepository.Update(user);
         }
 
+        public void UpdateTimeStamp(string id)
+        {
+            _userRepository.UpdateTimeStamp(id);
+        }
+
         public bool Delete(string id)
         {
             return _userRepository.Delete(id);

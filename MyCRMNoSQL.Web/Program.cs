@@ -2,14 +2,13 @@ using MyCRMNoSQL.Service;
 using MyCRMNoSQL.Service.Interfaces;
 using MyCRMNoSQL.Repository;
 using MyCRMNoSQL.Repository.Interfaces;
+using MyCRMNoSQL.Web.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddRazorPages();
-
-//Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
@@ -19,8 +18,6 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<IClientActivityRepository, ClientActivityRepository>();
-
-//Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBusinessService, BusinessService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
@@ -30,6 +27,7 @@ builder.Services.AddScoped<IClientActivityService, ClientActivityService>();
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUpcomingTaskService, UpcomingTaskService>();
+builder.Services.AddScoped<IExtension, Extension>();
 
 var app = builder.Build();
 
@@ -49,6 +47,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Login}/{id?}");
+    pattern: "{controller=User}/{action=Login}/{businessId?}/{userId?}");
 
 app.Run();

@@ -41,6 +41,19 @@ namespace MyCRMNoSQL.Repository
             return userInfo;
         }
 
+        public void UpdateTimeStamp(string id)
+        {
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Users")
+                .Update(new
+                {
+                    LastLoggedIn = DateTime.Now
+                })
+            .Run(Conn);
+        }
+
         public string Create(User user)
         {
             var R = RethinkDb.Driver.RethinkDB.R;

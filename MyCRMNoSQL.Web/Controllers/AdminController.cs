@@ -5,7 +5,7 @@ using MyCRMNoSQL.Core;
 using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
 
-namespace MyCRMNoSQL.Controllers
+namespace MyCRMNoSQL.Web.Controllers
 {
     public class AdminController : Controller
     {

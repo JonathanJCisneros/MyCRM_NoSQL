@@ -1,2 +1,27 @@
-﻿body {
+﻿.register-form {
+    box-shadow: 0px 0px 3px black;
+    padding: 30px;
+    border-radius: 1%;
+    margin-top: 100px;
+    background-color: white;
+}
+
+.register-title {
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.btn {
+    margin-top: 25px;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 25px;
 }

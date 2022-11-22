@@ -4,12 +4,11 @@
 
 @model RegisterFormModel
     
-
+<link rel="stylesheet" href="~/css/User/Register.css" asp-append-version="true" />
  
-
 <div class="container">
-    <form asp-controller="User" asp-action="Registering" method="POST" class="registerForm">
-        <h1 class="registerTitle">Register</h1>
+    <form asp-controller="User" asp-action="Registering" method="POST" class="register-form">
+        <h1 class="register-title">Register</h1>
         <div class="row">
             <div class="col">
                 <label asp-for="FirstName" class="form-label"></label>
@@ -25,23 +24,23 @@
         <div>
             <label asp-for="Email" class="form-label"></label>
             <span asp-validation-for="Email" class="error"></span>
-            <input asp-for="Email" class="form-control" id="inputEmail">
+            <input asp-for="Email" class="form-control">
         </div>
         <div>
             <label asp-for="Password" class="form-label"></label>
             <span asp-validation-for="Password" class="error"></span>
-            <input asp-for="Password" class="form-control" id="inputPassword">
+            <input asp-for="Password" class="form-control">
         </div>
         <div>
             <label asp-for="ConfirmPassword" class="form-label"></label>
             <span asp-validation-for="ConfirmPassword" class="error"></span>
-            <input asp-for="ConfirmPassword" class="form-control" id="inputPW">
+            <input asp-for="ConfirmPassword" class="form-control">
         </div>
         <div class="submit">
             <button type="submit" class="btn btn-outline-primary">Register</button>
         </div>
     </form>
-    <div class="LoginL">
+    <div class="login-link">
         <a asp-controller="User" asp-action="Login">Already have an account? Sign In!</a>
     </div>
 </div>

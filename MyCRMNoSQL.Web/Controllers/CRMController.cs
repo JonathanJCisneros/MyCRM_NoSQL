@@ -1,129 +1,124 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Models;
-using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
 using MyCRMNoSQL.Core;
+using MyCRMNoSQL.Service.Interfaces;
 
-namespace MyCRMNoSQL.Controllers
+namespace MyCRMNoSQL.Web.Controllers
 {
     public class CRMController : Controller
     {
         private readonly ILogger<CRMController> _logger;
+        private readonly IExtension _extension;
+        private readonly IBusinessService _businessService;
+        private readonly IAddressService _addressService;
+        private readonly IStaffService _staffService;
+        private readonly INoteService _noteService;
+        private readonly IUpcomingTaskService _upcomingTask;
+        private readonly IPurchaseService _purchaseService;
+        private readonly IClientActivityService _clientActivityService;
 
-        public CRMController(ILogger<CRMController> logger)
+
+        public CRMController(
+            ILogger<CRMController> logger,
+            IExtension extension,
+            IBusinessService businessService,
+            IAddressService addressService,
+            IStaffService staffService,
+            INoteService noteService,
+            IUpcomingTaskService upcomingTaskService,
+            IPurchaseService purchaseService,
+            IClientActivityService clientActivityService)
         {
             _logger = logger;
-        }
-
-        private string? Uid
-        {
-            get
-            {
-                return HttpContext.Session.GetString("UserId");
-            }
-        }
-
-        private bool LoggedIn
-        {
-            get
-            {
-                return Uid != null;
-            }
+            _extension = extension;
+            _businessService = businessService;
+            _addressService = addressService;
+            _staffService = staffService;
+            _noteService = noteService;
+            _upcomingTask = upcomingTaskService;
+            _purchaseService = purchaseService;
+            _clientActivityService = clientActivityService;
         }
 
         public IActionResult Dashboard()
         {
-            if(!LoggedIn)
+            if(!_extension.LoggedIn())
             {
                 return RedirectToAction("Login", "User");
             }
 
-            return View("Dashboard");
+            List<Business> businessList = _businessService.GetAllWithLatestActivity();
+
+            return View("Dashboard", businessList);
         }
 
-        //public IActionResult New() 
-        //{
-        //    if (!LoggedIn)
-        //    {
-        //        return RedirectToAction("Login", "User");
-        //    }
+        public IActionResult New()
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
 
-        //    return View("NewBusiness");
-        //}
+            return View("NewBusiness");
+        }
 
-        //public IActionResult NewClient(NewBusinessFormModel NewBiz)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return New();
-        //    }
+        public IActionResult NewClient(NewBusinessFormModel newBiz)
+        {
+            if (!ModelState.IsValid)
+            {
+                return New();
+            }
 
-        //    NewBiz = NewBusinessFormModel.DbPrep(NewBiz);
+            newBiz = NewBusinessFormModel.DbPrep(newBiz);
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Businesses").GetAll(NewBiz.Name)[new { index = "Name" }].IsEmpty().Run(Conn);
+            bool Check = _businessService.CheckByName(newBiz.Name);
 
-        //    if (Check == false)
-        //    {
-        //        ModelState.AddModelError("Name", "already exists");
-        //        return New();
-        //    }
+            if (Check == false)
+            {
+                ModelState.AddModelError("Name", "already exists");
+                return New();
+            }
 
-        //    var BResult = R.Db("MyCRM").Table("Businesses")
-        //        .Insert(new
-        //        {
-        //            Name = NewBiz.Name,
-        //            Industry = NewBiz.Industry,
-        //            Website = NewBiz.Website,
-        //            CreatedDate = DateTime.Now,
-        //            UpdatedDate = DateTime.Now,
-        //            UserId = Uid
-        //        })
-        //    .Run(Conn);
+            Business business = new()
+            {
+                Name = newBiz.Name,
+                Industry = newBiz.Industry,
+                Website = newBiz.Website,
+                StartDate = newBiz.StartDate,
+                UserId = _extension.UserId(),
+                CreatedDate = newBiz.CreatedDate,
+                UpdatedDate = newBiz.UpdatedDate
+            };
 
-        //    string BId = BResult.generated_keys[0].ToString();
+            Address address = new()
+            {
+                Street = newBiz.Street,
+                AptSuite = newBiz.AptSuite,
+                City = newBiz.City,
+                State = newBiz.State,
+                CreatedDate = newBiz.CreatedDate,
+                UpdatedDate = newBiz.UpdatedDate
+            };
 
-        //    var AResult = R.Db("MyCRM").Table("Addresses")
-        //        .Insert(new
-        //        {
-        //            Street = NewBiz.Street,
-        //            AptSuite = NewBiz.AptSuite,
-        //            City = NewBiz.City,
-        //            State = NewBiz.State,
-        //            ZipCode = NewBiz.ZipCode,
-        //            CreatedDate = DateTime.Now,
-        //            UpdatedDate = DateTime.Now,
-        //            BusinessId = BId
-        //        })
-        //    .Run(Conn);
+            Staff staff = new()
+            {
+                Position = newBiz.Position,
+                FirstName = newBiz.FirstName,
+                LastName = newBiz.LastName,
+                PhoneNumber = newBiz.PhoneNumber,
+                Email = newBiz.Email,
+                CreatedDate = newBiz.CreatedDate,
+                UpdatedDate = newBiz.UpdatedDate
+            };
 
-        //    var SResult = R.Db("MyCRM").Table("Staff")
-        //        .Insert(new
-        //        {
-        //            FirstName = NewBiz.FirstName,
-        //            LastName = NewBiz.LastName,
-        //            Position = NewBiz.Position,
-        //            Email = NewBiz.Email,
-        //            PhoneNumber = NewBiz.PhoneNumber,
-        //            CreatedDate = DateTime.Now,
-        //            UpdateDate = DateTime.Now,
-        //            BusinessId = BId
-        //        })
-        //    .Run(Conn);
+            string Id = _businessService.Create(business, address, staff);
 
-        //    string SId = SResult.generated_keys[0].ToString();
+            Console.WriteLine(Id);
 
-        //    var UBiz = R.Db("MyCRM").Table("Businesses").Get(BId)
-        //        .Update(new
-        //        {
-        //            PocId = SId
-        //        })
-        //    .Run(Conn);
-
-        //    return Dashboard();
-        //}
+            return Dashboard();
+        }
 
         //public IActionResult ViewOne(string id)
         //{

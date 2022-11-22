@@ -1,12 +1,8 @@
 ﻿using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Repository.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+
 
 namespace MyCRMNoSQL.Repository
 {
@@ -32,16 +28,16 @@ namespace MyCRMNoSQL.Repository
                 return null;
             }
 
-            Business Business = new Business()
+            Business Business = new()
             {
                 Id = Query.id.ToString(),
                 Name = Query.Name.ToString(),
                 Website = Query.Website.ToString(),
                 Industry = Query.Industry.ToString(),
-                StartDate = Query.StartDate.ToDateTime(),
+                StartDate = Convert.ToDateTime(Query.StartDate),
                 PocId = Query.PocId.ToString(),
-                CreatedDate = Query.CreatedDate.ToDateTime(),
-                UpdatedDate = Query.UpdatedDate.ToDateTime(),
+                CreatedDate = Convert.ToDateTime(Query.CreatedDate),
+                UpdatedDate = Convert.ToDateTime(Query.UpdatedDate),
             };
 
             return Business;
@@ -51,14 +47,15 @@ namespace MyCRMNoSQL.Repository
         {
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            var Query = R.Db("MyCRM").Table("Businesses").Pluck("id", "Name", "PocId")
+            var Query = R.Db("MyCRM").Table("Businesses")
                 .Merge(b => new
                 {
-                    PointOfContact = R.Db("MyCRM").Table("Staff").Get(b["PocId"]).Pluck("FirstName", "LastName")
+                    PointOfContact = R.Db("MyCRM").Table("Staff").Get(b["PocId"]).Pluck("FirstName", "LastName"),
+                    Author = R.Db("MyCRM").Table("Users").Get(b["UserId"]).Pluck("FirstName", "LastName")
                 })
             .Run(Conn);
 
-            if (Query.Count == 0)
+            if (Query.BufferedSize == 0)
             {
                 return null;
             }
@@ -77,6 +74,11 @@ namespace MyCRMNoSQL.Repository
                 {
                     Id = i.id.ToString(),
                     Name = i.Name.ToString(),
+                    Website = i.Website.ToString(),
+                    Industry = i.Industry.ToString(),
+                    UserId = i.UserId.ToString(),
+                    CreatedDate = Convert.ToDateTime(i.CreatedDate),
+                    UpdatedDate = Convert.ToDateTime(i.UpdatedDate),
                     PocId = i.id.ToString(),
                     PointOfContact = POC
                 };
@@ -100,7 +102,7 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
-            if(Query.Count == 0)
+            if(Query.BufferedSize == 0)
             {
                 return null;
             }
@@ -129,6 +131,8 @@ namespace MyCRMNoSQL.Repository
                     Id = i.id.ToString(),
                     Name = i.Name.ToString(),
                     PocId = i.id.ToString(),
+                    CreatedDate = Convert.ToDateTime(i.CreatedDate),
+                    UpdatedDate = Convert.ToDateTime(i.UpdatedDate),
                     PointOfContact = POC,
                     LatestActivity = Activity
                 };
@@ -151,7 +155,7 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
-            if (Query.Count == 0)
+            if (Query.BufferedSize == 0)
             {
                 return null;
             }
@@ -171,8 +175,8 @@ namespace MyCRMNoSQL.Repository
                     Id = i.id.ToString(),
                     Name = i.Name.ToString(),
                     PocId = i.id.ToString(),
-                    CreatedDate = i.createdDate.ToDateTime(),
-                    UpdatedDate= i.updatedDate.ToDateTime(),
+                    CreatedDate = Convert.ToDateTime(i.createdDate),
+                    UpdatedDate= Convert.ToDateTime(i.updatedDate),
                     PointOfContact = POC
                 };
 
@@ -210,49 +214,46 @@ namespace MyCRMNoSQL.Repository
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
             
-            if(business.Name != null)
-            {
-                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-                    .Update(new
-                    {
-                        Name = business.Name,
-                        UpdatedDate = business.UpdatedDate
-                    })
-                .Run(Conn);
-            }
+            //if(business.Name != null)
+            //{
+            //    var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+            //        .Update(new
+            //        {
+            //            Name = business.Name,
+            //            UpdatedDate = business.UpdatedDate
+            //        })
+            //    .Run(Conn);
+            //}
 
-            if (business.Website != null)
-            {
-                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-                    .Update(new
-                    {
-                        Website = business.Website,
-                        UpdatedDate = business.UpdatedDate
-                    })
-                .Run(Conn);
-            }
+            //if (business.Website != null)
+            //{
+            //    var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+            //        .Update(new
+            //        {
+            //            Website = business.Website,
+            //            UpdatedDate = business.UpdatedDate
+            //        })
+            //    .Run(Conn);
+            //}
 
-            if (business.Industry != null)
-            {
-                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-                    .Update(new
-                    {
-                        Industry = business.Industry,
-                        UpdatedDate = business.UpdatedDate
-                    })
-                .Run(Conn);
-            }
-
-            if (business.PocId != null)
-            {
-                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-                    .Update(new
-                    {
-                        PocId = business.PocId,
-                        UpdatedDate = business.UpdatedDate
-                    })
-                .Run(Conn);
-            }
+            //if (business.Industry != null)
+            //{
+            //    var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+            //        .Update(new
+            //        {
+            //            Industry = business.Industry,
+            //            UpdatedDate = business.UpdatedDate
+            //        })
+            //    .Run(Conn);
+            //}
+            var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+                .Update(new
+                {
+                    PocId = business.PocId,
+                    UpdatedDate = business.UpdatedDate
+                })
+            .Run(Conn);
+            
 
             return business.Id;
         }

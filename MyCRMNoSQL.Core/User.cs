@@ -19,5 +19,9 @@ namespace MyCRMNoSQL.Core
         public string Type { get; set; }
 
         public DateTime LastLoggedIn { get; set; }
+
+        public List<UpcomingTask> TaskList { get; set; }
+
+        public List<Purchase> SalesList { get; set; }
     }
 }

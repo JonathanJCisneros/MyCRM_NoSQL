@@ -50,7 +50,7 @@ namespace MyCRMNoSQL.Models
         public string Street { get; set; } = "N/A";
 
         [Display(Name = "Apt/Suite")]
-        public string? AptSuite { get; set; } 
+        public string AptSuite { get; set; } = "None";
 
         [Required(ErrorMessage = "is required")]
         public string City { get; set; }
@@ -74,6 +74,7 @@ namespace MyCRMNoSQL.Models
             b.Industry = MyExtensions.StringToUpper(b.Industry);
             b.Website = b.Website.Trim();
             b.Street = b.Street.Trim();
+            b.AptSuite = b.AptSuite.Trim();
             b.State = b.State.Trim();
             b.FirstName = MyExtensions.StringToUpper(b.FirstName);
             b.LastName = MyExtensions.StringToUpper(b.LastName);

@@ -4,9 +4,11 @@
 
 @model LoginFormModel
 
+<link rel="stylesheet" href="~/css/User/Login.css" asp-append-version="true" />
+
 <div class="container">
-    <form asp-controller="User" asp-action="Logging" method="POST" class="loginForm">
-        <h1 class="loginTitle">Login</h1>
+    <form asp-controller="User" asp-action="Logging" method="POST" class="login-form">
+        <h1 class="login-title">Login</h1>
         <div>
             <label asp-for="Email" class="form-label"></label>
             <span asp-validation-for="Email" class="error"></span>
@@ -20,7 +22,7 @@
         <div class="submit">
             <button type="submit" class="btn btn-outline-primary">Log In</button>
         </div>
-        <div class="RegisterL">
+        <div class="register-link">
             <a asp-controller="User" asp-action="Register">Don't have an account yet? Sign Up!</a>
         </div>
     </form>

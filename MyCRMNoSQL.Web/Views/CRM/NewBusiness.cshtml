@@ -1,27 +1,29 @@
-﻿@*@{
+﻿@{
     ViewData["Title"] = "New Client";
 }
 
 @model NewBusinessFormModel
 
+<link rel="stylesheet" href="~/css/CRM/NewBusiness.css" asp-append-version="true" />
+
 <form asp-controller="CRM" asp-action="NewClient">
-    <h3>Business</h3>
+    <h1 class="new-business-title">Add A New Business</h1>
     <div class="row">
         <div class="col">
             <label asp-for="Name" class="form-label"></label>
-            <span asp-validation-for="Name"></span>
+            <span asp-validation-for="Name" class="error"></span>
             <input asp-for="Name" class="form-control">
         </div>
         <div class="col-sm-3">
             <label asp-for="StartDate" class="form-label"></label>
-            <span asp-validation-for="StartDate"></span>
+            <span asp-validation-for="StartDate" class="error"></span>
             <input type="date" asp-for="StartDate" class="form-control">
         </div>
     </div>
     <div class="row">
         <div class="col">
             <label asp-for="Industry" class="form-label">Industry</label>
-            <span asp-validation-for="Industry"></span>
+            <span asp-validation-for="Industry" class="error"></span>
             <select asp-for="Industry" class="form-control">
                 <option value="none" selected disabled hidden>Select</option>
                 <option value="Automotive">Automotive</option>
@@ -34,27 +36,27 @@
         </div>
         <div class="col-8">
             <label asp-for="Website" class="form-label"></label>
-            <span asp-validation-for="Website"></span>
+            <span asp-validation-for="Website" class="error"></span>
             <input asp-for="Website" class="form-control">
         </div>
     </div>
     <h3>Location</h3>
     <div class="formRow">
         <label asp-for="Street" class="form-label"></label>
-        <span asp-validation-for="Street"></span>
+        <span asp-validation-for="Street" class="error"></span>
         <input asp-for="Street" class="form-control">
     </div>
     <div class="row">
         <div class="col-sm-5">
             <label asp-for="City" class="form-label"></label>
-            <span asp-validation-for="City"></span>
+            <span asp-validation-for="City" class="error"></span>
             <input asp-for="City" class="form-control">
         </div>
         <div class="col-sm-2">
             <label asp-for="State" class="form-label"></label>
-            <span asp-validation-for="State"></span>
+            <span asp-validation-for="State" class="error"></span>
             <select asp-for="State" class="form-control">
-                <option>Select</option>
+                <option selected disabled hidden>Select</option>
                 <option value="AL">AL</option>
                 <option value="AK">AK</option>
                 <option value="AR">AR</option>
@@ -110,7 +112,7 @@
         </div>
         <div class="col-sm-3">
             <label asp-for="ZipCode" class="form-label"></label>
-            <span asp-validation-for="ZipCode"></span>
+            <span asp-validation-for="ZipCode" class="error"></span>
             <input asp-for="ZipCode" class="form-control">
         </div>
     </div>
@@ -118,7 +120,7 @@
     <div class="row">
         <div class="col-2">
             <label asp-for="Position" class="form-label"></label>
-            <span asp-validation-for="Position"></span>
+            <span asp-validation-for="Position" class="error"></span>
             <select asp-for="Position" class="form-control">
                 <option value="none" selected disabled hidden>Select</option>
                 <option value="Owner">Owner</option>
@@ -129,28 +131,28 @@
         </div>
         <div class="col-5">
             <label asp-for="FirstName" class="form-label"></label>
-            <span asp-validation-for="FirstName"></span>
+            <span asp-validation-for="FirstName" class="error"></span>
             <input asp-for="FirstName" class="form-control">
         </div>
         <div class="col-5">
             <label asp-for="LastName" class="form-label"></label>
-            <span asp-validation-for="LastName"></span>
+            <span asp-validation-for="LastName" class="error"></span>
             <input asp-for="LastName" class="form-control">
         </div>
     </div>
     <div class="row">
         <div class="col-3">
             <label asp-for="PhoneNumber" class="form-label"></label>
-            <span asp-validation-for="PhoneNumber"></span>
+            <span asp-validation-for="PhoneNumber" class="error"></span>
             <input asp-for="PhoneNumber" class="form-control">
         </div>
         <div class="col-6">
             <label asp-for="Email" class="form-label"></label>
-            <span asp-validation-for="Email"></span>
+            <span asp-validation-for="Email" class="error"></span>
             <input asp-for="Email" class="form-control">
         </div>
     </div>
     <div class="submit">
         <button type="submit" class="btn btn-outline-success">Add Business</button>
     </div>
-</form>*@
+</form>

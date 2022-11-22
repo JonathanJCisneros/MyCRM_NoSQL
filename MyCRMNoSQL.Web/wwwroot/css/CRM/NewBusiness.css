@@ -1,0 +1,14 @@
+﻿.new-business-title {
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.submit {
+    margin-top: 25px;
+}

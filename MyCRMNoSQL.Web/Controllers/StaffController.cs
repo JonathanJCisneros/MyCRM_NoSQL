@@ -7,7 +7,7 @@ using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
 
-namespace MyCRMNoSQL.Controllers
+namespace MyCRMNoSQL.Web.Controllers
 {
     public class StaffController : Controller
     {

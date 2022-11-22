@@ -5,38 +5,24 @@ using MyCRMNoSQL.Models;
 using MyCRMNoSQL.Service.Interfaces;
 using System.Diagnostics;
 
-namespace MyCRMNoSQL.Controllers
+namespace MyCRMNoSQL.Web.Controllers
 {
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
+        private readonly IExtension _extension;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public UserController(ILogger<UserController> logger, IExtension extension, IUserService userService)
         {
             _logger = logger;
+            _extension = extension;
             _userService = userService;
-        }
-
-        private string? Uid
-        {
-            get
-            {
-                return HttpContext.Session.GetString("UserId");
-            }
-        }
-
-        private bool LoggedIn
-        {
-            get
-            {
-                return Uid != null;
-            }
         }
 
         public IActionResult Login()
         {
-            if (LoggedIn)
+            if (_extension.LoggedIn())
             {
                 return RedirectToAction("Dashboard", "CRM");
             }
@@ -46,7 +32,7 @@ namespace MyCRMNoSQL.Controllers
 
         public IActionResult Register()
         {
-            if (LoggedIn)
+            if (_extension.LoggedIn())
             {
                 return RedirectToAction("Dashboard", "CRM");
             }
@@ -62,12 +48,12 @@ namespace MyCRMNoSQL.Controllers
 
         public IActionResult Profile()
         {
-            if (!LoggedIn)
+            if (!_extension.LoggedIn())
             {
                 return RedirectToAction("Login");
             }
 
-            var User = _userService.Get(Uid);
+            var User = _userService.Get(_extension.UserId());
 
             return View(User);
         }
@@ -100,6 +86,8 @@ namespace MyCRMNoSQL.Controllers
                 ModelState.AddModelError("Password", "is invalid");
                 return Login();
             }
+
+            _userService.UpdateTimeStamp(Result.Id);
 
             HttpContext.Session.SetString("UserId", Result.Id);
             return RedirectToAction("Dashboard", "CRM");
@@ -147,6 +135,20 @@ namespace MyCRMNoSQL.Controllers
         [HttpPost]
         public IActionResult Update(RegisterFormModel model)
         {
+            if (!ModelState.IsValid) 
+            {
+                return RedirectToAction("Profile");
+            }
+
+            User user = new()
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                UpdatedDate = model.UpdatedDate
+            };
+
+            string Result = _userService.Update(user);
             return Profile();
         }
 
