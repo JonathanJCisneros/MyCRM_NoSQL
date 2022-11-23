@@ -10,6 +10,15 @@ namespace MyCRMNoSQL.Repository
 {
     public class UserRepository : IUserRepository
     {
+        public bool CheckById(string id)
+        {
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+            bool Check = R.Db("MyCRM").Table("Users").Get(id).IsEmpty().Run(Conn);
+
+            return Check;
+        }
+
         public bool CheckByEmail(string email)
         {
             var R = RethinkDb.Driver.RethinkDB.R;
@@ -25,6 +34,7 @@ namespace MyCRMNoSQL.Repository
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
             var DBUser = R.Db("MyCRM").Table("Users").GetAll(email)[new { index = "Email" }].Pluck("id", "Password").CoerceTo("array").Run(Conn);
+            
             User userInfo = new()
             {
                 Id = DBUser[0].id.ToString(),
@@ -106,6 +116,11 @@ namespace MyCRMNoSQL.Repository
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
             var Query = R.Db("MyCRM").Table("Users").Run(Conn);
+
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
 
             List<User> UserList = new List<User>();
 

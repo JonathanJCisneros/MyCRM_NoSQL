@@ -9,6 +9,8 @@ namespace MyCRMNoSQL.Repository.Interfaces
 {
     public interface ICRUDRepository<T> where T : new()
     {
+        bool CheckById(string id);
+
         T Get(string id);
 
         List<T> GetAll();

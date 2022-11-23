@@ -11,6 +11,15 @@ namespace MyCRMNoSQL.Repository
 {
     public class AddressRepository : IAddressRepository
     {
+        public bool CheckById(string id)
+        {
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+            bool Check = R.Db("MyCRM").Table("Addresses").Get(id).IsEmpty().Run(Conn);
+
+            return Check;
+        }
+
         public Address Get(string id)
         {
             var R = RethinkDb.Driver.RethinkDB.R;
@@ -46,6 +55,11 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Addresses").Run(Conn);
 
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
+
             List<Address> AddressList = new();
 
             foreach (var item in Query)
@@ -75,6 +89,11 @@ namespace MyCRMNoSQL.Repository
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
             var Query = R.Db("MyCRM").Table("Addresses").GetAll(id)[new { index = "BusinessId" }].Run(Conn);
+
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
 
             List<Address> AddressList = new();
 
@@ -106,6 +125,11 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Addresses").GetAll(city)[new { index = "City" }].Run(Conn);
 
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
+
             List<Address> AddressList = new();
 
             foreach (var item in Query)
@@ -136,6 +160,11 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Addresses").GetAll(state)[new { index = "State" }].Run(Conn);
 
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
+
             List<Address> AddressList = new();
 
             foreach (var item in Query)
@@ -165,6 +194,11 @@ namespace MyCRMNoSQL.Repository
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
             var Query = R.Db("MyCRM").Table("Addresses").GetAll(zipCode)[new { index = "ZipCode" }].Run(Conn);
+
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
 
             List<Address> AddressList = new();
 

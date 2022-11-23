@@ -17,6 +17,8 @@ namespace MyCRMNoSQL.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        public DateTime LastLoggedIn { get; set; } = DateTime.Now;
+
         public static LoginFormModel DbPrep(LoginFormModel u)
         {
             u.Email = u.Email.Trim().ToLower();

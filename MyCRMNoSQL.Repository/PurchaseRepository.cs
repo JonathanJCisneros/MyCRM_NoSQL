@@ -11,6 +11,15 @@ namespace MyCRMNoSQL.Repository
 {
     public class PurchaseRepository : IPurchaseRepository
     {
+        public bool CheckById(string id)
+        {
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+            bool Check = R.Db("MyCRM").Table("Purchases").Get(id).IsEmpty().Run(Conn);
+
+            return Check;
+        }
+
         public Purchase Get(string id)
         {
             var R = RethinkDb.Driver.RethinkDB.R;
@@ -81,6 +90,11 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
+
             List<Purchase> purchaseList = new();
 
             foreach (var item in Query)
@@ -144,6 +158,11 @@ namespace MyCRMNoSQL.Repository
                     SalesRep = R.Db("MyCRM").Table("Users").Get(P["UserId"]).Pluck("FirstName", "LastName")
                 })
             .Run(Conn);
+
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
 
             List<Purchase> purchaseList = new();
 
@@ -223,6 +242,11 @@ namespace MyCRMNoSQL.Repository
                     SalesRep = R.Db("MyCRM").Table("Users").Get(P["UserId"]).Pluck("FirstName", "LastName")
                 })
             .Run(Conn);
+
+            if (Query.BufferedSize == 0)
+            {
+                return null;
+            }
 
             List<Purchase> purchaseList = new();
 

@@ -1,5 +1,6 @@
 ﻿using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Repository.Interfaces;
+using RethinkDb.Driver.Model;
 using System;
 using System.Linq;
 
@@ -8,6 +9,15 @@ namespace MyCRMNoSQL.Repository
 {
     public class BusinessRepository : IBusinessRepository
     {
+        public bool CheckById(string id)
+        {
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+            bool Check = R.Db("MyCRM").Table("Businesses").Get(id).IsEmpty().Run(Conn);
+
+            return Check;
+        }
+
         public bool CheckByName(string name)
         {
             var R = RethinkDb.Driver.RethinkDB.R;
@@ -191,7 +201,7 @@ namespace MyCRMNoSQL.Repository
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
-            var Query = R.Db("MyCRM").Table("Businesses")
+            var Result = R.Db("MyCRM").Table("Businesses")
                 .Insert(new 
                 {
                     Name = business.Name,
@@ -204,7 +214,7 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
-            string Id = "Probably never gonna use this";
+            string Id = Result.generated_keys[0].ToString();
 
             return Id;
         }
@@ -213,47 +223,50 @@ namespace MyCRMNoSQL.Repository
         { 
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-            
-            //if(business.Name != null)
-            //{
-            //    var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-            //        .Update(new
-            //        {
-            //            Name = business.Name,
-            //            UpdatedDate = business.UpdatedDate
-            //        })
-            //    .Run(Conn);
-            //}
 
-            //if (business.Website != null)
-            //{
-            //    var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-            //        .Update(new
-            //        {
-            //            Website = business.Website,
-            //            UpdatedDate = business.UpdatedDate
-            //        })
-            //    .Run(Conn);
-            //}
+            if (business.Name.Length > 0)
+            {
+                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+                    .Update(new
+                    {
+                        Name = business.Name,
+                        UpdatedDate = business.UpdatedDate
+                    })
+                .Run(Conn);
+            }
 
-            //if (business.Industry != null)
-            //{
-            //    var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-            //        .Update(new
-            //        {
-            //            Industry = business.Industry,
-            //            UpdatedDate = business.UpdatedDate
-            //        })
-            //    .Run(Conn);
-            //}
-            var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
-                .Update(new
-                {
-                    PocId = business.PocId,
-                    UpdatedDate = business.UpdatedDate
-                })
-            .Run(Conn);
-            
+            if (business.Website.Length > 0)
+            {
+                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+                    .Update(new
+                    {
+                        Website = business.Website,
+                        UpdatedDate = business.UpdatedDate
+                    })
+                .Run(Conn);
+            }
+
+            if (business.Industry.Length > 0)
+            {
+                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+                    .Update(new
+                    {
+                        Industry = business.Industry,
+                        UpdatedDate = business.UpdatedDate
+                    })
+                .Run(Conn);
+            }
+
+            if (business.PocId.Length > 0)
+            {
+                var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
+                    .Update(new
+                    {
+                        PocId = business.PocId,
+                        UpdatedDate = business.UpdatedDate
+                    })
+                .Run(Conn);
+            }
 
             return business.Id;
         }
