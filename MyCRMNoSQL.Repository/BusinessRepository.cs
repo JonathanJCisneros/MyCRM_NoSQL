@@ -74,12 +74,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var i in Query)
             {
-                Staff POC = new()
-                {
-                    FirstName = i.PointOfContact.FirstName.ToString(),
-                    LastName = i.PointOfContact.LastName.ToString(),
-                };
-
                 Business Business = new()
                 {
                     Id = i.id.ToString(),
@@ -90,7 +84,16 @@ namespace MyCRMNoSQL.Repository
                     CreatedDate = Convert.ToDateTime(i.CreatedDate),
                     UpdatedDate = Convert.ToDateTime(i.UpdatedDate),
                     PocId = i.id.ToString(),
-                    PointOfContact = POC
+                    PointOfContact = new Staff()
+                    {
+                        FirstName = i.PointOfContact.FirstName.ToString(),
+                        LastName = i.PointOfContact.LastName.ToString()
+                    },
+                    Author = new User()
+                    {
+                        FirstName = i.Author.FirstName.ToString(),
+                        LastName = i.Author.LastName.ToString()
+                    }
                 };
 
                 BusinessList.Add(Business);
@@ -143,7 +146,11 @@ namespace MyCRMNoSQL.Repository
                     PocId = i.id.ToString(),
                     CreatedDate = Convert.ToDateTime(i.CreatedDate),
                     UpdatedDate = Convert.ToDateTime(i.UpdatedDate),
-                    PointOfContact = POC,
+                    PointOfContact = new()
+                    {
+                        FirstName = i.PointOfContact.FirstName.ToString(),
+                        LastName = i.PointOfContact.LastName.ToString(),
+                    },
                     LatestActivity = Activity
                 };
 
@@ -174,12 +181,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var i in Query)
             {
-                Staff POC = new()
-                {
-                    FirstName = i.PointOfContact.FirstName.ToString(),
-                    LastName = i.PointOfContact.LastName.ToString(),
-                };
-
                 Business Business = new()
                 {
                     Id = i.id.ToString(),
@@ -187,7 +188,11 @@ namespace MyCRMNoSQL.Repository
                     PocId = i.id.ToString(),
                     CreatedDate = Convert.ToDateTime(i.createdDate),
                     UpdatedDate= Convert.ToDateTime(i.updatedDate),
-                    PointOfContact = POC
+                    PointOfContact = new()
+                    {
+                        FirstName = i.PointOfContact.FirstName.ToString(),
+                        LastName = i.PointOfContact.LastName.ToString(),
+                    }
                 };
 
                 BusinessList.Add(Business);
@@ -224,7 +229,7 @@ namespace MyCRMNoSQL.Repository
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
-            if (business.Name.Length > 0)
+            if (!string.IsNullOrEmpty(business.Name))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new
@@ -235,7 +240,7 @@ namespace MyCRMNoSQL.Repository
                 .Run(Conn);
             }
 
-            if (business.Website.Length > 0)
+            if (!string.IsNullOrEmpty(business.Website))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new
@@ -246,7 +251,7 @@ namespace MyCRMNoSQL.Repository
                 .Run(Conn);
             }
 
-            if (business.Industry.Length > 0)
+            if (!string.IsNullOrEmpty(business.Industry))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new
@@ -257,7 +262,7 @@ namespace MyCRMNoSQL.Repository
                 .Run(Conn);
             }
 
-            if (business.PocId.Length > 0)
+            if (!string.IsNullOrEmpty(business.PocId))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new

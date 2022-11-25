@@ -17,5 +17,7 @@ namespace MyCRMNoSQL.Core
         public string UserId { get; set; }
 
         public User Author { get; set; }
+
+        public List<Purchase> PurchaseList { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Repository.Interfaces;
+using RethinkDb.Driver.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,10 +28,33 @@ namespace MyCRMNoSQL.Repository
             var Query = R.Db("MyCRM").Table("Products").Get(id)
                 .Merge(p => new 
                 { 
+                    Author = R.Db("MyCRM").Table("Products").Get(p["UserId"]).Pluck("FirstName", "LastName")
                 })
             .Run(Conn);
 
-            return null;
+            if(Query == null)
+            {
+                return null;
+            }
+
+            Product product = new() 
+            { 
+                Id = Query.id.ToString(),
+                Name = Query.Name.ToString(),
+                Price = Query.Price.ToString(),
+                Description = Query.Description.ToString(),
+                UserId = Query.UserId.ToString(),
+                CreatedDate = Query.CreatedDate.ToString(),
+                UpdatedDate = Query.UpdatedDate.ToString(),
+                Author = new User()
+                {
+                    FirstName = Query.Author.FirstName.ToString(),
+                    LastName = Query.Author.LastName.ToString()
+                }
+            };
+
+
+            return product;
         }
 
         public Product GetProductWithCustomers(string id)
@@ -40,7 +64,45 @@ namespace MyCRMNoSQL.Repository
 
         public List<Product> GetAll()
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Products")
+                .Merge(p => new
+                {
+                    Author = R.Db("MyCRM").Table("Products").Get(p["UserId"]).Pluck("FirstName", "LastName")
+                })
+            .Run(Conn);
+
+            if(Query.BufferedSize == 0)
+            {
+                return null;
+            }
+
+            List<Product> products = new();
+
+            foreach (var i in Query)
+            {
+                Product product = new()
+                {
+                    Id = i.id.ToString(),
+                    Name = i.Name.ToString(),
+                    Price = i.Price.ToString(),
+                    Description = i.Description.ToString(),
+                    UserId = i.UserId.ToString(),
+                    CreatedDate = i.CreatedDate.ToString(),
+                    UpdatedDate = i.UpdatedDate.ToString(),
+                    Author = new User()
+                    {
+                        FirstName = i.Author.FirstName.ToString(),
+                        LastName = i.Author.LastName.ToString()
+                    }
+                };
+
+                products.Add(product);
+            }
+
+            return products;
         }
 
         public List<Product> GetAllProductsWithCustomers()
@@ -50,12 +112,43 @@ namespace MyCRMNoSQL.Repository
 
         public string Create(Product product)
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Result = R.Db("MyCRM").Table("Products")
+                .Insert(new
+                {
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description,
+                    UserId = product.UserId,
+                    CreatedDate = product.CreatedDate,
+                    UpdatedDate = product.UpdatedDate
+                })
+            .Run(Conn);
+
+            string Id = Result.generated_keys[0].ToString();
+
+            return Id;
         }
 
         public string Update(Product product)
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Products").Get(product.Id)
+                .Update(new
+                {
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description,
+                    UserId = product.UserId,
+                    UpdatedDate = product.UpdatedDate
+                })
+            .Run(Conn);
+
+            return product.Id;
         }
 
         public bool Delete(string id)

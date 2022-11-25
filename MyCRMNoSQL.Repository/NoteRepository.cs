@@ -39,18 +39,6 @@ namespace MyCRMNoSQL.Repository
                 return null;
             }
 
-            User user = new()
-            {
-                FirstName = Query.Author.FirstName.ToString(),
-                LastName = Query.Author.LastName.ToString()
-            };
-
-            Business business = new()
-            {
-                Name = Query.BusinessAssociated.Name.ToString(),
-                Industry = Query.BusinessAssociated.Industry.ToString()
-            };
-
             Note note = new()
             {
                 Id = Query.id.ToString(),
@@ -59,8 +47,16 @@ namespace MyCRMNoSQL.Repository
                 Details = Query.Details.ToString(),
                 CreatedDate = Query.CreatedDate.ToDateTime(),
                 UpdatedDate = Query.UpdatedDate.ToDateTime(),
-                Author = user,
-                BusinessAssociated = business
+                Author = new User()
+                {
+                    FirstName = Query.Author.FirstName.ToString(),
+                    LastName = Query.Author.LastName.ToString()
+                },
+                BusinessAssociated = new Business()
+                {
+                    Name = Query.BusinessAssociated.Name.ToString(),
+                    Industry = Query.BusinessAssociated.Industry.ToString()
+                }
             };
 
             return note;
@@ -88,18 +84,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var item in Query)
             {
-                User user = new()
-                {
-                    FirstName = Query.Author.FirstName.ToString(),
-                    LastName = Query.Author.LastName.ToString()
-                };
-
-                Business business = new()
-                {
-                    Name = Query.BusinessAssociated.Name.ToString(),
-                    Industry = Query.BusinessAssociated.Industry.ToString()
-                };
-
                 Note note = new()
                 {
                     Id = Query.id.ToString(),
@@ -108,8 +92,16 @@ namespace MyCRMNoSQL.Repository
                     Details = Query.Details.ToString(),
                     CreatedDate = Query.CreatedDate.ToDateTime(),
                     UpdatedDate = Query.UpdatedDate.ToDateTime(),
-                    Author = user,
-                    BusinessAssociated = business
+                    Author = new User()
+                    {
+                        FirstName = Query.Author.FirstName.ToString(),
+                        LastName = Query.Author.LastName.ToString()
+                    },
+                    BusinessAssociated = new Business()
+                    {
+                        Name = Query.BusinessAssociated.Name.ToString(),
+                        Industry = Query.BusinessAssociated.Industry.ToString()
+                    }
                 };
 
                 NoteList.Add(note);
@@ -141,18 +133,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var item in Query)
             {
-                User user = new()
-                {
-                    FirstName = Query.Author.FirstName.ToString(),
-                    LastName = Query.Author.LastName.ToString()
-                };
-
-                Business business = new()
-                {
-                    Name = Query.BusinessAssociated.Name.ToString(),
-                    Industry = Query.BusinessAssociated.Industry.ToString()
-                };
-
                 Note note = new()
                 {
                     Id = Query.id.ToString(),
@@ -161,8 +141,16 @@ namespace MyCRMNoSQL.Repository
                     Details = Query.Details.ToString(),
                     CreatedDate = Query.CreatedDate.ToDateTime(),
                     UpdatedDate = Query.UpdatedDate.ToDateTime(),
-                    Author = user,
-                    BusinessAssociated = business
+                    Author = new User()
+                    {
+                        FirstName = Query.Author.FirstName.ToString(),
+                        LastName = Query.Author.LastName.ToString()
+                    },
+                    BusinessAssociated = new Business()
+                    {
+                        Name = Query.BusinessAssociated.Name.ToString(),
+                        Industry = Query.BusinessAssociated.Industry.ToString()
+                    }
                 };
 
                 NoteList.Add(note);
@@ -193,18 +181,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var item in Query)
             {
-                User user = new()
-                {
-                    FirstName = Query.Author.FirstName.ToString(),
-                    LastName = Query.Author.LastName.ToString()
-                };
-
-                Business business = new()
-                {
-                    Name = Query.BusinessAssociated.Name.ToString(),
-                    Industry = Query.BusinessAssociated.Industry.ToString()
-                };
-
                 Note note = new()
                 {
                     Id = Query.id.ToString(),
@@ -213,8 +189,16 @@ namespace MyCRMNoSQL.Repository
                     Details = Query.Details.ToString(),
                     CreatedDate = Query.CreatedDate.ToDateTime(),
                     UpdatedDate = Query.UpdatedDate.ToDateTime(),
-                    Author = user,
-                    BusinessAssociated = business
+                    Author = new User()
+                    {
+                        FirstName = Query.Author.FirstName.ToString(),
+                        LastName = Query.Author.LastName.ToString()
+                    },
+                    BusinessAssociated = new Business()
+                    {
+                        Name = Query.BusinessAssociated.Name.ToString(),
+                        Industry = Query.BusinessAssociated.Industry.ToString()
+                    }
                 };
 
                 NoteList.Add(note);

@@ -70,25 +70,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var t in Query)
             {
-                User user = new()
-                {
-                    FirstName = t.UserAssociated.FirstName.ToString(),
-                    LastName = t.UserAssociated.LastName.ToString(),
-                };
-
-                Business business = new()
-                {
-                    Name = t.BusinessAssociated.Name.ToString(),
-                    Industry = t.BusinessAssociated.Industry.ToString()
-                };
-
-                Staff staff = new()
-                {
-                    FirstName = t.EmployeeAssociated.FirstName.ToString(),
-                    LastName= t.EmployeeAssociated.LastName.ToString(),
-                    Position = t.EmployeeAssociated.Position.ToString(),
-                };
-
                 ClientActivity activity = new()
                 {
                     Id = t.Id.ToString(),
@@ -99,9 +80,22 @@ namespace MyCRMNoSQL.Repository
                     Note = t.Note.ToString(),
                     CreatedDate = t.CreatedDate.ToString(),
                     UpdatedDate = t.UpdatedDate.ToString(),
-                    UserAssociated = user,
-                    BusinessAssociated = business,
-                    EmployeeAssociated = staff
+                    UserAssociated = new User()
+                    {
+                        FirstName = t.UserAssociated.FirstName.ToString(),
+                        LastName = t.UserAssociated.LastName.ToString(),
+                    },
+                    BusinessAssociated = new Business()
+                    {
+                        Name = t.BusinessAssociated.Name.ToString(),
+                        Industry = t.BusinessAssociated.Industry.ToString()
+                    },
+                    EmployeeAssociated = new Staff()
+                    {
+                        FirstName = t.EmployeeAssociated.FirstName.ToString(),
+                        LastName = t.EmployeeAssociated.LastName.ToString(),
+                        Position = t.EmployeeAssociated.Position.ToString(),
+                    }
                 };
 
                 ActivityList.Add(activity);
@@ -133,25 +127,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var t in Query)
             {
-                User user = new()
-                {
-                    FirstName = t.UserAssociated.FirstName.ToString(),
-                    LastName = t.UserAssociated.LastName.ToString(),
-                };
-
-                Business business = new()
-                {
-                    Name = t.BusinessAssociated.Name.ToString(),
-                    Industry = t.BusinessAssociated.Industry.ToString()
-                };
-
-                Staff staff = new()
-                {
-                    FirstName = t.EmployeeAssociated.FirstName.ToString(),
-                    LastName = t.EmployeeAssociated.LastName.ToString(),
-                    Position = t.EmployeeAssociated.Position.ToString(),
-                };
-
                 ClientActivity activity = new()
                 {
                     Id = t.Id.ToString(),
@@ -162,9 +137,22 @@ namespace MyCRMNoSQL.Repository
                     Note = t.Note.ToString(),
                     CreatedDate = t.CreatedDate.ToString(),
                     UpdatedDate = t.UpdatedDate.ToString(),
-                    UserAssociated = user,
-                    BusinessAssociated = business,
-                    EmployeeAssociated = staff
+                    UserAssociated = new User()
+                    {
+                        FirstName = t.UserAssociated.FirstName.ToString(),
+                        LastName = t.UserAssociated.LastName.ToString(),
+                    },
+                    BusinessAssociated = new Business()
+                    {
+                        Name = t.BusinessAssociated.Name.ToString(),
+                        Industry = t.BusinessAssociated.Industry.ToString()
+                    },
+                    EmployeeAssociated = new Staff()
+                    {
+                        FirstName = t.EmployeeAssociated.FirstName.ToString(),
+                        LastName = t.EmployeeAssociated.LastName.ToString(),
+                        Position = t.EmployeeAssociated.Position.ToString(),
+                    }
                 };
 
                 ActivityList.Add(activity);
@@ -196,25 +184,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var t in Query)
             {
-                User user = new()
-                {
-                    FirstName = t.UserAssociated.FirstName.ToString(),
-                    LastName = t.UserAssociated.LastName.ToString(),
-                };
-
-                Business business = new()
-                {
-                    Name = t.BusinessAssociated.Name.ToString(),
-                    Industry = t.BusinessAssociated.Industry.ToString()
-                };
-
-                Staff staff = new()
-                {
-                    FirstName = t.EmployeeAssociated.FirstName.ToString(),
-                    LastName = t.EmployeeAssociated.LastName.ToString(),
-                    Position = t.EmployeeAssociated.Position.ToString(),
-                };
-
                 ClientActivity activity = new()
                 {
                     Id = t.Id.ToString(),
@@ -225,9 +194,22 @@ namespace MyCRMNoSQL.Repository
                     Note = t.Note.ToString(),
                     CreatedDate = t.CreatedDate.ToString(),
                     UpdatedDate = t.UpdatedDate.ToString(),
-                    UserAssociated = user,
-                    BusinessAssociated = business,
-                    EmployeeAssociated = staff
+                    UserAssociated = new User()
+                    {
+                        FirstName = t.UserAssociated.FirstName.ToString(),
+                        LastName = t.UserAssociated.LastName.ToString(),
+                    },
+                    BusinessAssociated = new Business()
+                    {
+                        Name = t.BusinessAssociated.Name.ToString(),
+                        Industry = t.BusinessAssociated.Industry.ToString()
+                    },
+                    EmployeeAssociated = new Staff()
+                    {
+                        FirstName = t.EmployeeAssociated.FirstName.ToString(),
+                        LastName = t.EmployeeAssociated.LastName.ToString(),
+                        Position = t.EmployeeAssociated.Position.ToString(),
+                    }
                 };
 
                 ActivityList.Add(activity);
@@ -259,25 +241,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var t in Query)
             {
-                User user = new()
-                {
-                    FirstName = t.UserAssociated.FirstName.ToString(),
-                    LastName = t.UserAssociated.LastName.ToString(),
-                };
-
-                Business business = new()
-                {
-                    Name = t.BusinessAssociated.Name.ToString(),
-                    Industry = t.BusinessAssociated.Industry.ToString()
-                };
-
-                Staff staff = new()
-                {
-                    FirstName = t.EmployeeAssociated.FirstName.ToString(),
-                    LastName = t.EmployeeAssociated.LastName.ToString(),
-                    Position = t.EmployeeAssociated.Position.ToString(),
-                };
-
                 ClientActivity activity = new()
                 {
                     Id = t.Id.ToString(),
@@ -288,9 +251,22 @@ namespace MyCRMNoSQL.Repository
                     Note = t.Note.ToString(),
                     CreatedDate = t.CreatedDate.ToString(),
                     UpdatedDate = t.UpdatedDate.ToString(),
-                    UserAssociated = user,
-                    BusinessAssociated = business,
-                    EmployeeAssociated = staff
+                    UserAssociated = new User()
+                    {
+                        FirstName = t.UserAssociated.FirstName.ToString(),
+                        LastName = t.UserAssociated.LastName.ToString(),
+                    },
+                    BusinessAssociated = new Business()
+                    {
+                        Name = t.BusinessAssociated.Name.ToString(),
+                        Industry = t.BusinessAssociated.Industry.ToString()
+                    },
+                    EmployeeAssociated = new Staff()
+                    {
+                        FirstName = t.EmployeeAssociated.FirstName.ToString(),
+                        LastName = t.EmployeeAssociated.LastName.ToString(),
+                        Position = t.EmployeeAssociated.Position.ToString(),
+                    }
                 };
 
                 ActivityList.Add(activity);

@@ -1,5 +1,6 @@
 ﻿using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Repository.Interfaces;
+using RethinkDb.Driver.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,32 +22,180 @@ namespace MyCRMNoSQL.Repository
 
         public Staff Get(string id)
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Staff").Get(id).Run(Conn);
+
+            if(Query == null)
+            {
+                return null;
+            }
+
+            Staff employee = new()
+            {
+                Id = Query.id.ToString(),
+                Position = Query.Position.ToString(),
+                FirstName = Query.FirstName.ToString(),
+                LastName = Query.LastName.ToString(),
+                PhoneNumber = Query.PhoneNumber.ToInt32(),
+                Email = Query.Email.ToString(),
+                BusinessId = Query.BusinessId.ToString(),
+                CreatedDate = Query.CreatedDate.ToString(),
+                UpdatedDate = Query.UpdatedDate.ToString()
+            };
+
+            return employee;
         }
 
         public List<Staff> GetAll()
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Staff").Run(Conn);
+
+            if (Query.BufferedSize == null)
+            {
+                return null;
+            }
+
+            List<Staff> StaffList = new();
+
+            foreach (var item in Query)
+            {
+                Staff employee = new()
+                {
+                    Id = item.id.ToString(),
+                    Position = item.Position.ToString(),
+                    FirstName = item.FirstName.ToString(),
+                    LastName = item.LastName.ToString(),
+                    PhoneNumber = item.PhoneNumber.ToInt32(),
+                    Email = item.Email.ToString(),
+                    BusinessId = item.BusinessId.ToString(),
+                    CreatedDate = item.CreatedDate.ToString(),
+                    UpdatedDate = item.UpdatedDate.ToString()
+                };
+
+                StaffList.Add(employee);
+            }
+
+            return StaffList;
         }
 
         public List<Staff> GetAllByBusiness(string id)
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Staff").GetAll(id)[new { index = "BusinessId" }].Run(Conn);
+
+            if (Query.BufferedSize == null)
+            {
+                return null;
+            }
+
+            List<Staff> StaffList = new();
+
+            foreach (var item in Query)
+            {
+                Staff employee = new()
+                {
+                    Id = item.id.ToString(),
+                    Position = item.Position.ToString(),
+                    FirstName = item.FirstName.ToString(),
+                    LastName = item.LastName.ToString(),
+                    PhoneNumber = item.PhoneNumber.ToInt32(),
+                    Email = item.Email.ToString(),
+                    BusinessId = item.BusinessId.ToString(),
+                    CreatedDate = item.CreatedDate.ToString(),
+                    UpdatedDate = item.UpdatedDate.ToString()
+                };
+
+                StaffList.Add(employee);
+            }
+
+            return StaffList;
         }
 
         public List<Staff> GetAllByPosition(string position)
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Staff").GetAll(position)[new { index = "Position" }].Run(Conn);
+
+            if (Query.BufferedSize == null)
+            {
+                return null;
+            }
+
+            List<Staff> StaffList = new();
+
+            foreach (var item in Query)
+            {
+                Staff employee = new()
+                {
+                    Id = item.id.ToString(),
+                    Position = item.Position.ToString(),
+                    FirstName = item.FirstName.ToString(),
+                    LastName = item.LastName.ToString(),
+                    PhoneNumber = item.PhoneNumber.ToInt32(),
+                    Email = item.Email.ToString(),
+                    BusinessId = item.BusinessId.ToString(),
+                    CreatedDate = item.CreatedDate.ToString(),
+                    UpdatedDate = item.UpdatedDate.ToString()
+                };
+
+                StaffList.Add(employee);
+            }
+
+            return StaffList;
         }
 
         public string Create(Staff staff)
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Staff")
+                .Insert(new 
+                { 
+                    Position = staff.Position,
+                    FirstName = staff.FirstName,
+                    LastName = staff.LastName,
+                    PhoneNumber = staff.PhoneNumber,
+                    Email = staff.Email,
+                    BusinessId = staff.BusinessId,
+                    CreatedDate = staff.CreatedDate,
+                    UpdatedDate = staff.UpdatedDate
+                })
+            .Run(Conn);
+
+            string Id = Query.generated_keys[0].ToString();
+
+            return Id;
         }
 
         public string Update(Staff staff)
         {
-            return null;
+            var R = RethinkDb.Driver.RethinkDB.R;
+            var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
+
+            var Query = R.Db("MyCRM").Table("Staff").Get(staff.Id)
+                .Update(new
+                {
+                    Position = staff.Position,
+                    FirstName = staff.FirstName,
+                    LastName = staff.LastName,
+                    PhoneNumber = staff.PhoneNumber,
+                    Email = staff.Email,
+                    BusinessId = staff.BusinessId,
+                    UpdatedDate = staff.UpdatedDate
+                })
+            .Run(Conn);
+
+            return staff.Id;
         }
 
         public bool Delete(string id)

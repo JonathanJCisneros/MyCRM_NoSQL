@@ -34,30 +34,10 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
-            Business business = new()
+            if(Query == null)
             {
-                Name = Query.BusinessAssociated.Name.ToString(),
-                Industry = Query.BusinessAssociated.Industry.ToString()
-            };
-
-            Address address = new()
-            {
-                City = Query.BusinessLocation.City.ToString(),
-                State = Query.BusinessLocation.State.ToString(),
-                ZipCode = Query.BusinessLocation.ZipCode.ToInt32()
-            };
-
-            Product product = new()
-            {
-                Name = Query.ProductAssociated.Name.ToString(),
-                Price = Query.ProductAssociated.Price.ToInt32()
-            };
-
-            User user = new()
-            {
-                FirstName = Query.SalesRep.FirstName.ToString(),
-                LastName = Query.SalesRep.LastName.ToString()
-            };
+                return null;
+            }
 
             Purchase purchase = new()
             {
@@ -67,10 +47,27 @@ namespace MyCRMNoSQL.Repository
                 UserId = Query.UserId.ToString(),
                 CreatedDate = Query.CreatedDate.ToDateTime(),
                 UpdatedDate = Query.UpdatedDate.ToDateTime(),
-                BusinessAssociated = business,
-                ProductAssociated = product,
-                BusinessLocation = address,
-                SalesRep = user
+                BusinessAssociated = new Business()
+                {
+                    Name = Query.BusinessAssociated.Name.ToString(),
+                    Industry = Query.BusinessAssociated.Industry.ToString()
+                },
+                ProductAssociated = new Product()
+                {
+                    Name = Query.ProductAssociated.Name.ToString(),
+                    Price = Query.ProductAssociated.Price.ToInt32()
+                },
+                BusinessLocation = new Address()
+                {
+                    City = Query.BusinessLocation.City.ToString(),
+                    State = Query.BusinessLocation.State.ToString(),
+                    ZipCode = Query.BusinessLocation.ZipCode.ToInt32()
+                },
+                SalesRep = new User()
+                {
+                    FirstName = Query.SalesRep.FirstName.ToString(),
+                    LastName = Query.SalesRep.LastName.ToString()
+                }
             };
 
             return purchase;
@@ -99,31 +96,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var item in Query)
             {
-                Business business = new()
-                {
-                    Name = item.BusinessAssociated.Name.ToString(),
-                    Industry = item.BusinessAssociated.Industry.ToString()
-                };
-
-                Address address = new()
-                {
-                    City = item.BusinessLocation.City.ToString(),
-                    State = item.BusinessLocation.State.ToString(),
-                    ZipCode = item.BusinessLocation.ZipCode.ToInt32()
-                };
-
-                Product product = new()
-                {
-                    Name = item.ProductAssociated.Name.ToString(),
-                    Price = item.ProductAssociated.Price.ToInt32()
-                };
-
-                User user = new()
-                {
-                    FirstName = item.SalesRep.FirstName.ToString(),
-                    LastName = item.SalesRep.LastName.ToString()
-                };
-
                 Purchase purchase = new()
                 {
                     Id = item.id.ToString(),
@@ -132,15 +104,31 @@ namespace MyCRMNoSQL.Repository
                     UserId = item.UserId.ToString(),
                     CreatedDate = item.CreatedDate.ToDateTime(),
                     UpdatedDate = item.UpdatedDate.ToDateTime(),
-                    BusinessAssociated = business,
-                    ProductAssociated = product,
-                    BusinessLocation = address,
-                    SalesRep = user
+                    BusinessAssociated = new Business()
+                    {
+                        Name = item.BusinessAssociated.Name.ToString(),
+                        Industry = item.BusinessAssociated.Industry.ToString()
+                    },
+                    ProductAssociated = new Product()
+                    {
+                        Name = item.ProductAssociated.Name.ToString(),
+                        Price = item.ProductAssociated.Price.ToInt32()
+                    },
+                    BusinessLocation = new Address()
+                    {
+                        City = item.BusinessLocation.City.ToString(),
+                        State = item.BusinessLocation.State.ToString(),
+                        ZipCode = item.BusinessLocation.ZipCode.ToInt32()
+                    },
+                    SalesRep = new User()
+                    {
+                        FirstName = item.SalesRep.FirstName.ToString(),
+                        LastName = item.SalesRep.LastName.ToString()
+                    }
                 };
 
                 purchaseList.Add(purchase);
             }
-
 
             return purchaseList;
         }
@@ -168,31 +156,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var item in Query)
             {
-                Business business = new()
-                {
-                    Name = item.BusinessAssociated.Name.ToString(),
-                    Industry = item.BusinessAssociated.Industry.ToString()
-                };
-
-                Address address = new()
-                {
-                    City = item.BusinessLocation.City.ToString(),
-                    State = item.BusinessLocation.State.ToString(),
-                    ZipCode = item.BusinessLocation.ZipCode.ToInt32()
-                };
-
-                Product product = new()
-                {
-                    Name = item.ProductAssociated.Name.ToString(),
-                    Price = item.ProductAssociated.Price.ToInt32()
-                };
-
-                User user = new()
-                {
-                    FirstName = item.SalesRep.FirstName.ToString(),
-                    LastName = item.SalesRep.LastName.ToString()
-                };
-
                 Purchase purchase = new()
                 {
                     Id = item.id.ToString(),
@@ -201,10 +164,27 @@ namespace MyCRMNoSQL.Repository
                     UserId = item.UserId.ToString(),
                     CreatedDate = item.CreatedDate.ToDateTime(),
                     UpdatedDate = item.UpdatedDate.ToDateTime(),
-                    BusinessAssociated = business,
-                    ProductAssociated = product,
-                    BusinessLocation = address,
-                    SalesRep = user
+                    BusinessAssociated = new Business()
+                    {
+                        Name = item.BusinessAssociated.Name.ToString(),
+                        Industry = item.BusinessAssociated.Industry.ToString()
+                    },
+                    ProductAssociated = new Product()
+                    {
+                        Name = item.ProductAssociated.Name.ToString(),
+                        Price = item.ProductAssociated.Price.ToInt32()
+                    },
+                    BusinessLocation = new Address()
+                    {
+                        City = item.BusinessLocation.City.ToString(),
+                        State = item.BusinessLocation.State.ToString(),
+                        ZipCode = item.BusinessLocation.ZipCode.ToInt32()
+                    },
+                    SalesRep = new User()
+                    {
+                        FirstName = item.SalesRep.FirstName.ToString(),
+                        LastName = item.SalesRep.LastName.ToString()
+                    }
                 };
 
                 purchaseList.Add(purchase);
@@ -252,31 +232,6 @@ namespace MyCRMNoSQL.Repository
 
             foreach (var item in Query)
             {
-                Business business = new()
-                {
-                    Name = item.BusinessAssociated.Name.ToString(),
-                    Industry = item.BusinessAssociated.Industry.ToString()
-                };
-
-                Address address = new()
-                {
-                    City = item.BusinessLocation.City.ToString(),
-                    State = item.BusinessLocation.State.ToString(),
-                    ZipCode = item.BusinessLocation.ZipCode.ToInt32()
-                };
-
-                Product product = new()
-                {
-                    Name = item.ProductAssociated.Name.ToString(),
-                    Price = item.ProductAssociated.Price.ToInt32()
-                };
-
-                User user = new()
-                {
-                    FirstName = item.SalesRep.FirstName.ToString(),
-                    LastName = item.SalesRep.LastName.ToString()
-                };
-
                 Purchase purchase = new()
                 {
                     Id = item.id.ToString(),
@@ -285,10 +240,27 @@ namespace MyCRMNoSQL.Repository
                     UserId = item.UserId.ToString(),
                     CreatedDate = item.CreatedDate.ToDateTime(),
                     UpdatedDate = item.UpdatedDate.ToDateTime(),
-                    BusinessAssociated = business,
-                    ProductAssociated = product,
-                    BusinessLocation = address,
-                    SalesRep = user
+                    BusinessAssociated = new Business()
+                    {
+                        Name = item.BusinessAssociated.Name.ToString(),
+                        Industry = item.BusinessAssociated.Industry.ToString()
+                    },
+                    ProductAssociated = new Product()
+                    {
+                        Name = item.ProductAssociated.Name.ToString(),
+                        Price = item.ProductAssociated.Price.ToInt32()
+                    },
+                    BusinessLocation = new Address()
+                    {
+                        City = item.BusinessLocation.City.ToString(),
+                        State = item.BusinessLocation.State.ToString(),
+                        ZipCode = item.BusinessLocation.ZipCode.ToInt32()
+                    },
+                    SalesRep = new User()
+                    {
+                        FirstName = item.SalesRep.FirstName.ToString(),
+                        LastName = item.SalesRep.LastName.ToString()
+                    }
                 };
 
                 purchaseList.Add(purchase);
