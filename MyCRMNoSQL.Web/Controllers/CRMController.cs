@@ -2,7 +2,7 @@
 using MyCRMNoSQL.Models;
 using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Service.Interfaces;
-#pragma warning disable CS8603
+#pragma warning disable CS8601
 
 namespace MyCRMNoSQL.Web.Controllers
 {

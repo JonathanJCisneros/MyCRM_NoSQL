@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS8618
+#pragma warning disable CS8602
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
@@ -39,6 +40,7 @@ namespace MyCRMNoSQL.Models
             b.Industry = MyExtensions.StringToUpper(b.Industry);
             b.Website = b.Website.Trim();
             b.PocId = b.PocId.Trim();
+            b.UserId = b.UserId.Trim();
 
             return b;
         }
