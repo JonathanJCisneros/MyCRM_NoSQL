@@ -10,6 +10,11 @@ namespace MyCRMNoSQL.Service
 {
     public class NoteService : INoteService
     {
+        public bool CheckById(string id)
+        {
+            return false;
+        }
+
         public List<Note> GetAllByUser(string id)
         {
             return null;

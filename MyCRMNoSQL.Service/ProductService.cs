@@ -10,6 +10,11 @@ namespace MyCRMNoSQL.Service
 {
     public class ProductService : IProductService
     {
+        public bool CheckById(string id)
+        {
+            return false;
+        }
+
         public Product GetProductWithCustomers(string id)
         {
             return null;

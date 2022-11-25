@@ -10,6 +10,11 @@ namespace MyCRMNoSQL.Service
 {
     public class PurchaseService : IPurchaseService
     {
+        public bool CheckById(string id)
+        {
+            return false;
+        }
+
         public List<Purchase> GetAllByBusiness(string id)
         {
             return null;

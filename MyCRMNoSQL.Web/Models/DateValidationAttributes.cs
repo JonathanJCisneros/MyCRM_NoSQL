@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿#pragma warning disable CS8765
+using System.ComponentModel.DataAnnotations;
 
 namespace MyCRMNoSQL.CustomValidations
 {

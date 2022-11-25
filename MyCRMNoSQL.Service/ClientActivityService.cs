@@ -10,6 +10,11 @@ namespace MyCRMNoSQL.Service
 {
     public class ClientActivityService : IClientActivityService
     {
+        public bool CheckById(string id)
+        {
+            return false;
+        }
+
         public List<ClientActivity> GetAllByBusiness(string id)
         {
             return null;

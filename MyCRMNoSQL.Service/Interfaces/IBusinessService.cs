@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Service.Interfaces
 {
-    public interface IBusinessService
+    public interface IBusinessService : ICRUDService<Business>
     {
         bool CheckByName(string name);
 
@@ -15,14 +15,6 @@ namespace MyCRMNoSQL.Service.Interfaces
 
         List<Business> GetAllByIndustry(string industry);
 
-        Business Get(string id);
-
-        List<Business> GetAll();
-
-        string Create(Business business, Address address, Staff staff);
-
-        string Update(Business business);
-
-        bool Delete(string id);
+        string CreateClient(Business business, Address address, Staff staff);
     }
 }

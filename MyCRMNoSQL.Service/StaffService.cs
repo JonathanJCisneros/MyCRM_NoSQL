@@ -10,6 +10,11 @@ namespace MyCRMNoSQL.Service
 {
     public class StaffService : IStaffService
     {
+        public bool CheckById(string id)
+        {
+            return false;
+        }
+
         public List<Staff> GetAllByPosition(string position)
         {
             return null;

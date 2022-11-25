@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Net;
+using MyCRMNoSQL.CustomExtensions;
 using MyCRMNoSQL.CustomValidations;
 
 namespace MyCRMNoSQL.Models
@@ -31,6 +32,16 @@ namespace MyCRMNoSQL.Models
 
         [Required]
         public string UserId { get; set; }
+
+        public static BusinessFormModel DbPrep(BusinessFormModel b)
+        {
+            b.Name = MyExtensions.StringToUpper(b.Name);
+            b.Industry = MyExtensions.StringToUpper(b.Industry);
+            b.Website = b.Website.Trim();
+            b.PocId = b.PocId.Trim();
+
+            return b;
+        }
     }
 }
 

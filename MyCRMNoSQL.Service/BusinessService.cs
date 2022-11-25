@@ -12,32 +12,37 @@ namespace MyCRMNoSQL.Service
     public class BusinessService : IBusinessService
     {
         private readonly IBusinessRepository _businessRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IStaffRepository _staffRepository;
-        private readonly IClientActivityRepository _clientActivityRepository;
-        private readonly IAddressRepository _addressRepository;
-        private readonly INoteRepository _noteRepository;
-        private readonly IPurchaseRepository _purchaseRepository;
-        private readonly IUpcomingTaskRepository _upcomingTaskRepository;
+        private readonly IUserService _userService;
+        private readonly IStaffService _staffService;
+        private readonly IClientActivityService _clientActivityService;
+        private readonly IAddressService _addressService;
+        private readonly INoteService _noteService;
+        private readonly IPurchaseService _purchaseService;
+        private readonly IUpcomingTaskService _upcomingTaskService;
 
         public BusinessService(
             IBusinessRepository businessRepository, 
-            IUserRepository userRepository,
-            IStaffRepository staffRepository,
-            IClientActivityRepository clientActivityRepository,
-            IAddressRepository addressRepository,
-            INoteRepository noteRepository,
-            IPurchaseRepository purchaseRepository,
-            IUpcomingTaskRepository upcomingTaskRepository)
+            IUserService userService,
+            IStaffService staffService,
+            IClientActivityService clientActivityService,
+            IAddressService addressService,
+            INoteService noteService,
+            IPurchaseService purchaseService,
+            IUpcomingTaskService upcomingTaskService)
         {
             _businessRepository = businessRepository;
-            _userRepository = userRepository;
-            _staffRepository = staffRepository;
-            _clientActivityRepository = clientActivityRepository;
-            _addressRepository = addressRepository;
-            _noteRepository = noteRepository;
-            _purchaseRepository = purchaseRepository;
-            _upcomingTaskRepository = upcomingTaskRepository;
+            _userService = userService;
+            _staffService = staffService;
+            _clientActivityService = clientActivityService;
+            _addressService = addressService;
+            _noteService = noteService;
+            _purchaseService = purchaseService;
+            _upcomingTaskService = upcomingTaskService;
+        }
+
+        public bool CheckById(string id)
+        {
+            return _businessRepository.CheckById(id);
         }
 
         public bool CheckByName(string name)
@@ -58,19 +63,19 @@ namespace MyCRMNoSQL.Service
         public Business Get(string id)
         {
             Business business = _businessRepository.Get(id);
-                business.PointOfContact = _staffRepository.Get(business.PocId);
+                business.PointOfContact = _staffService.Get(business.PocId);
             
-            List<Address> addressList = _addressRepository.GetAllByBusiness(id);
+            List<Address> addressList = _addressService.GetAllByBusiness(id);
             
-            List<Staff> staffList = _staffRepository.GetAllByBusiness(id);
+            List<Staff> staffList = _staffService.GetAllByBusiness(id);
             
-            List<Note> noteList = _noteRepository.GetAllByBusiness(id);
+            List<Note> noteList = _noteService.GetAllByBusiness(id);
             
-            List<ClientActivity> activityList = _clientActivityRepository.GetAllByBusiness(id);
+            List<ClientActivity> activityList = _clientActivityService.GetAllByBusiness(id);
             
-            List<Purchase> purchaseList = _purchaseRepository.GetAllByBusiness(id);
+            List<Purchase> purchaseList = _purchaseService.GetAllByBusiness(id);
             
-            List<UpcomingTask> taskList = _upcomingTaskRepository.GetAllByBusiness(id);
+            List<UpcomingTask> taskList = _upcomingTaskService.GetAllByBusiness(id);
 
             business.AddressList = addressList;
             business.StaffList = staffList;
@@ -87,78 +92,98 @@ namespace MyCRMNoSQL.Service
             return _businessRepository.GetAll();
         }
 
-        public string Create(Business business, Address address, Staff staff)
+        public string CreateClient(Business business, Address address, Staff staff)
         {
             string Id = _businessRepository.Create(business);
             
             business.Id = Id;
-            staff.BusinessId = Id;
             
-            string sId = _staffRepository.Create(staff);
+            staff.BusinessId = business.Id;
+            
+            string sId = _staffService.Create(staff);
             
             business.PocId = sId;
             
-            _businessRepository.Update(business);
+            string bId = _businessRepository.Update(business);
             
             address.BuisinessId = Id;
             
-            _addressRepository.Create(address);
+            string aId = _addressService.Create(address);
 
             return Id;
         }
 
+        public string Create(Business business)
+        {
+            return _businessRepository.Create(business);
+        }
+
         public string Update(Business business)
         {
+            bool Check = CheckById(business.Id);
+
+            if(Check)
+            {
+                return null;
+            }
+
             return _businessRepository.Update(business);
         }
 
         public bool Delete(string id)
         {
+            bool check = CheckById(id);
+            
+            if (check)
+            {
+                return false;
+            }
+
             bool b = _businessRepository.Delete(id);
             
-            if(b == false)
+            if(!b)
             {
                 return false;
             }
             
-            bool a = _addressRepository.DeleteAllByBusiness(id);
+            bool a = _addressService.DeleteAllByBusiness(id);
             
-            if(a == false)
+            if(!a)
             {
                 return false;
             }
             
-            bool s = _staffRepository.DeleteAllByBusiness(id);
+            bool s = _staffService.DeleteAllByBusiness(id);
             
-            if(s == false)
+            if(!s)
             {
                 return false;
             }
            
-            bool c = _clientActivityRepository.DeleteAllByBusiness(id);
+            bool c = _clientActivityService.DeleteAllByBusiness(id);
 
-            if(c == false)
+            if(!c)
             {
                 return false;
             }
 
-            bool t = _upcomingTaskRepository.DeleteAllByBusiness(id);
+            bool t = _upcomingTaskService.DeleteAllByBusiness(id);
 
-            if(t == false)
+            if(!t)
             {
                 return false;
             }
 
-            bool n = _noteRepository.DeleteAllByBusiness(id);
+            bool n = _noteService.DeleteAllByBusiness(id);
 
-            if(n == false)
+            if(!n)
             {
                 return false;
             }
 
-            bool p = _purchaseRepository.DeleteAllByBusiness(id);
+            bool p = _purchaseService.DeleteAllByBusiness(id);
 
-            if(p == false)
+            if(!p)
             {
                 return false;
             }

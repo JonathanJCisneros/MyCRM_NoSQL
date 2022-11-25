@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Models;
-using RethinkDb.Driver;
 using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Service.Interfaces;
+#pragma warning disable CS8603
 
 namespace MyCRMNoSQL.Web.Controllers
 {
@@ -113,9 +112,7 @@ namespace MyCRMNoSQL.Web.Controllers
                 UpdatedDate = newBiz.UpdatedDate
             };
 
-            string Id = _businessService.Create(business, address, staff);
-
-            Console.WriteLine(Id);
+            string Id = _businessService.CreateClient(business, address, staff);
 
             return Dashboard();
         }
@@ -127,101 +124,41 @@ namespace MyCRMNoSQL.Web.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            
-
             Business business = _businessService.Get(id);
 
             return View(business);
         }
 
-        //[HttpPost]
-        //public IActionResult Update(string id, Business Business)
-        //{
+        [HttpPost]
+        public IActionResult Update(string id, BusinessFormModel businessForm)
+        {
+            businessForm = BusinessFormModel.DbPrep(businessForm);
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Businesses").Get(id).IsEmpty().Run(Conn);
+            Business business = new()
+            {
+                Id = id,
+                Name = businessForm.Name,
+                Industry = businessForm.Industry,
+                Website = businessForm.Website,
+                PocId = businessForm.PocId,
+                UpdatedDate = businessForm.UpdatedDate
+            }; 
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("Dashboard");
-        //    }
+            string Id = _businessService.Update(business);
 
-        //    if(Business.Name != null)
-        //    {
-        //        Business.Name = Business.Name.Trim();
+            return RedirectToAction("ViewOne", new { id = Id });
+        }
 
-        //        var Query = R.Db("MyCRM").Table("Businesses").Get(id)
-        //            .Update(new
-        //            {
-        //                Name = Business.Name,
-        //                UpdatedDate = DateTime.Now
-        //            })
-        //        .Run(Conn);
-        //    }
+        public IActionResult Delete(string id)
+        {
+            bool Success = _businessService.Delete(id);
 
-        //    if(Business.Website != null)
-        //    {
-        //        Business.Website = Business.Website.Trim().ToLower();
+            if (!Success)
+            {
+                return Content("Something went wrong...");
+            }
 
-        //        var Query = R.Db("MyCRM").Table("Businesses").Get(id)
-        //            .Update(new
-        //            {
-        //                Website = Business.Website,
-        //                UpdatedDate = DateTime.Now
-        //            })
-        //        .Run(Conn);
-        //    }
-
-        //    if(Business.Industry != null)
-        //    {
-        //        Business.Industry = MyExtensions.StringToUpper(Business.Industry);
-
-        //        var Query = R.Db("MyCRM").Table("Businesses").Get(id)
-        //            .Update(new
-        //            {
-        //                Industry = Business.Industry,
-        //                UpdatedDate = DateTime.Now
-        //            })
-        //        .Run(Conn);
-        //    }
-
-        //    if(Business.PocId != null)
-        //    {
-        //        Business.PocId = Business.PocId.Trim();
-
-        //        var Query = R.Db("MyCRM").Table("Businesses").Get(id)
-        //            .Update(new
-        //            {
-        //                PocId = Business.PocId,
-        //                UpdatedDate = DateTime.Now
-        //            })
-        //        .Run(Conn);
-        //    }
-
-        //    return RedirectToAction("ViewOne", new { id = id});
-        //}
-
-        //public IActionResult Delete(string id)
-        //{
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Businesses").Get(id).IsEmpty().Run(Conn);
-
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("Dashboard");
-        //    }
-
-        //    var BQuery = R.Db("MyCRM").Table("Businesses").Get(id).Delete().Run(Conn);
-        //    var BAQuery = R.Db("MyCRM").Table("Activities").GetAll(id)[new { index = "BusinessId"}].Delete().Run(Conn);
-        //    var PQuery = R.Db("MyCRM").Table("Purchases").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
-        //    var TQuery = R.Db("MyCRM").Table("Tasks").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
-        //    var NQuery = R.Db("MyCRM").Table("Notes").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
-        //    var SQuery = R.Db("MyCRM").Table("Staff").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
-        //    var AQuery = R.Db("MyCRM").Table("Addresses").GetAll(id)[new { index = "BusinessId" }].Delete().Run(Conn);
-
-        //    return View("Dashboard");
-        //}
+            return Dashboard();
+        }
     }
 }

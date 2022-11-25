@@ -10,6 +10,11 @@ namespace MyCRMNoSQL.Service
 {
     public class UpcomingTaskService : IUpcomingTaskService
     {
+        public bool CheckById(string id)
+        {
+            return false;
+        }
+
         public List<UpcomingTask> GetAllByBusiness(string id)
         {
             return null;

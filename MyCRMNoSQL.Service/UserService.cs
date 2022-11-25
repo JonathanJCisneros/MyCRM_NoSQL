@@ -18,12 +18,17 @@ namespace MyCRMNoSQL.Service
             _userRepository = userRepository;
         }
 
+        public bool CheckById(string id)
+        {
+            return _userRepository.CheckById(id);
+        }
+
         public bool CheckByEmail(string email)
         {
             return _userRepository.CheckByEmail(email);
         }
 
-        public string Register(User user)
+        public string Create(User user)
         {
             return _userRepository.Create(user);
         }
@@ -55,6 +60,13 @@ namespace MyCRMNoSQL.Service
 
         public bool Delete(string id)
         {
+            bool Check = CheckById(id);
+
+            if (!Check)
+            {
+                return false;
+            }
+
             return _userRepository.Delete(id);
         }
     }

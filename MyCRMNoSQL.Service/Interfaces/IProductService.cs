@@ -7,20 +7,10 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Service.Interfaces
 {
-    public interface IProductService
+    public interface IProductService : ICRUDService<Product>
     {
         Product GetProductWithCustomers(string id);
 
         List<Product> GetAllProductsWithCustomers();
-
-        Product Get(string id);
-
-        List<Product> GetAll();
-
-        string Create(Product entity);
-
-        string Update(Product entity);
-
-        bool Delete(string id);
     }
 }

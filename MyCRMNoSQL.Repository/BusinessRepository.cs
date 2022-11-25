@@ -1,8 +1,6 @@
 ﻿using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Repository.Interfaces;
-using RethinkDb.Driver.Model;
-using System;
-using System.Linq;
+#pragma warning disable CS8603
 
 
 namespace MyCRMNoSQL.Repository

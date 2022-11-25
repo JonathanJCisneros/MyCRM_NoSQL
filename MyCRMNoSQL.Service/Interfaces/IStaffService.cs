@@ -7,22 +7,8 @@ using System.Threading.Tasks;
 
 namespace MyCRMNoSQL.Service.Interfaces
 {
-    public interface IStaffService
+    public interface IStaffService : ICRUDService<Staff>, IBService<Staff>
     {
         List<Staff> GetAllByPosition(string position);
-        
-        List<Staff> GetAllByBusiness(string id);
-
-        Staff Get(string id);
-
-        List<Staff> GetAll();
-
-        string Create(Staff entity);
-
-        string Update(Staff entity);
-
-        bool Delete(string id);
-
-        bool DeleteAllByBusiness(string id);
     }
 }
