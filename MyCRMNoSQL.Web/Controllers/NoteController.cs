@@ -6,98 +6,95 @@ using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
 using System.Diagnostics;
+using MyCRMNoSQL.Service.Interfaces;
 
 namespace MyCRMNoSQL.Web.Controllers
 {
     public class NoteController : Controller
     {
         private readonly ILogger<NoteController> _logger;
+        private readonly IExtension _extension;
+        private readonly INoteService _noteService;
 
-        public NoteController(ILogger<NoteController> logger)
+        public NoteController(ILogger<NoteController> logger, IExtension extension, INoteService noteService)
         {
             _logger = logger;
+            _extension = extension;
+            _noteService = noteService;
         }
 
-        private string? Uid
+
+
+        [HttpPost]
+        public IActionResult Add(string id, NoteFormModel Note)
         {
-            get
+            Note.UserId = _extension.UserId();
+            Note.BusinessId = id;
+
+            if (!ModelState.IsValid)
             {
-                return HttpContext.Session.GetString("UserId");
+                return RedirectToAction("ViewOne", "CRM", new { id = id });
             }
+
+            Note = NoteFormModel.DbPrep(Note);
+
+            Note note = new()
+            {
+                Details = Note.Details,
+                UserId = Note.UserId,
+                BusinessId = Note.BusinessId,
+                CreatedDate = Note.CreatedDate,
+                UpdatedDate = Note.UpdatedDate
+            };
+
+            string Id = _noteService.Create(note);
+
+            return RedirectToAction("ViewOne", "CRM", new { id = id });
         }
 
-        //[HttpPost]
-        //public IActionResult Add(string id, NoteFormModel Note)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //    }
+        [HttpPost]
+        public IActionResult Update(string id, string Bid, NoteFormModel Note)
+        {
+            Note.UserId = _extension.UserId();
+            Note.BusinessId = Bid;
 
-        //    Note = NoteFormModel.DbPrep(Note);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+            }
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    var Query = R.Db("MyCRM").Table("Notes")
-        //        .Insert(new
-        //        {
-        //            BusinessId = id,
-        //            UserId = Uid,
-        //            Details = Note.Details,
-        //            CreatedDate = Note.CreatedDate,
-        //            UpdatedDate = Note.UpdatedDate
-        //        })
-        //    .Run(Conn);
+            Note = NoteFormModel.DbPrep(Note);
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //}
+            Note note = new()
+            {
+                Id = id,
+                Details = Note.Details,
+                UserId = Note.UserId,
+                BusinessId = Note.BusinessId,
+                CreatedDate = Note.CreatedDate,
+                UpdatedDate = Note.UpdatedDate
+            };
 
-        //[HttpPost]
-        //public IActionResult Update(string id, string Bid, NoteFormModel Note)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            string Id = _noteService.Update(note);
 
-        //    Note = NoteFormModel.DbPrep(Note);
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        }
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Notes").Get(id).IsEmpty().Run(Conn);
+        public IActionResult Delete(string id, string Bid)
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            bool Success = _noteService.Delete(id);
 
-        //    var Query = R.Db("MyCRM").Table("Notes")
-        //        .Update(new
-        //        {
-        //            BusinessId = Bid,
-        //            UserId = Uid,
-        //            Details = Note.Details,
-        //            UpdatedDate = Note.UpdatedDate
-        //        })
-        //    .Run(Conn);
+            if (!Success)
+            {
+                return Content("Something went wrong :'(");
+            }
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //}
-
-        //public IActionResult Delete(string id, string Bid)
-        //{
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Notes").Get(id).IsEmpty().Run(Conn);
-
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
-
-        //    var Query = R.Db("MyCRM").Table("Notes").Get(id).Delete().Run(Conn);
-
-        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //}
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        }
     }
 }

@@ -143,6 +143,11 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
+            if(Query == null)
+            {
+                return null;
+            }
+
             return product.Id;
         }
 

@@ -1,4 +1,5 @@
 ﻿using MyCRMNoSQL.Core;
+using MyCRMNoSQL.Repository.Interfaces;
 using MyCRMNoSQL.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,44 +11,51 @@ namespace MyCRMNoSQL.Service
 {
     public class ProductService : IProductService
     {
+        private readonly IProductRepository _productRepository;
+
+        public ProductService(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+
         public bool CheckById(string id)
         {
-            return false;
+            return _productRepository.CheckById(id);
         }
 
         public Product GetProductWithCustomers(string id)
         {
-            return null;
+            return _productRepository.GetProductWithCustomers(id);
         }
 
         public List<Product> GetAllProductsWithCustomers()
         {
-            return null;
+            return _productRepository.GetAllProductsWithCustomers();
         }
 
         public Product Get(string id)
         {
-            return null;
+            return _productRepository.Get(id);
         }
 
         public List<Product> GetAll()
         {
-            return null;
+            return _productRepository.GetAll();
         }
 
-        public string Create(Product entity)
+        public string Create(Product product)
         {
-            return null;
+            return _productRepository.Create(product);
         }
 
-        public string Update(Product entity)
+        public string Update(Product product)
         {
-            return null;
+            return _productRepository.Update(product);
         }
 
         public bool Delete(string id)
         {
-            return false;
+            return _productRepository.Delete(id);
         }
     }
 }

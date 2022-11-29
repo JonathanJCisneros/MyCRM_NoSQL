@@ -227,7 +227,7 @@ namespace MyCRMNoSQL.Repository
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
-            if (!string.IsNullOrEmpty(business.Name))
+            if (!String.IsNullOrEmpty(business.Name))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new
@@ -236,9 +236,14 @@ namespace MyCRMNoSQL.Repository
                         UpdatedDate = business.UpdatedDate
                     })
                 .Run(Conn);
+
+                if (Query == null)
+                {
+                    return null;
+                }
             }
 
-            if (!string.IsNullOrEmpty(business.Website))
+            if (!String.IsNullOrEmpty(business.Website))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new
@@ -247,9 +252,14 @@ namespace MyCRMNoSQL.Repository
                         UpdatedDate = business.UpdatedDate
                     })
                 .Run(Conn);
+
+                if (Query == null)
+                {
+                    return null;
+                }
             }
 
-            if (!string.IsNullOrEmpty(business.Industry))
+            if (!String.IsNullOrEmpty(business.Industry))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new
@@ -258,9 +268,14 @@ namespace MyCRMNoSQL.Repository
                         UpdatedDate = business.UpdatedDate
                     })
                 .Run(Conn);
+
+                if (Query == null)
+                {
+                    return null;
+                }
             }
 
-            if (!string.IsNullOrEmpty(business.PocId))
+            if (!String.IsNullOrEmpty(business.PocId))
             {
                 var Query = R.Db("MyCRM").Table("Businesses").Get(business.Id)
                     .Update(new
@@ -269,7 +284,13 @@ namespace MyCRMNoSQL.Repository
                         UpdatedDate = business.UpdatedDate
                     })
                 .Run(Conn);
+
+                if (Query == null)
+                {
+                    return null;
+                }
             }
+
 
             return business.Id;
         }

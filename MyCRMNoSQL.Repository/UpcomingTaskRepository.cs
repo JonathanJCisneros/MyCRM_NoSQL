@@ -300,7 +300,7 @@ namespace MyCRMNoSQL.Repository
                 TaskList.Add(task);
             }
 
-            return TaskList; ;
+            return TaskList;
         }
 
         public List<UpcomingTask> GetAllByType(string type)
@@ -415,6 +415,11 @@ namespace MyCRMNoSQL.Repository
                     UpdatedDate = task.UpdatedDate
                 })
             .Run(Conn);
+
+            if(Query == null)
+            {
+                return null;
+            }
 
             return task.Id;
         }

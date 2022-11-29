@@ -35,7 +35,16 @@ namespace MyCRMNoSQL.Service
 
         public User Login(string email)
         {
-            return _userRepository.Login(email);
+            User user = _userRepository.Login(email);
+
+            if(user == null)
+            {
+                return null;
+            }
+
+            UpdateTimeStamp(user.Id);
+
+            return user;
         }
 
         public User Get(string id)
@@ -60,13 +69,6 @@ namespace MyCRMNoSQL.Service
 
         public bool Delete(string id)
         {
-            bool Check = CheckById(id);
-
-            if (!Check)
-            {
-                return false;
-            }
-
             return _userRepository.Delete(id);
         }
     }

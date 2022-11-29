@@ -292,7 +292,7 @@ namespace MyCRMNoSQL.Repository
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
-            var Result = R.Db("MyCRM").Table("Purchases")
+            var Query = R.Db("MyCRM").Table("Purchases").Get(purchase.Id)
                 .Update(new
                 {
                     BusinessId = purchase.BusinessId,
@@ -303,9 +303,12 @@ namespace MyCRMNoSQL.Repository
                 })
             .Run(Conn);
 
-            string Id = Result.generated_keys[0].ToString();
+            if(Query == null)
+            {
+                return null;
+            }
 
-            return Id;
+            return purchase.Id;
         }
 
         public bool Delete(string id)

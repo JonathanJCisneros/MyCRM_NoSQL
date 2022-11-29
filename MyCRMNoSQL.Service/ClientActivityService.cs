@@ -1,4 +1,5 @@
 ﻿using MyCRMNoSQL.Core;
+using MyCRMNoSQL.Repository.Interfaces;
 using MyCRMNoSQL.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,54 +11,61 @@ namespace MyCRMNoSQL.Service
 {
     public class ClientActivityService : IClientActivityService
     {
+        private readonly IClientActivityRepository _clientActivityRepository;
+
+        public ClientActivityService(IClientActivityRepository clientActivityRepository)
+        {
+            _clientActivityRepository = clientActivityRepository;
+        }
+
         public bool CheckById(string id)
         {
-            return false;
+            return _clientActivityRepository.CheckById(id);
         }
 
         public List<ClientActivity> GetAllByBusiness(string id)
         {
-            return null;
+            return _clientActivityRepository.GetAllByBusiness(id);
         }
 
         public List<ClientActivity> GetAllByUser(string id)
         {
-            return null;
+            return _clientActivityRepository.GetAllByUser(id);
         }
 
         public List<ClientActivity> GetAllByType(string type)
         {
-            return null;
+            return _clientActivityRepository.GetAllByType(type);
         }
 
         public ClientActivity Get(string id)
         {
-            return null;
+            return _clientActivityRepository.Get(id);
         }
 
         public List<ClientActivity> GetAll()
         {
-            return null;
+            return _clientActivityRepository.GetAll();
         }
 
         public string Create(ClientActivity activity)
         {
-            return null;
+            return _clientActivityRepository.Create(activity);
         }
 
         public string Update(ClientActivity activity)
         {
-            return null;
+            return _clientActivityRepository.Update(activity);
         }
 
         public bool Delete(string id)
         {
-            return false;
+            return _clientActivityRepository.Delete(id);
         }
 
         public bool DeleteAllByBusiness(string id)
         {
-            return false;
+            return _clientActivityRepository.DeleteAllByBusiness(id);
         }
     }
 }

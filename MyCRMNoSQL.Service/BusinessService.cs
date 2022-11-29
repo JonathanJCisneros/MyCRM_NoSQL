@@ -120,25 +120,11 @@ namespace MyCRMNoSQL.Service
 
         public string Update(Business business)
         {
-            bool Check = CheckById(business.Id);
-
-            if(Check)
-            {
-                return null;
-            }
-
             return _businessRepository.Update(business);
         }
 
         public bool Delete(string id)
         {
-            bool check = CheckById(id);
-            
-            if (check)
-            {
-                return false;
-            }
-
             bool b = _businessRepository.Delete(id);
             
             if(!b)

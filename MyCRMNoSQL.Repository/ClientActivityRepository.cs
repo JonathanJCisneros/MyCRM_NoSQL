@@ -298,7 +298,7 @@ namespace MyCRMNoSQL.Repository
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
-            var Result = R.Db("MyCRM").Table("Activities").Get(activity.Id)
+            var Query = R.Db("MyCRM").Table("Activities").Get(activity.Id)
                 .Update(new 
                 {
                     UserId = activity.UserId,
@@ -309,6 +309,11 @@ namespace MyCRMNoSQL.Repository
                     UpdatedDate = activity.UpdatedDate
                 })
             .Run(Conn);
+
+            if(Query == null)
+            {
+                return null;
+            }
 
             return activity.Id;
         }

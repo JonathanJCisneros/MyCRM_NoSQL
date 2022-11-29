@@ -31,18 +31,16 @@ namespace MyCRMNoSQL.Repository
 
             var DBUser = R.Db("MyCRM").Table("Users").GetAll(email)[new { index = "Email" }].Pluck("id", "Password").CoerceTo("array").Run(Conn);
             
+            if(DBUser.BufferedSize == 0)
+            {
+                return null;
+            }
+
             User userInfo = new()
             {
                 Id = DBUser[0].id.ToString(),
                 Password = DBUser[0].Password.ToString()
             };
-
-            var Update = R.Db("MyCRM").Table("Users").Get(userInfo.Id)
-                .Update(new
-                {
-                    LastLoggedIn = DateTime.Now
-                })
-            .Run(Conn);
 
             return userInfo;
         }

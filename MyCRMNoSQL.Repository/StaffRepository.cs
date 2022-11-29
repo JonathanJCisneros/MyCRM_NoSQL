@@ -85,7 +85,7 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Staff").GetAll(id)[new { index = "BusinessId" }].Run(Conn);
 
-            if (Query.BufferedSize == null)
+            if (Query.BufferedSize == 0)
             {
                 return null;
             }
@@ -120,7 +120,7 @@ namespace MyCRMNoSQL.Repository
 
             var Query = R.Db("MyCRM").Table("Staff").GetAll(position)[new { index = "Position" }].Run(Conn);
 
-            if (Query.BufferedSize == null)
+            if (Query.BufferedSize == 0)
             {
                 return null;
             }
@@ -189,6 +189,11 @@ namespace MyCRMNoSQL.Repository
                     UpdatedDate = staff.UpdatedDate
                 })
             .Run(Conn);
+
+            if(Query == null)
+            {
+                return null;
+            }
 
             return staff.Id;
         }

@@ -13,5 +13,7 @@ namespace MyCRMNoSQL.Service.Interfaces
         bool CheckByEmail(string id);
 
         User Login(string email);
+
+        void UpdateTimeStamp(string id);
     }
 }

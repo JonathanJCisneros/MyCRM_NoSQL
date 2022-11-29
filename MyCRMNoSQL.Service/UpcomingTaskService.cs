@@ -1,4 +1,5 @@
 ﻿using MyCRMNoSQL.Core;
+using MyCRMNoSQL.Repository.Interfaces;
 using MyCRMNoSQL.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,69 +11,76 @@ namespace MyCRMNoSQL.Service
 {
     public class UpcomingTaskService : IUpcomingTaskService
     {
+        private readonly IUpcomingTaskRepository _upcomingTaskRepository;
+
+        public UpcomingTaskService(IUpcomingTaskRepository upcomingTaskRepository)
+        {
+            _upcomingTaskRepository = upcomingTaskRepository;
+        }
+
         public bool CheckById(string id)
         {
-            return false;
+            return _upcomingTaskRepository.CheckById(id);
         }
 
         public List<UpcomingTask> GetAllByBusiness(string id)
         {
-            return null;
+            return _upcomingTaskRepository.GetAllByBusiness(id);
         }
 
         public List<UpcomingTask> GetAllByType(string type)
         {
-            return null;
+            return _upcomingTaskRepository.GetAllByType(type);
         }
 
         public List<UpcomingTask> GetAllByStatus(string status)
         {
-            return null;
+            return _upcomingTaskRepository.GetAllByStatus(status);
         }
 
         public List<UpcomingTask> GetAllByUser(string id)
         {
-            return null;
+            return _upcomingTaskRepository.GetAllByUser(id);
         }
 
         public List<UpcomingTask> GetAllPastDue()
         {
-            return null;
+            return _upcomingTaskRepository.GetAllPastDue();
         }
 
         public List<UpcomingTask> GetAllUpcoming()
         {
-            return null;
+            return _upcomingTaskRepository.GetAllUpcoming();
         }
 
         public UpcomingTask Get(string id)
         {
-            return null;
+            return _upcomingTaskRepository.Get(id);
         }
 
         public List<UpcomingTask> GetAll()
         {
-            return null;
+            return _upcomingTaskRepository.GetAll();
         }
 
         public string Create(UpcomingTask task)
         {
-            return null;
+            return _upcomingTaskRepository.Create(task);
         }
 
         public string Update(UpcomingTask task)
         {
-            return null;
+            return _upcomingTaskRepository.Update(task);
         }
 
         public bool Delete(string id)
         {
-            return false;
+            return _upcomingTaskRepository.Delete(id);
         }
 
         public bool DeleteAllByBusiness(string id)
         {
-            return false;
+            return _upcomingTaskRepository.DeleteAllByBusiness(id);
         }
     }
 }

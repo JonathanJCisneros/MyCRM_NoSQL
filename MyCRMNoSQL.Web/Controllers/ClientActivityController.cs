@@ -1,106 +1,106 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyCRMNoSQL.Core;
 using MyCRMNoSQL.Models;
-using MyCRMNoSQL.CustomExtensions;
-using RethinkDb.Driver;
-using System.Diagnostics.Contracts;
+using MyCRMNoSQL.Service.Interfaces;
 
 namespace MyCRMNoSQL.Web.Controllers
 {
     public class ClientActivityController : Controller
     {
         private readonly ILogger<ClientActivityController> _logger;
+        private readonly IExtension _extension;
+        private readonly IClientActivityService _clientActivityService;
 
-        public ClientActivityController(ILogger<ClientActivityController> logger)
+        public ClientActivityController(ILogger<ClientActivityController> logger, IExtension extension, IClientActivityService clientActivityService)
         {
             _logger = logger;
+            _extension = extension;
+            _clientActivityService = clientActivityService;
         }
 
-        private string? Uid
+        public IActionResult Get(string id)
         {
-            get
+            if (!_extension.LoggedIn())
             {
-                return HttpContext.Session.GetString("UserId");
+                return RedirectToAction("Login", "User");
             }
+
+            ClientActivity activity = _clientActivityService.Get(id);
+
+            return View(activity);
         }
 
-        //[HttpPost]
-        //public IActionResult Add(string id, ClientActivityFormModel Activity)
-        //{           
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //    }
+        [HttpPost]
+        public IActionResult Add(string id, ClientActivityFormModel Activity)
+        {
+            Activity.BusinessId = id;
 
-        //    Activity = ClientActivityFormModel.DbPrep(Activity);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = id });
+            }
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    var Query = R.Db("MyCRM").Table("Activities")
-        //        .Insert(new
-        //        {
-        //            BusinessId = id,
-        //            UserId = Uid,
-        //            Type = Activity.Type,
-        //            Note = Activity.Note,
-        //            StaffId = Activity.StaffId,
-        //            CreatedDate = DateTime.Now,
-        //            UpdatedDate = DateTime.Now
-        //        })
-        //    .Run(Conn);
+            Activity = ClientActivityFormModel.DbPrep(Activity);
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //}
+            ClientActivity activity = new()
+            {
+                UserId = Activity.UserId,
+                BusinessId = Activity.BusinessId,
+                StaffId = Activity.StaffId,
+                Type = Activity.Type,
+                Note = Activity.Note,
+                CreatedDate = Activity.CreatedDate,
+                UpdatedDate = Activity.UpdatedDate,
+            };
 
-        //[HttpPost]
-        //public IActionResult Update(string id, string Bid, ClientActivityFormModel Activity)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            string Id = _clientActivityService.Create(activity);
 
-        //    Activity = ClientActivityFormModel.DbPrep(Activity);
+            return RedirectToAction("ViewOne", "CRM", new { id = id });
+        }
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Activities").Get(id).IsEmpty().Run(Conn);
+        [HttpPost]
+        public IActionResult Update(string id, string Bid, ClientActivityFormModel Activity)
+        {
+            Activity.BusinessId = Bid;
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+            }
 
-        //    var Query = R.Db("MyCRM").Table("Activities")
-        //        .Update(new
-        //        {
-        //            BusinessId = Bid,
-        //            UserId = Uid,
-        //            Type = Activity.Type,
-        //            Note = Activity.Note,
-        //            StaffId = Activity.StaffId,
-        //            UpdatedDate = DateTime.Now
-        //        })
-        //    .Run(Conn);
+            Activity = ClientActivityFormModel.DbPrep(Activity);
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //}
+            ClientActivity activity = new()
+            {
+                Id = id,
+                UserId = Activity.UserId,
+                BusinessId = Activity.BusinessId,
+                StaffId = Activity.StaffId,
+                Type = Activity.Type,
+                Note = Activity.Note,
+                UpdatedDate = Activity.UpdatedDate,
+            };
 
-        //public IActionResult Delete(string id, string Bid)
-        //{
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Activities").Get(id).IsEmpty().Run(Conn);
+            string Id = _clientActivityService.Update(activity);
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        }
 
-        //    var Query = R.Db("MyCRM").Table("Activities").Get(id).Delete().Run(Conn);
+        public IActionResult Delete(string id, string Bid)
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //}
+            bool Success = _clientActivityService.Delete(id);
+
+            if(!Success)
+            {
+                return Content("Delete didn't work out");
+            }
+
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        }
     }
 }
