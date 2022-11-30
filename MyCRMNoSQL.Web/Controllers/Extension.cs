@@ -17,6 +17,11 @@ namespace MyCRMNoSQL.Web.Controllers
             return _contextAccessor.HttpContext.Session.GetString("UserId");
         }
 
+        public string UserType()
+        {
+            return _contextAccessor.HttpContext.Session.GetString("Type");
+        }
+
         public bool LoggedIn()
         {
             return UserId() != null;

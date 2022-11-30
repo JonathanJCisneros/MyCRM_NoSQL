@@ -30,9 +30,22 @@ namespace MyCRMNoSQL.Web.Controllers
             return View(activity);
         }
 
+        public IActionResult GetAll()
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            List<ClientActivity> activityList = _clientActivityService.GetAll();
+
+            return View(activityList);
+        }
+
         [HttpPost]
         public IActionResult Add(string id, ClientActivityFormModel Activity)
         {
+            Activity.UserId = _extension.UserId();
             Activity.BusinessId = id;
 
             if (!ModelState.IsValid)
@@ -61,6 +74,7 @@ namespace MyCRMNoSQL.Web.Controllers
         [HttpPost]
         public IActionResult Update(string id, string Bid, ClientActivityFormModel Activity)
         {
+            Activity.UserId = _extension.UserId();
             Activity.BusinessId = Bid;
 
             if (!ModelState.IsValid)

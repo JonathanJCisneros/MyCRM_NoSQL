@@ -23,7 +23,29 @@ namespace MyCRMNoSQL.Web.Controllers
             _noteService = noteService;
         }
 
+        public IActionResult Get(string id)
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
 
+            Note note = _noteService.Get(id);
+
+            return View(note);
+        }
+
+        public IActionResult GetAll()
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            List<Note> noteList = _noteService.GetAll();
+
+            return View(noteList);
+        }
 
         [HttpPost]
         public IActionResult Add(string id, NoteFormModel Note)

@@ -6,105 +6,124 @@ using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
+using MyCRMNoSQL.Service.Interfaces;
 
 namespace MyCRMNoSQL.Web.Controllers
 {
     public class UpcomingTaskController : Controller
     {
         private readonly ILogger<UpcomingTaskController> _logger;
+        private readonly IExtension _extension;
+        private readonly IUpcomingTaskService _upcomingTaskService;
 
-        public UpcomingTaskController(ILogger<UpcomingTaskController> logger)
+        public UpcomingTaskController(ILogger<UpcomingTaskController> logger, IExtension extension, IUpcomingTaskService upcomingTaskService)
         {
             _logger = logger;
+            _extension = extension;
+            _upcomingTaskService = upcomingTaskService;
         }
 
-        private string? Uid
+        public IActionResult Get(string id)
         {
-            get
+            if (!_extension.LoggedIn())
             {
-                return HttpContext.Session.GetString("UserId");
+                return RedirectToAction("Login", "User");
             }
+
+            UpcomingTask task = _upcomingTaskService.Get(id);
+
+            return View(task);
         }
 
-        //[HttpPost]
-        //public IActionResult Add(string id, UpcomingTaskFormModel Task)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //    }
+        public IActionResult GetAll()
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
 
-        //    Task = UpcomingTaskFormModel.DbPrep(Task);
+            List<UpcomingTask> taskList = _upcomingTaskService.GetAll();
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    var Query = R.Db("MyCRM").Table("Tasks")
-        //        .Insert(new
-        //        {
-        //            StaffId = Task.StaffId,
-        //            Type = Task.Type,
-        //            Details = Task.Details,
-        //            DueDate = Task.DueDate,
-        //            Status = Task.Status,
-        //            CreatedDate = Task.CreatedDate,
-        //            UpdatedDate = Task.UpdatedDate,
-        //            BusinessId = id,
-        //            UserId = Uid
-        //        })
-        //    .Run(Conn);
+            return View(taskList);
+        }
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //}
+        [HttpPost]
+        public IActionResult Add(string id, UpcomingTaskFormModel Task)
+        {
+            Task.UserId = _extension.UserId();
+            Task.BusinessId = id;
 
-        //[HttpPost]
-        //public IActionResult Update(string id, string Bid, UpcomingTaskFormModel Task)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = id });
+            }
 
-        //    Task = UpcomingTaskFormModel.DbPrep(Task);
+            Task = UpcomingTaskFormModel.DbPrep(Task);
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Tasks").Get(id).IsEmpty().Run(Conn);
+            UpcomingTask task = new()
+            {
+                UserId = Task.UserId,
+                BusinessId = Task.BusinessId,
+                StaffId = Task.StaffId,
+                Type = Task.Type,
+                Details = Task.Details,
+                DueDate = Task.DueDate,
+                Status = Task.Status,
+                CreatedDate = Task.CreatedDate,
+                UpdatedDate = Task.UpdatedDate,
+            };
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            string Id = _upcomingTaskService.Create(task);
 
-        //    var Query = R.Db("MyCRM").Table("Tasks")
-        //        .Update(new
-        //        {
-        //            StaffId = Task.StaffId,
-        //            Type = Task.Type,
-        //            Details = Task.Details,
-        //            DueDate = Task.DueDate,
-        //            Status = Task.Status,
-        //            UpdatedDate = Task.UpdatedDate,
-        //            UserId = Uid
-        //        })
-        //    .Run(Conn);
+            return RedirectToAction("ViewOne", "CRM", new { id = id });
+        }
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //}
+        [HttpPost]
+        public IActionResult Update(string id, string Bid, UpcomingTaskFormModel Task)
+        {
+            Task.UserId = _extension.UserId();
+            Task.BusinessId = Bid;
 
-        //public IActionResult Delete(string id, string Bid)
-        //{
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Tasks").Get(id).IsEmpty().Run(Conn);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+            }
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            Task = UpcomingTaskFormModel.DbPrep(Task);
 
-        //    var Query = R.Db("MyCRM").Table("Tasks").Get(id).Delete().Run(Conn);
+            UpcomingTask task = new()
+            {
+                Id = id,
+                UserId = Task.UserId,
+                BusinessId = Task.BusinessId,
+                StaffId = Task.StaffId,
+                Type = Task.Type,
+                Details = Task.Details,
+                DueDate = Task.DueDate,
+                Status = Task.Status,
+                UpdatedDate = Task.UpdatedDate
+            };
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //}
+            string Id = _upcomingTaskService.Update(task);
+
+            return RedirectToAction("ViewOne", "CRM", new { id = id });
+        }
+
+        public IActionResult Delete(string id, string Bid)
+        {
+            if(!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            bool Success = _upcomingTaskService.Delete(id);
+
+            if(!Success)
+            {
+                return Content("Something went wrong");
+            }
+
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        }
     }
 }

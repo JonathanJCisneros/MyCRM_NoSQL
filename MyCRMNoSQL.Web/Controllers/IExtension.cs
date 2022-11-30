@@ -4,6 +4,8 @@
     {
         string UserId();
 
+        string UserType();
+
         bool LoggedIn();
     }
 }

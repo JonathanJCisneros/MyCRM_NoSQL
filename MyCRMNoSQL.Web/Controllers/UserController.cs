@@ -76,7 +76,7 @@ namespace MyCRMNoSQL.Web.Controllers
                 return Login();
             }
 
-            var Result = _userService.Login(User.Email);
+            User Result = _userService.Login(User.Email);
 
             PasswordHasher<LoginFormModel> HashBrowns = new PasswordHasher<LoginFormModel>();
             PasswordVerificationResult PWCheck = HashBrowns.VerifyHashedPassword(User, Result.Password, User.Password);
@@ -90,6 +90,7 @@ namespace MyCRMNoSQL.Web.Controllers
             _userService.UpdateTimeStamp(Result.Id);
 
             HttpContext.Session.SetString("UserId", Result.Id);
+            HttpContext.Session.SetString("Type", Result.Type);
             return RedirectToAction("Dashboard", "CRM");
         }
 
@@ -126,9 +127,10 @@ namespace MyCRMNoSQL.Web.Controllers
                 UpdatedDate = NewUser.UpdatedDate
             };
 
-            string Id = _userService.Register(user); 
+            string Id = _userService.Create(user); 
 
             HttpContext.Session.SetString("UserId", Id);
+            HttpContext.Session.SetString("Type", user.Type);
             return RedirectToAction("Dashboard", "CRM");
         }
 
@@ -154,6 +156,11 @@ namespace MyCRMNoSQL.Web.Controllers
 
         public IActionResult Delete(string id)
         {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login");
+            }
+
             _userService.Delete(id);
 
             return Logout();

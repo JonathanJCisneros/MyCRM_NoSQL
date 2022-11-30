@@ -29,7 +29,7 @@ namespace MyCRMNoSQL.Repository
             var R = RethinkDb.Driver.RethinkDB.R;
             var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
 
-            var DBUser = R.Db("MyCRM").Table("Users").GetAll(email)[new { index = "Email" }].Pluck("id", "Password").CoerceTo("array").Run(Conn);
+            var DBUser = R.Db("MyCRM").Table("Users").GetAll(email)[new { index = "Email" }].Pluck("id", "Password", "Type").CoerceTo("array").Run(Conn);
             
             if(DBUser.BufferedSize == 0)
             {
@@ -39,6 +39,7 @@ namespace MyCRMNoSQL.Repository
             User userInfo = new()
             {
                 Id = DBUser[0].id.ToString(),
+                Type = DBUser[0].Type.ToString(),
                 Password = DBUser[0].Password.ToString()
             };
 

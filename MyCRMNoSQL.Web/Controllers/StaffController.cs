@@ -6,95 +6,120 @@ using MyCRMNoSQL.CustomExtensions;
 using RethinkDb.Driver;
 using System.Diagnostics.Contracts;
 using System.Security.Cryptography;
+using MyCRMNoSQL.Service.Interfaces;
 
 namespace MyCRMNoSQL.Web.Controllers
 {
     public class StaffController : Controller
     {
         private readonly ILogger<StaffController> _logger;
+        private readonly IExtension _extension;
+        private readonly IStaffService _staffService;
 
-        public StaffController(ILogger<StaffController> logger)
+        public StaffController(ILogger<StaffController> logger, IExtension extension, IStaffService staffService)
         {
             _logger = logger;
+            _extension = extension;
+            _staffService = staffService;
         }
 
-        //[HttpPost]
-        //public IActionResult Add(string id, StaffFormModel Staff)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //    }
+        public IActionResult Get(string id)
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
 
-        //    Staff = StaffFormModel.DbPrep(Staff);
+            Staff staff = _staffService.Get(id);
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    var Query = R.Db("MyCRM").Table("Staff")
-        //        .Insert(new
-        //        {
-        //            Position = Staff.Position,
-        //            FirstName = Staff.FirstName,
-        //            LastName = Staff.LastName,
-        //            PhoneNumber = Staff.PhoneNumber,
-        //            Email = Staff.Email,
-        //            CreatedDate = Staff.CreatedDate,
-        //            UpdatedDate = Staff.UpdatedDate,
-        //            BusinessId = id
-        //        })
-        //    .Run(Conn);
+            return View(staff);
+        }
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = id });
-        //}
+        public IActionResult GetAll()
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
 
-        //[HttpPost]
-        //public IActionResult Update(string id, string Bid, StaffFormModel Staff)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            List<Staff> staffList = _staffService.GetAll();
 
-        //    Staff = StaffFormModel.DbPrep(Staff);
+            return View(staffList);
+        }
 
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Staff").Get(id).IsEmpty().Run(Conn);
+        [HttpPost]
+        public IActionResult Add(string id, StaffFormModel Staff)
+        {
+            Staff.BusinessId = id;
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = id });
+            }
 
-        //    var Query = R.Db("MyCRM").Table("Staff")
-        //        .Update(new
-        //        {
-        //            Position = Staff.Position,
-        //            FirstName = Staff.FirstName,
-        //            LastName = Staff.LastName,
-        //            PhoneNumber = Staff.PhoneNumber,
-        //            Email = Staff.Email,
-        //            UpdatedDate = Staff.UpdatedDate
-        //        })
-        //    .Run(Conn);
+            Staff = StaffFormModel.DbPrep(Staff);
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //}
+            Staff staff = new()
+            {
+                Position = Staff.Position,
+                FirstName = Staff.FirstName,
+                LastName = Staff.LastName,
+                PhoneNumber = Staff.PhoneNumber,
+                Email = Staff.Email,
+                BusinessId = Staff.BusinessId,
+                CreatedDate = Staff.CreatedDate,
+                UpdatedDate = Staff.UpdatedDate
+            };
 
-        //public IActionResult Delete(string id, string Bid)
-        //{
-        //    var R = RethinkDb.Driver.RethinkDB.R;
-        //    var Conn = R.Connection().Hostname("localhost").Port(28015).Timeout(60).Connect();
-        //    bool Check = R.Db("MyCRM").Table("Staff").Get(id).IsEmpty().Run(Conn);
+            string Id = _staffService.Create(staff);
 
-        //    if (Check == true)
-        //    {
-        //        return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //    }
+            return RedirectToAction("ViewOne", "CRM", new { id = id });
+        }
 
-        //    var Query = R.Db("MyCRM").Table("Staff").Get(id).Delete().Run(Conn);
+        [HttpPost]
+        public IActionResult Update(string id, string Bid, StaffFormModel Staff)
+        {
+            Staff.BusinessId = Bid;
 
-        //    return RedirectToAction("ViewOne", "CRM", new { id = Bid });
-        //}
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+            }
+
+            Staff = StaffFormModel.DbPrep(Staff);
+
+            Staff staff = new()
+            {
+                Id = id,
+                Position = Staff.Position,
+                FirstName = Staff.FirstName,
+                LastName = Staff.LastName,
+                PhoneNumber = Staff.PhoneNumber,
+                Email = Staff.Email,
+                BusinessId = Staff.BusinessId,
+                UpdatedDate = Staff.UpdatedDate
+            };
+
+            string Id = _staffService.Update(staff);
+
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        }
+
+        public IActionResult Delete(string id, string Bid)
+        {
+            if (!_extension.LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            bool Success = _staffService.Delete(id);
+
+            if(!Success)
+            {
+                return Content("Something went wrong...");
+            }
+
+            return RedirectToAction("ViewOne", "CRM", new { id = Bid });
+        }
     }
 }
